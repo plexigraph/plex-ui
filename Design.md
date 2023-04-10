@@ -5,7 +5,8 @@
 - Neutral: For defining hierarchy in the layout and for content - default of gray
 - Accent color(s): For Interactive elements - default of lavender (#9E6FFF) - developer can specify a different color at build time
 - Informational/Custom color(s): Allow custom colors for various informational reasons like error/warning/success or the color of sections of the app - should be opt-in - i.e. no built in red/green color and fallback to accent colors.
-- custom user defined accent color
+- custom user defined accent color - modify base color to be closer to the accent hue - neutral colors should always be grey (can be changed)
+- need multiple sets of color stores - each surface should be able to store it's own color palette - surfaces can be identified by id
 - expose api to change accent color at runtime
 
 Uses the material-color-utilities provided by Google’s Material Design 3 design system including to generate color palettes that have even tones.
