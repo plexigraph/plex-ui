@@ -19,6 +19,14 @@ Paragraph font: [Atkinson Hyperlegible](https://fonts.google.com/specimen/Atkins
 
 Code font: [Fira Code](https://fonts.google.com/specimen/Fira+Code) - A monospace font with ligatures.
 
+### Params:
+
+- Header font family
+- Paragraph font family
+- Code font family
+- Font size ratio
+- Skipped steps for headers
+
 ## Header Sizes
 
 Uses a set ratio to scale up and scale down starting with the standard font size of 16px. The scale by default is the major second type scale with the ratio of 1.125 which is generally a good choice for any application website.
