@@ -55,9 +55,14 @@
   .surface {
     display: grid;
     box-sizing: border-box;
+    position: absolute;
     grid-template-rows: repeat(auto-fill, 16px);
     grid-template-columns: repeat(auto-fill, 16px);
     grid-gap: 4px;
     padding: var(--padding, 0) var(--padding, 0);
+    top: var(--top, auto);
+    bottom: var(--bottom, auto);
+    left: var(--left, auto);
+    right: var(--right, auto);
   }
 </style>
