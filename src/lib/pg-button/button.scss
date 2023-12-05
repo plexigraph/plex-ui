@@ -1,0 +1,82 @@
+button {
+  --pg-bg: var(--pg-accent-bg);
+  --pg-bg-accent: var(--pg-accent-bg-accent);
+  --pg-mid: var(--pg-accent-mid);
+  --pg-mid-accent: var(--pg-accent-mid-accent);
+  --pg-fg: var(--pg-accent-fg);
+  --pg-fg-accent: var(--pg-accent-fg-accent);
+  outline: 1px solid var(--pg-fg-accent);
+  background-color: var(--pg-bg);
+  color: var(--pg-fg-accent);
+  border-radius: 20px;
+  border: none;
+  padding: 0 12px;
+  height: 32px;
+  margin: 4px;
+  display: inline-block;
+  font-size: 16px;
+  transition-property: background-color, color, outline;
+  transition-duration: var(--color-transition-speed),
+    var(--color-transition-speed), var(--size-transition-speed);
+  -webkit-tap-highlight-color: transparent;
+}
+
+button.outlined {
+  background-color: transparent;
+  outline-color: var(--pg-fg-accent);
+}
+
+button.inset {
+  background-color: transparent;
+  outline-color: transparent;
+}
+
+button.outlined:hover,
+button.inset:hover {
+  background-color: var(--pg-accent-bg);
+}
+
+button.outlined:active,
+button.inset:active,
+button.active {
+  background-color: var(--pg-accent-bg-accent);
+}
+
+button.full {
+  width: 100%;
+  display: block;
+}
+
+button.normal {
+  width: 256px;
+}
+
+button.skinny {
+  width: 128px;
+}
+
+button.icon {
+  width: 32px;
+}
+
+button:focus {
+  outline: 4px solid var(--pg-accent-fg-accent);
+  // padding: 0 10px;
+}
+button:hover {
+  background-color: var(--pg-accent-bg-accent);
+}
+button:active,
+button.active {
+  background-color: var(--pg-accent-mid-accent);
+  color: var(--pg-accent-fg);
+}
+button:disabled,
+button:disabled:hover,
+button:disabled:active {
+  border-color: var(--pg-neutral-bg-accent);
+  outline: none !important;
+  background-color: var(--pg-neutral-bg-accent);
+  color: var(--pg-neutral-fg-accent);
+  border-radius: 8px;
+}
