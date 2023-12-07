@@ -18,8 +18,13 @@
   <body>
     <pg-button><button>click me!</button></pg-button>
     or
-    <pg-button><button class="outlined">click me!</button></pg-button>
+    <pg-button>
+      <button class="outlined" onclick="this.disabled = true">click me!</button>
+    </pg-button>
     or
-    <pg-button><button class="inset">click me!</button></pg-button>
+    <pg-button>
+      <button class="inset" onclick="this.disabled = true">click me!</button>
+    </pg-button>
+    <pg-button><button class="icon">i</button></pg-button>
   </body>
 </html>

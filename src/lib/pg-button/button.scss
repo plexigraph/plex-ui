@@ -1,10 +1,4 @@
 button {
-  --pg-bg: var(--pg-accent-bg);
-  --pg-bg-accent: var(--pg-accent-bg-accent);
-  --pg-mid: var(--pg-accent-mid);
-  --pg-mid-accent: var(--pg-accent-mid-accent);
-  --pg-fg: var(--pg-accent-fg);
-  --pg-fg-accent: var(--pg-accent-fg-accent);
   outline: 1px solid var(--pg-fg-accent);
   background-color: var(--pg-bg);
   color: var(--pg-fg-accent);
@@ -12,12 +6,13 @@ button {
   border: none;
   padding: 0 12px;
   height: 32px;
-  margin: 4px;
+  margin: 16px;
   display: inline-block;
   font-size: 16px;
-  transition-property: background-color, color, outline;
+  transition-property: background-color, color, outline, border-radius;
   transition-duration: var(--color-transition-speed),
-    var(--color-transition-speed), var(--size-transition-speed);
+    var(--color-transition-speed), var(--size-transition-speed),
+    var(--size-transition-speed);
   -webkit-tap-highlight-color: transparent;
 }
 

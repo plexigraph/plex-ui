@@ -10,6 +10,8 @@ const defaultValues = {
   invalid: false,
   pointerX: 0,
   pointerY: 0,
+  clickedX: undefined as number | undefined,
+  clickedY: undefined as number | undefined,
   width: 0,
   height: 0,
   ctx: undefined as Context2D | undefined,
@@ -115,10 +117,11 @@ export function getInteractableSignals(): InteractableSignals {
     }
     let clickTimeout: NodeJS.Timeout | undefined = undefined
     const onClick = (e: MouseEvent) => {
-      if (out.disabled.value) return
       setPointerPos(e)
       out.active.value = true
       clearTimeout(clickTimeout)
+      out.clickedX.value = out.pointerX.value
+      out.clickedY.value = out.pointerY.value
       clickTimeout = setTimeout(() => {
         out.active.value = false
         clickTimeout = undefined
@@ -191,6 +194,7 @@ export function getInteractableSignals(): InteractableSignals {
       for (const method of unsubscribeMethods) {
         method()
       }
+      unsubscribeMethods.clear()
     }
     out.unsubscribe = unsubscribe
   }
