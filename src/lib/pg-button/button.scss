@@ -1,77 +1,134 @@
-button {
-  outline: 1px solid var(--pg-fg-accent);
-  background-color: var(--pg-bg);
-  color: var(--pg-fg-accent);
-  border-radius: 20px;
-  border: none;
-  padding: 0 12px;
-  height: 32px;
-  margin: 16px;
-  display: inline-block;
-  font-size: 16px;
-  transition-property: background-color, color, outline, border-radius;
-  transition-duration: var(--color-transition-speed),
-    var(--color-transition-speed), var(--size-transition-speed),
-    var(--size-transition-speed);
-  -webkit-tap-highlight-color: transparent;
-}
+pg-button-inner {
+  button,
+  a {
+    outline: 1px solid var(--pg-fg-accent);
+    outline-offset: -1px;
+    background-color: var(--pg-bg);
+    color: var(--pg-fg-accent);
+    border-radius: 20px;
+    border: none;
+    padding: 0 12px;
+    height: 32px;
+    margin: 16px;
+    display: inline-block;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--color-transition-speed),
+      color var(--color-transition-speed), outline var(--size-transition-speed),
+      border-radius var(--size-transition-speed);
+    -webkit-tap-highlight-color: transparent;
+  }
 
-button.outlined {
-  background-color: transparent;
-  outline-color: var(--pg-fg-accent);
-}
+  a {
+    text-decoration: none;
+  }
 
-button.inset {
-  background-color: transparent;
-  outline-color: transparent;
-}
+  button.outlined,
+  a.outlined {
+    background-color: transparent;
+    outline-color: var(--pg-fg);
+    color: var(--pg-fg);
+  }
 
-button.outlined:hover,
-button.inset:hover {
-  background-color: var(--pg-accent-bg);
-}
+  button.inset,
+  a.inset {
+    background-color: var(--pg-bg);
+    outline-color: transparent;
+  }
 
-button.outlined:active,
-button.inset:active,
-button.active {
-  background-color: var(--pg-accent-bg-accent);
-}
+  button.text,
+  a.text {
+    background-color: transparent;
+    outline-color: transparent;
+  }
 
-button.full {
-  width: 100%;
-  display: block;
-}
+  button.filled,
+  a.filled {
+    --pg-cursor: var(--pg-mid-accent);
+    background-color: var(--pg-fg);
+    outline-color: transparent;
+    color: var(--pg-bg);
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--pg-fg-accent);
+      }
+    }
+    &:active,
+    &.active {
+      background-color: var(--pg-mid);
+      color: var(--pg-bg);
+    }
+  }
 
-button.normal {
-  width: 256px;
-}
+  @media (hover: hover) {
+    button.outlined:hover,
+    a.outlined:hover,
+    button.text:hover,
+    a.text:hover {
+      background-color: var(--pg-bg);
+    }
+  }
 
-button.skinny {
-  width: 128px;
-}
+  button.outlined:active,
+  a.outlined,
+  button.outlined.active,
+  a.outlined.active,
+  button.text:active,
+  a.text:active,
+  button.text.active,
+  a.text.active {
+    background-color: var(--pg-bg-accent);
+  }
 
-button.icon {
-  width: 32px;
-}
+  button.full,
+  a.full {
+    width: 100%;
+    display: block;
+  }
 
-button:focus {
-  outline: 4px solid var(--pg-accent-fg-accent);
-  // padding: 0 10px;
-}
-button:hover {
-  background-color: var(--pg-accent-bg-accent);
-}
-button:active,
-button.active {
-  background-color: var(--pg-accent-mid-accent);
-  color: var(--pg-accent-fg);
-}
-button:disabled,
-button:disabled:hover,
-button:disabled:active {
-  border-color: var(--pg-neutral-bg-accent);
-  outline: none !important;
-  background-color: var(--pg-neutral-bg-accent);
-  color: var(--pg-neutral-fg-accent);
-  border-radius: 8px;
+  button.normal,
+  a.normal {
+    width: 256px;
+  }
+
+  button.icon,
+  a.icon {
+    width: 32px;
+  }
+
+  button:focus-visible,
+  a:focus-visible {
+    outline: 4px solid var(--pg-cursor);
+    transition: background-color var(--color-transition-speed),
+      color var(--color-transition-speed), outline var(--size-transition-speed),
+      border-radius var(--size-transition-speed),
+      outline-width 0.2s cubic-bezier(0, 0, 0.5, 3);
+    // padding: 0 10px;
+  }
+  @media (hover: hover) {
+    button:hover,
+    a:hover {
+      background-color: var(--pg-bg-accent);
+    }
+  }
+  button:active,
+  button.active,
+  a:active,
+  a.active {
+    background-color: var(--pg-mid-accent);
+    color: var(--pg-fg);
+  }
+  button:disabled,
+  button:disabled:hover,
+  button:disabled:active,
+  button:disabled.active,
+  a:disabled {
+    border-color: var(--pg-bg);
+    outline-color: var(--pg-bg);
+    background-color: var(--pg-bg);
+    color: var(--pg-mid-accent);
+    border-radius: 4px;
+  }
 }

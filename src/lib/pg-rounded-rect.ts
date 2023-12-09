@@ -63,8 +63,6 @@ export default class PGRoundedRect extends LitElement {
   sizeInterp = NO_INTERP
   @property({ type: Function })
   stylesInterp = NO_INTERP
-  @property({ type: Function })
-  colorInterp = NO_INTERP
   animationInfo: AnimationInfo<RoundedRect>
   self: DrawableShape<RoundedRect> & Deletable
   constructor() {

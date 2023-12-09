@@ -1,5 +1,4 @@
 import { type Context2D } from "@lib/Contexts"
-import { mergeDictTrees } from "@lib/Utils"
 import { Signal, signal } from "@lit-labs/preact-signals"
 
 const defaultValues = {
@@ -22,6 +21,7 @@ const defaultValues = {
     midAccent: "#666",
     backgroundAccent: "#ccc",
     background: "#fff",
+    cursor: "#aaa",
   },
 }
 
@@ -53,6 +53,9 @@ export function getInteractableSignals(): InteractableSignals {
     parentContext: Context2D,
     pointerElem?: HTMLElement
   ) => {
+    // unsubscribe from previous
+    out.unsubscribe()
+    const unsubscribeMethods = new Set<() => void>()
     const pElem = pointerElem || elem
     const setPointerPos = (e: MouseEvent) => {
       const rect = elem.getBoundingClientRect()
@@ -76,6 +79,7 @@ export function getInteractableSignals(): InteractableSignals {
         midAccent: styles.getPropertyValue("--pg-mid-accent"),
         backgroundAccent: styles.getPropertyValue("--pg-bg-accent"),
         background: styles.getPropertyValue("--pg-bg"),
+        cursor: styles.getPropertyValue("--pg-cursor"),
       }
     }
     const onSchemeChange = () => {
@@ -84,7 +88,6 @@ export function getInteractableSignals(): InteractableSignals {
       }, 0)
     }
     setColors()
-    const unsubscribeMethods = new Set<() => void>()
     const matched = window.matchMedia("(prefers-color-scheme: dark)")
     matched.addEventListener("change", onSchemeChange)
     unsubscribeMethods.add(() => {
@@ -116,26 +119,44 @@ export function getInteractableSignals(): InteractableSignals {
       setPointerPos(e)
     }
     let clickTimeout: NodeJS.Timeout | undefined = undefined
+    let downAt: number | undefined = undefined
     const onClick = (e: MouseEvent) => {
+      setColors()
       setPointerPos(e)
       out.active.value = true
       clearTimeout(clickTimeout)
       out.clickedX.value = out.pointerX.value
       out.clickedY.value = out.pointerY.value
-      clickTimeout = setTimeout(() => {
-        out.active.value = false
-        clickTimeout = undefined
-      }, 200)
+      if (!downAt) {
+        downAt = performance.now()
+      }
+      const timeDiff = performance.now() - downAt
+      if (timeDiff < 200) {
+        clickTimeout = setTimeout(() => {
+          out.active.value = false
+          clickTimeout = undefined
+        }, 200 - timeDiff)
+      }
+      downAt = undefined
+    }
+    const onPointerDown = (e: PointerEvent) => {
+      if (out.disabled.value) return
+      setColors()
+      setPointerPos(e)
+      out.active.value = true
+      downAt = performance.now()
     }
     pElem.addEventListener("pointerenter", onEnter)
     pElem.addEventListener("pointerleave", onLeave)
     pElem.addEventListener("pointermove", onMove)
     pElem.addEventListener("click", onClick)
+    pElem.addEventListener("pointerdown", onPointerDown)
     unsubscribeMethods.add(() => {
       pElem.removeEventListener("pointerenter", onEnter)
       pElem.removeEventListener("pointerleave", onLeave)
       pElem.removeEventListener("pointermove", onMove)
       pElem.removeEventListener("click", onClick)
+      pElem.removeEventListener("pointerdown", onPointerDown)
     })
 
     const rect = elem.getBoundingClientRect()
@@ -152,11 +173,17 @@ export function getInteractableSignals(): InteractableSignals {
       })
     })
     observer.observe(elem, { attributes: true })
+    console.log(elem)
+    console.log(elem.hasAttribute("disabled"))
+    out.disabled.value = elem.hasAttribute("disabled")
     unsubscribeMethods.add(() => {
       observer.disconnect()
     })
 
     const onFocused = () => {
+      if (!out.hovered.value) {
+        setPointerPos({ clientX: 0, clientY: 0 } as any)
+      }
       out.focused.value = true
       setColors()
     }
@@ -191,9 +218,7 @@ export function getInteractableSignals(): InteractableSignals {
       resizeObserver.disconnect()
     })
     const unsubscribe = () => {
-      for (const method of unsubscribeMethods) {
-        method()
-      }
+      unsubscribeMethods.forEach(method => method())
       unsubscribeMethods.clear()
     }
     out.unsubscribe = unsubscribe

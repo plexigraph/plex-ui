@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Plex UI</title>
-    <script type="module" src="./src/lib/pg-button/pg-button.ts"></script>
+    <script type="module" src="./src/ssr-client.ts"></script>
     <link rel="stylesheet" href="./src/styles/reset.css" />
     <link rel="stylesheet" href="./src/styles/form-elements.scss" />
     <style>
@@ -14,17 +14,54 @@
           sans-serif;
       }
     </style>
+    <link rel="icon" href="/pg-gray.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Comfortaa:wght@700&family=Fira+Code&display=fallback"
+      rel="stylesheet"
+    />
+    <style>
+      .button-grid {
+        display: grid;
+        grid-auto-flow: row;
+        grid-template-columns: repeat(auto-fill, 144px 160px);
+        grid-auto-rows: auto;
+        justify-content: center;
+      }
+      .button-grid > * {
+        border: 0.5px solid var(--pg-neutral-mid-accent);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0.5rem;
+      }
+      .button-grid > h3 {
+        display: flex;
+        margin-right: 0;
+        justify-content: center;
+        align-items: center;
+        border-right: none;
+        background-color: var(--pg-neutral-bg);
+      }
+      .button-grid > div {
+        display: flex;
+        border-left: none;
+        background-image: radial-gradient(
+          circle at 1px 1px,
+          var(--pg-neutral-mid-accent) 1px,
+          transparent 0
+        );
+        background-position: 50% 50%;
+        background-size: 16px 16px;
+        margin-left: 0;
+        justify-content: center;
+        align-items: center;
+      }
+      body {
+        padding: 1rem;
+      }
+    </style>
   </head>
-  <body>
-    <pg-button><button>click me!</button></pg-button>
-    or
-    <pg-button>
-      <button class="outlined" onclick="this.disabled = true">click me!</button>
-    </pg-button>
-    or
-    <pg-button>
-      <button class="inset" onclick="this.disabled = true">click me!</button>
-    </pg-button>
-    <pg-button><button class="icon">i</button></pg-button>
-  </body>
+  <body></body>
 </html>

@@ -1,7 +1,8 @@
-import { NO_INTERP, getLinearInterp, getSlerp } from "@lib/Contexts"
+import { NO_INTERP, getSlerp } from "@lib/Contexts"
 import { LitElement, html } from "lit"
 import { customElement, property, state } from "lit/decorators.js"
 const colorInterp = getSlerp(0.2)
+
 
 @customElement("pg-cursor")
 export default class PGCursor extends LitElement {
@@ -25,6 +26,8 @@ export default class PGCursor extends LitElement {
   posInterp = getSlerp(0)
   @property({ type: Function })
   sizeInterp = getSlerp(0.2)
+  @property({ type: Function })
+  colorInterp = getSlerp(0.2)
   @property({ type: Boolean })
   hidden = false
   @property({ type: Number })
@@ -56,6 +59,7 @@ export default class PGCursor extends LitElement {
       .radius=${this.radius}
       .posInterp=${this.actualPosInterp}
       .sizeInterp=${this.sizeInterp}
+      .colorInterp=${this.colorInterp}
       .stylesInterp=${colorInterp}
       .backgroundColor=${this.backgroundColor}
       .borderColor=${this.borderColor}

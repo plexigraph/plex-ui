@@ -1,0 +1,26 @@
+$color-nums: 5, 20, 40, 60, 80, 95;
+$color-dark-shade-names: bg, bg-accent, mid-accent, mid, fg-accent, fg;
+$color-light-shade-names: fg, fg-accent, mid, mid-accent, bg-accent, bg;
+
+/**
+* @param {string} $color-name - The name of the color - ex: gold/violet/fire/sea
+* @param {string} $type - The type of shade - ex: accent/neutral/error/warning/success
+* @param {string} $num - The number of the color - ex: 100/300/500/700/900
+* @param {string} $shade-name - The name of the shade - ex: bg/bg-accent/mid/fg-accent/fg
+*/
+@mixin color($color-name, $name, $num, $shade-name) {
+  --pg-#{$name}-#{$shade-name}: var(--#{$color-name}-#{$num});
+}
+
+@mixin colors($color-name, $name, $shade-names) {
+  @for $i from 1 through length($color-nums) {
+    $num: nth($color-nums, $i);
+    $shade-name: nth($shade-names, $i);
+    @include color($color-name, $name, $num, $shade-name);
+    // --pg-#{$name}-#{$shade-name}-transparent: color-mix(
+    //   in srgb,
+    //   var(--#{$color-name}-#{$num}) 0%,
+    //   transparent
+    // );
+  }
+}

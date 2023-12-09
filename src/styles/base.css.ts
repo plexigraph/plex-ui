@@ -1,30 +1,11 @@
-$color-nums: 5, 20, 40, 60, 80, 95;
-$color-dark-shade-names: bg, bg-accent, mid-accent, mid, fg-accent, fg;
-$color-light-shade-names: fg, fg-accent, mid, mid-accent, bg-accent, bg;
-
+import { css } from "lit"
+export default css`
 /**
 * @param {string} $color-name - The name of the color - ex: gold/violet/fire/sea
 * @param {string} $type - The type of shade - ex: accent/neutral/error/warning/success
 * @param {string} $num - The number of the color - ex: 100/300/500/700/900
 * @param {string} $shade-name - The name of the shade - ex: bg/bg-accent/mid/fg-accent/fg
 */
-@mixin color($color-name, $name, $num, $shade-name) {
-  --pg-#{$name}-#{$shade-name}: var(--#{$color-name}-#{$num});
-}
-
-@mixin colors($color-name, $name, $shade-names) {
-  @for $i from 1 through length($color-nums) {
-    $num: nth($color-nums, $i);
-    $shade-name: nth($shade-names, $i);
-    @include color($color-name, $name, $num, $shade-name);
-    // --pg-#{$name}-#{$shade-name}-transparent: color-mix(
-    //   in srgb,
-    //   var(--#{$color-name}-#{$num}) 0%,
-    //   transparent
-    // );
-  }
-}
-
 :root {
   --violet-1: #02001f;
   --violet-2: #03002e;
@@ -86,17 +67,36 @@ $color-light-shade-names: fg, fg-accent, mid, mid-accent, bg-accent, bg;
   --gray-95: #f7f0e6;
   --gray-98: #fff8f3;
   --gray-99: #fffbff;
-
-  @include colors(violet, accent, $color-light-shade-names);
-
-  @include colors(gray, neutral, $color-light-shade-names);
-
-  @include colors(fire, error, $color-light-shade-names);
-
-  @include colors(gold, warning, $color-light-shade-names);
-
-  @include colors(seafoam, success, $color-light-shade-names);
-
+  --pg-accent-fg: var(--violet-5);
+  --pg-accent-fg-accent: var(--violet-20);
+  --pg-accent-mid: var(--violet-40);
+  --pg-accent-mid-accent: var(--violet-60);
+  --pg-accent-bg-accent: var(--violet-80);
+  --pg-accent-bg: var(--violet-95);
+  --pg-neutral-fg: var(--gray-5);
+  --pg-neutral-fg-accent: var(--gray-20);
+  --pg-neutral-mid: var(--gray-40);
+  --pg-neutral-mid-accent: var(--gray-60);
+  --pg-neutral-bg-accent: var(--gray-80);
+  --pg-neutral-bg: var(--gray-95);
+  --pg-error-fg: var(--fire-5);
+  --pg-error-fg-accent: var(--fire-20);
+  --pg-error-mid: var(--fire-40);
+  --pg-error-mid-accent: var(--fire-60);
+  --pg-error-bg-accent: var(--fire-80);
+  --pg-error-bg: var(--fire-95);
+  --pg-warning-fg: var(--gold-5);
+  --pg-warning-fg-accent: var(--gold-20);
+  --pg-warning-mid: var(--gold-40);
+  --pg-warning-mid-accent: var(--gold-60);
+  --pg-warning-bg-accent: var(--gold-80);
+  --pg-warning-bg: var(--gold-95);
+  --pg-success-fg: var(--seafoam-5);
+  --pg-success-fg-accent: var(--seafoam-20);
+  --pg-success-mid: var(--seafoam-40);
+  --pg-success-mid-accent: var(--seafoam-60);
+  --pg-success-bg-accent: var(--seafoam-80);
+  --pg-success-bg: var(--seafoam-95);
   color: var(--pg-neutral-fg);
   background-color: var(--gray-98);
   color-scheme: light;
@@ -108,20 +108,40 @@ $color-light-shade-names: fg, fg-accent, mid, mid-accent, bg-accent, bg;
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    @include colors(violet, accent, $color-dark-shade-names);
-
-    @include colors(gray, neutral, $color-dark-shade-names);
-
-    @include colors(fire, error, $color-dark-shade-names);
-
-    @include colors(gold, warning, $color-dark-shade-names);
-
-    @include colors(seafoam, success, $color-dark-shade-names);
+    --pg-accent-bg: var(--violet-5);
+    --pg-accent-bg-accent: var(--violet-20);
+    --pg-accent-mid-accent: var(--violet-40);
+    --pg-accent-mid: var(--violet-60);
+    --pg-accent-fg-accent: var(--violet-80);
+    --pg-accent-fg: var(--violet-95);
+    --pg-neutral-bg: var(--gray-5);
+    --pg-neutral-bg-accent: var(--gray-20);
+    --pg-neutral-mid-accent: var(--gray-40);
+    --pg-neutral-mid: var(--gray-60);
+    --pg-neutral-fg-accent: var(--gray-80);
+    --pg-neutral-fg: var(--gray-95);
+    --pg-error-bg: var(--fire-5);
+    --pg-error-bg-accent: var(--fire-20);
+    --pg-error-mid-accent: var(--fire-40);
+    --pg-error-mid: var(--fire-60);
+    --pg-error-fg-accent: var(--fire-80);
+    --pg-error-fg: var(--fire-95);
+    --pg-warning-bg: var(--gold-5);
+    --pg-warning-bg-accent: var(--gold-20);
+    --pg-warning-mid-accent: var(--gold-40);
+    --pg-warning-mid: var(--gold-60);
+    --pg-warning-fg-accent: var(--gold-80);
+    --pg-warning-fg: var(--gold-95);
+    --pg-success-bg: var(--seafoam-5);
+    --pg-success-bg-accent: var(--seafoam-20);
+    --pg-success-mid-accent: var(--seafoam-40);
+    --pg-success-mid: var(--seafoam-60);
+    --pg-success-fg-accent: var(--seafoam-80);
+    --pg-success-fg: var(--seafoam-95);
     background-color: var(--gray-1);
     color: var(--pg-neutral-fg);
   }
 }
-
 h1,
 h2,
 h3,
@@ -133,9 +153,7 @@ h6 {
 }
 
 body {
-  font-family: "Atkinson Hyperlegible", system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
-    "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: "Atkinson Hyperlegible", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 16px;
 }
 
@@ -203,20 +221,13 @@ hr.thin {
   --pg-cursor: var(--pg-mid);
 }
 
-// .pg-interactable:disabled {
-//   --pg-fg: var(--pg-neutral-fg);
-//   --pg-fg-accent: var(--pg-neutral-fg-accent);
-//   --pg-mid: var(--pg-neutral-mid);
-//   --pg-mid-accent: var(--pg-neutral-mid-accent);
-//   --pg-bg-accent: var(--pg-neutral-bg-accent);
-//   --pg-bg: var(--pg-neutral-bg);
-// }
 .pg-interactable {
   -webkit-animation: inactive 0s linear;
   -o-animation: inactive 0s linear;
   -ms-animation: inactive 0s linear;
   animation: inactive 0s linear;
 }
+
 .pg-interactable:active {
   -webkit-animation: active 0s linear;
   -o-animation: active 0s linear;
@@ -224,10 +235,6 @@ hr.thin {
   animation: active 0s linear;
 }
 
-@keyframes active {
-  // intentionally empty
-}
-
-@keyframes inactive {
-  // intentionally empty
-}
+@keyframes active {}
+@keyframes inactive {}
+`

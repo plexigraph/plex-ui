@@ -1,0 +1,34 @@
+@use "color-mixins";
+
+:root {
+  --seafoam-1: #000502;
+  --seafoam-2: #000a05;
+  --seafoam-5: #00150c;
+  --seafoam-10: #002115;
+  --seafoam-20: #043827;
+  --seafoam-30: #214f3d;
+  --seafoam-40: #3a6754;
+  --seafoam-50: #52806c;
+  --seafoam-60: #6c9b85;
+  --seafoam-70: #86b59e;
+  --seafoam-80: #a0d1b9;
+  --seafoam-90: #bceed5;
+  --seafoam-95: #cafce3;
+  --seafoam-98: #e7fff1;
+  --seafoam-99: #f4fff7;
+  @include color-mixins.colors(
+    seafoam,
+    success,
+    color-mixins.$color-light-shade-names
+  );
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    @include color-mixins.colors(
+      seafoam,
+      success,
+      color-mixins.$color-dark-shade-names
+    );
+  }
+}
