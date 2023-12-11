@@ -104,6 +104,10 @@ $color-light-shade-names: fg, fg-accent, mid, mid-accent, bg-accent, bg;
   --size-transition-speed: 0.2s;
   --pos-transition-speed: 0.2s;
 }
+*::selection {
+  background-color: var(--pg-mid-accent) !important;
+  color: var(--pg-accent-fg) !important;
+}
 
 @media (prefers-color-scheme: dark) {
   :root {

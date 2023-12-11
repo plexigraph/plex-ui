@@ -23,6 +23,7 @@ import { colorFromHex } from "@lib/Utils"
 
 const rippleInterp = getLinearInterp(1)
 const dotInterp = getSlerp(0.15)
+const colorInterp = getSlerp(0.05)
 
 @customElement("pg-button-inner")
 export class PGButtonInner extends SignalWatcher(LitElement) {
@@ -48,7 +49,7 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
       this.rippleSize.value = 250
       this.rippleWidth.value = 0
       this.rippleTimeout = undefined
-    }, 300)
+    }, 200)
   }
   static styles = css`
     :host {
@@ -107,7 +108,7 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
         radius=${this.cursorSize.value / 2}
         .backgroundColor=${this.cursorColor.value}
         .sizeInterp=${dotInterp}
-        .colorInterp=${NO_INTERP}
+        .colorInterp=${colorInterp}
         x=${pointerX.value - this.cursorSize.value / 2}
         y=${pointerY.value - this.cursorSize.value / 2}
       ></pg-cursor>
@@ -122,7 +123,7 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
         x=${clickedX.value - this.rippleSize.value / 2}
         y=${clickedY.value - this.rippleSize.value / 2}
         .sizeInterp=${this.rippleSize.value == 0 ? NO_INTERP : rippleInterp}
-        .colorInterp=${NO_INTERP}
+        .colorInterp=${colorInterp}
       ></pg-cursor>
     </pg-surface>`
         : nothing}</pg-surface

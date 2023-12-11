@@ -105,6 +105,11 @@ export default css`
   --pos-transition-speed: 0.2s;
 }
 
+*::selection {
+  background-color: var(--pg-mid-accent) !important;
+  color: var(--pg-accent-fg) !important;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;

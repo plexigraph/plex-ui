@@ -1,15 +1,11 @@
 const fileRegex = /\.scss$/
 import { render } from "@lit-labs/ssr"
-import {
-  collectResult,
-  collectResultSync,
-} from "@lit-labs/ssr/lib/render-result"
-import { html as lit_html } from "lit"
+import { collectResult } from "@lit-labs/ssr/lib/render-result"
 
 import { decode } from "html-entities"
 import "./src/lib/pg-button/pg-button"
 
-import buttons from "./src/main"
+import main from "./src/main"
 
 import convert from "./convert-scss"
 import type { Plugin } from "vite"
@@ -18,14 +14,14 @@ export function litConvertScss(): Plugin {
   return {
     name: "html-lit-convert-scss",
     config() {
+      console.log("config")
       convert()
     },
-    handleHotUpdate({ modules }) {
-      const needsUpdate = modules.some(module => {
-        if (!module.file) return
-        return module.file.match(fileRegex)
-      })
+    handleHotUpdate({ file, modules }) {
+      console.log(file)
+      const needsUpdate = !!file.match(fileRegex)
       if (needsUpdate) {
+        console.log("needs update")
         convert()
       }
     },
@@ -39,7 +35,7 @@ export function litShell() {
       // match for body opening and closing tags
       const bodyRegex = /<body[^>]*>([\s\S]*)<\/body>/
 
-      const res = render(buttons)
+      const res = render(main)
       // insert buttons into body
       let outHtml = decode(await collectResult(res))
       // replace body with buttons

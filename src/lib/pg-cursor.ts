@@ -3,7 +3,6 @@ import { LitElement, html } from "lit"
 import { customElement, property, state } from "lit/decorators.js"
 const colorInterp = getSlerp(0.2)
 
-
 @customElement("pg-cursor")
 export default class PGCursor extends LitElement {
   @property({ type: Number })

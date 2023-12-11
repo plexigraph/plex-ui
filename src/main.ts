@@ -1,6 +1,7 @@
 import { html } from "lit"
 
 import "./lib/pg-button/pg-button"
+import "./lib/pg-input/pg-input"
 
 export default html`
   <h1 style="display: flex; align-items: center">
@@ -13,19 +14,19 @@ export default html`
     />
     Plex UI
   </h1>
-  <h2>Buttons</h2>
   <label for="color-select">Theme:</label>
   <select
     id="color-select"
-    onchange="document.querySelector('#button-grid').className = 'button-grid ' + this.value;"
+    onchange="document.querySelector('body').className = this.value;"
   >
-    <option value="accent" selected>Accent</option>
-    <option value="error">Error</option>
-    <option value="warning">Warning</option>
+    <option value="accent">Accent</option>
     <option value="success">Success</option>
-    <option value="neutral">Neutral</option>
+    <option value="warning">Warning</option>
+    <option value="error">Error</option>
+    <option value="neutral" selected>Neutral</option>
   </select>
-  <div id="button-grid" class="button-grid accent">
+  <h2>Buttons</h2>
+  <div class="ex-grid">
     <h3>Default</h3>
     <div>
       <pg-button>Click me!</pg-button>
@@ -49,6 +50,21 @@ export default html`
     <h3>Disabled</h3>
     <div>
       <pg-button disabled>not clickable</pg-button>
+    </div>
+  </div>
+  <h2>Inputs</h2>
+  <div class="ex-grid">
+    <h3>Default</h3>
+    <div>
+      <pg-input placeholder="Placeholder" />
+    </div>
+    <h3>Disabled</h3>
+    <div>
+      <pg-input placeholder="Placeholder" disabled />
+    </div>
+    <h3>Invalid</h3>
+    <div>
+      <pg-input placeholder="Placeholder" validity="is invalid." />
     </div>
   </div>
 `

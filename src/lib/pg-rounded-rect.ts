@@ -29,8 +29,10 @@ type RoundedRect = {
   pos: Vec2
   size: { radius: number; width: number; height: number }
   styles: {
-    backgroundColor: Color
-    borderColor: Color
+    colors: {
+      backgroundColor: Color
+      borderColor: Color
+    }
     borderWidth: number
   }
 }
@@ -63,6 +65,8 @@ export default class PGRoundedRect extends LitElement {
   sizeInterp = NO_INTERP
   @property({ type: Function })
   stylesInterp = NO_INTERP
+  @property({ type: Function })
+  colorInterp = NO_INTERP
   animationInfo: AnimationInfo<RoundedRect>
   self: DrawableShape<RoundedRect> & Deletable
   constructor() {
@@ -72,8 +76,10 @@ export default class PGRoundedRect extends LitElement {
         pos: newVec2(this.x, this.y),
         size: { radius: this.radius, width: this.width, height: this.height },
         styles: {
-          backgroundColor: this.backgroundColor || colorFromHex("#000000"),
-          borderColor: this.borderColor || colorFromHex("#000000"),
+          colors: {
+            backgroundColor: this.backgroundColor || colorFromHex("#000000"),
+            borderColor: this.borderColor || colorFromHex("#000000"),
+          },
           borderWidth: this.borderWidth,
         },
       },
@@ -92,7 +98,10 @@ export default class PGRoundedRect extends LitElement {
         const {
           pos: { x, y },
           size: { radius, width, height },
-          styles: { backgroundColor, borderColor, borderWidth },
+          styles: {
+            colors: { backgroundColor, borderColor },
+            borderWidth,
+          },
         } = getCurrentStateWithChildren(this.animationInfo)
         c.beginPath()
         if (c.roundRect) {
@@ -185,12 +194,12 @@ export default class PGRoundedRect extends LitElement {
           break
         case "backgroundColor":
           modifyingDict = mergeDictTrees(modifyingDict, {
-            styles: { backgroundColor: this.backgroundColor },
+            styles: { colors: { backgroundColor: this.backgroundColor } },
           })
           break
         case "borderColor":
           modifyingDict = mergeDictTrees(modifyingDict, {
-            styles: { borderColor: this.borderColor },
+            styles: { colors: { borderColor: this.borderColor } },
           })
           break
         case "borderWidth":
@@ -213,6 +222,12 @@ export default class PGRoundedRect extends LitElement {
             this.stylesInterp
           )
           break
+        case "colorInterp":
+          changeInterpFunction(
+            this.animationInfo.children.styles.children.colors,
+            this.colorInterp
+          )
+          break
         default:
           out = true
           break
@@ -223,12 +238,20 @@ export default class PGRoundedRect extends LitElement {
       changeInterpFunction(this.animationInfo.children.pos, NO_INTERP)
       changeInterpFunction(this.animationInfo.children.size, NO_INTERP)
       changeInterpFunction(this.animationInfo.children.styles, NO_INTERP)
+      changeInterpFunction(
+        this.animationInfo.children.styles.children.colors,
+        NO_INTERP
+      )
       setTimeout(() => {
         changeInterpFunction(this.animationInfo.children.pos, this.posInterp)
         changeInterpFunction(this.animationInfo.children.size, this.sizeInterp)
         changeInterpFunction(
           this.animationInfo.children.styles,
           this.stylesInterp
+        )
+        changeInterpFunction(
+          this.animationInfo.children.styles.children.colors,
+          this.colorInterp
         )
       }, 100)
     }
