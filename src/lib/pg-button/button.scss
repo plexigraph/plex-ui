@@ -1,7 +1,7 @@
 pg-button-inner {
   button,
   a {
-    outline: 1px solid var(--pg-fg-accent);
+    outline: 2px solid var(--pg-fg-accent);
     outline-offset: -1px;
     background-color: var(--pg-bg);
     color: var(--pg-fg-accent);
@@ -84,7 +84,7 @@ pg-button-inner {
 
   button.full,
   a.full {
-    width: 100%;
+    width: calc(100% - 32px);
     display: block;
   }
 

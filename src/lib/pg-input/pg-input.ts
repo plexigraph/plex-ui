@@ -4,6 +4,7 @@ import resetCss from "../../styles/reset.css.ts"
 import { customElement, property, query } from "lit/decorators.js"
 import { LitElement, PropertyValueMap, css, html } from "lit"
 import { ifDefined } from "lit/directives/if-defined.js"
+import "./pg-input-inner.ts"
 
 @customElement("pg-input")
 export default class PgInput extends LitElement {
@@ -13,7 +14,8 @@ export default class PgInput extends LitElement {
     resetCss,
     css`
       :host {
-        display: contents;
+        display: inline-block;
+        width: 100%;
       }
     `,
   ]
@@ -36,15 +38,17 @@ export default class PgInput extends LitElement {
   }
   render() {
     const text = this.validity != "" ? this.validity : this.placeholder
-    return html`<label class=${ifDefined(this.validity != "" ? "error" : "")}>
-      <span> ${text} </span>
-      <input
-        disabled=${ifDefined(this.disabled ? "disabled" : undefined)}
-        class="pg-interactable"
-        placeholder=${this.placeholder}
-        type="text"
-      />
-    </label>`
+    return html`
+      <label class=${ifDefined(this.validity != "" ? "error" : "")}>
+        <span> ${text} </span>
+        <input
+          disabled=${ifDefined(this.disabled ? "disabled" : undefined)}
+          class="pg-interactable"
+          placeholder=${this.placeholder}
+          type="text"
+        />
+      </label>
+    `
   }
 }
 

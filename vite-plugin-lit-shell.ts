@@ -14,14 +14,11 @@ export function litConvertScss(): Plugin {
   return {
     name: "html-lit-convert-scss",
     config() {
-      console.log("config")
       convert()
     },
     handleHotUpdate({ file, modules }) {
-      console.log(file)
       const needsUpdate = !!file.match(fileRegex)
       if (needsUpdate) {
-        console.log("needs update")
         convert()
       }
     },

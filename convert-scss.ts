@@ -31,6 +31,7 @@ const convert = async () => {
       loadPaths: scssFiles.map(file => {
         return file.path
       }),
+      style: "compressed",
     })
   })
 

@@ -9,6 +9,12 @@ export default class PGSurface extends LitElement {
       display: inline-block;
       position: relative;
     }
+    .surface.full {
+      width: 100%;
+    }
+    :host {
+      display: contents;
+    }
     canvas.behind {
       pointer-events: none;
       z-index: -1;
@@ -25,6 +31,9 @@ export default class PGSurface extends LitElement {
 
   @property({ type: Object })
   context: ContextWrapper<unknown> = NO_CONTEXT
+
+  @property({ type: Boolean })
+  full = false
 
   @state()
   lastTime: number | null = null
@@ -69,7 +78,12 @@ export default class PGSurface extends LitElement {
   }
 
   render() {
-    return html`<div class="surface"><slot /></div>`
+    const classes = ["surface"]
+    if (this.full) {
+      classes.push("full")
+    }
+    const classString = classes.join(" ")
+    return html`<div class=${classString}><slot /></div>`
   }
 }
 

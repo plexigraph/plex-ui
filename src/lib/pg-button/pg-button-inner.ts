@@ -20,6 +20,7 @@ import { provide } from "@lit/context"
 import "../pg-rounded-rect"
 import "../pg-cursor"
 import { colorFromHex } from "@lib/Utils"
+import { ifDefined } from "lit/directives/if-defined.js"
 
 const rippleInterp = getLinearInterp(1)
 const dotInterp = getSlerp(0.15)
@@ -94,13 +95,17 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
   }
   render() {
     const { pointerX, pointerY, clickedX, clickedY } = this.interactableSignals
+    const full = this.button.classList.contains("full")
 
     this.button.classList.toggle(
       "active",
       this.interactableSignals.active.value
     )
 
-    return html`<pg-surface .context=${this.context}>
+    return html`<pg-surface
+      .context=${this.context}
+      full=${ifDefined(full ? "full" : undefined)}
+    >
       <slot />
       <pg-cursor
         width=${this.cursorSize.value}

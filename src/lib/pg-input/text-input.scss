@@ -8,7 +8,7 @@ input[type="text"] {
   outline: none;
   padding: 2px 8px;
   border-radius: 8px 8px 0 0;
-  color: var(--pg-fg-accent);
+  color: var(--pg-fg);
 }
 
 input[type="password"] {
@@ -27,6 +27,12 @@ input[type="text"]::placeholder {
 }
 input[type="text"]:disabled::placeholder {
   color: var(--pg-mid-accent);
+}
+input[type="text"]:invalid::placeholder {
+  color: var(--pg-error-fg-accent);
+}
+input[type="text"]:focus::placeholder {
+  color: var(--pg-neutral-mid);
 }
 
 input:placeholder-shown {
@@ -104,7 +110,7 @@ label:has(
     input[type="text"]:placeholder-shown,
     input[type="password"]:placeholder-shown
   )::before {
-  height: 2px;
+  height: 4px;
   top: 50%;
   border-color: transparent;
   background-color: var(--pg-fg-accent);
@@ -130,6 +136,8 @@ label:has(input[type="text"]:focus, input[type="password"]:focus) > span {
   color: var(--pg-bg);
   opacity: 1;
   transform: translateY(0%);
+  position: relative;
+  z-index: 1;
 }
 
 label:has(input[type="text"], input[type="password"]) > span::before {
@@ -148,7 +156,7 @@ input {
 // if input has error
 input[type="text"]:invalid,
 input[type="password"]:invalid {
-  color: var(--pg-error-fg-accent);
+  color: var(--pg-error-fg);
   -webkit-animation: active 0s linear;
   -o-animation: active 0s linear;
   -ms-animation: active 0s linear;

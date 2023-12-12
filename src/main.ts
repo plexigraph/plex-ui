@@ -40,9 +40,7 @@ export default html`
       <pg-button type="inset">Click me!</pg-button>
     </div>
     <h3>Text</h3>
-    <div>
-      <pg-button type="text">Click me!</pg-button>
-    </div>
+    <div><pg-button type="text">Click me!</pg-button></div>
     <h3>Filled</h3>
     <div>
       <pg-button type="filled">Click me!</pg-button>
