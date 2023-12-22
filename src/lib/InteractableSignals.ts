@@ -1,4 +1,4 @@
-import { type Context2D } from "@lib/Contexts"
+import { type Context2D } from "../lib/Contexts"
 import { Signal, signal } from "@lit-labs/preact-signals"
 
 const defaultValues = {
@@ -146,17 +146,36 @@ export function getInteractableSignals(): InteractableSignals {
       out.active.value = true
       downAt = performance.now()
     }
+    const onPointerUp = (e: PointerEvent) => {
+      if (out.disabled.value) return
+      setColors()
+      setPointerPos(e)
+      out.active.value = false
+      downAt = undefined
+    }
+    const onKeydown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        out.active.value = true
+      }
+      if (e.key === " ") {
+        out.active.value = true
+      }
+    }
     pElem.addEventListener("pointerenter", onEnter)
     pElem.addEventListener("pointerleave", onLeave)
     pElem.addEventListener("pointermove", onMove)
     pElem.addEventListener("click", onClick)
     pElem.addEventListener("pointerdown", onPointerDown)
+    pElem.addEventListener("pointerup", onPointerUp)
+    pElem.addEventListener("keydown", onKeydown)
     unsubscribeMethods.add(() => {
       pElem.removeEventListener("pointerenter", onEnter)
       pElem.removeEventListener("pointerleave", onLeave)
       pElem.removeEventListener("pointermove", onMove)
       pElem.removeEventListener("click", onClick)
       pElem.removeEventListener("pointerdown", onPointerDown)
+      pElem.removeEventListener("pointerup", onPointerUp)
+      pElem.removeEventListener("keydown", onKeydown)
     })
 
     const rect = elem.getBoundingClientRect()
@@ -174,7 +193,6 @@ export function getInteractableSignals(): InteractableSignals {
     })
     observer.observe(elem, { attributes: true })
     console.log(elem)
-    console.log(elem.hasAttribute("disabled"))
     out.disabled.value = elem.hasAttribute("disabled")
     unsubscribeMethods.add(() => {
       observer.disconnect()

@@ -3,7 +3,11 @@ import { html } from "lit"
 import "./lib/pg-button/pg-button"
 import "./lib/pg-input/pg-input"
 
+import styles from "./styles/base.css.ts"
+
 export default html`
+  ${"<style>" + styles.cssText + "</style>"}
+  <style></style>
   <h1 style="display: flex; align-items: center">
     <img
       style="display: inline-block"
@@ -21,7 +25,7 @@ export default html`
   >
     <option value="accent">Accent</option>
     <option value="success">Success</option>
-    <option value="warning">Warning</option>
+    <option value="warn">Warn</option>
     <option value="error">Error</option>
     <option value="neutral" selected>Neutral</option>
   </select>
@@ -54,15 +58,16 @@ export default html`
   <div class="ex-grid">
     <h3>Default</h3>
     <div>
-      <pg-input placeholder="Placeholder" />
+      <pg-input placeholder="Username"></pg-input>
+      <pg-input placeholder="Password"></pg-input>
     </div>
     <h3>Disabled</h3>
     <div>
-      <pg-input placeholder="Placeholder" disabled />
+      <pg-input placeholder="Placeholder" disabled></pg-input>
     </div>
     <h3>Invalid</h3>
     <div>
-      <pg-input placeholder="Placeholder" validity="is invalid." />
+      <pg-input placeholder="Placeholder" validity="is invalid."></pg-input>
     </div>
   </div>
 `

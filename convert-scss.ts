@@ -9,45 +9,49 @@ const convert = async () => {
 
   const srcPath = path.resolve(__dirname, "./src")
 
-  const scssFiles = fs
+  const allFiles = fs
     .readdirSync(srcPath, {
       recursive: true,
       withFileTypes: true,
     })
     .filter(file => {
-      return file.isFile() && file.name.endsWith(".scss")
+      return file.isFile()
     })
 
-  const scssFileNames = scssFiles.map(file => {
-    return file.name.replace(".scss", "")
+  const files = allFiles.filter(
+    file => file.name.endsWith(".scss") || file.name.endsWith(".css")
+  )
+
+  const fileNames = files.map(file => {
+    const periodInd = file.name.lastIndexOf(".")
+    return file.name.slice(0, periodInd)
   })
 
-  const scssFileContents = scssFiles.map(file => {
+  const fileContents = files.map(file => {
     return fs.readFileSync(path.resolve(file.path, file.name), "utf-8")
   })
 
-  const cssFileContents = scssFileContents.map(content => {
+  const convertedContents = fileContents.map(content => {
     return sass.compileStringAsync(content, {
-      loadPaths: scssFiles.map(file => {
+      loadPaths: files.map(file => {
         return file.path
       }),
       style: "compressed",
     })
   })
 
-  const cssFileNames = scssFileNames.map(name => {
-    return `${name}.css`
+  const tsCssFileNames = fileNames.map(name => {
+    return `${name}.css.ts`
   })
 
   // write css files back to src
-  scssFileNames.forEach(async (name, i) => {
-    const cssFileName = cssFileNames[i]
-    const cssFileDir = scssFiles[i].path
+  tsCssFileNames.forEach(async (outfileName, i) => {
+    const cssFileDir = files[i].path
     let cssFileContent
     try {
-      cssFileContent = (await cssFileContents[i]).css.toString()
+      cssFileContent = (await convertedContents[i]).css.toString()
     } catch (e) {
-      console.log(e)
+      console.error(e)
       return
     }
     const jsString = `import { css } from "lit"
@@ -58,16 +62,16 @@ ${cssFileContent}
     // if they're different, write the new file
     // if they're the same, do nothing
     // if old file doesn't exist, write the new file
-    if (!fs.existsSync(path.resolve(cssFileDir, cssFileName + ".ts"))) {
-      fs.writeFileSync(path.resolve(cssFileDir, cssFileName + ".ts"), jsString)
+    if (!fs.existsSync(path.resolve(cssFileDir, outfileName))) {
+      fs.writeFileSync(path.resolve(cssFileDir, outfileName), jsString)
       return
     }
     const oldFile = fs.readFileSync(
-      path.resolve(cssFileDir, cssFileName + ".ts"),
+      path.resolve(cssFileDir, outfileName),
       "utf-8"
     )
     if (oldFile === jsString) return
-    fs.writeFileSync(path.resolve(cssFileDir, cssFileName + ".ts"), jsString)
+    fs.writeFileSync(path.resolve(cssFileDir, outfileName), jsString)
   })
 }
 

@@ -1,4 +1,4 @@
-import { bezierFunc, clamp } from "@lib/Utils/vec2"
+import { bezierFunc, clamp } from "../../../lib/Utils/vec2"
 
 export type Interp = (t: number) => number
 

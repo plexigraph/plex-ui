@@ -1,0 +1,36 @@
+@use "../color-mixins";
+
+:root {
+  --gold-1: #070300;
+  --gold-2: #0d0600;
+  --gold-5: #190f00;
+  --gold-10: #271900;
+  --gold-20: #422d00;
+  --gold-30: #5e4200;
+  --gold-40: #7d5800;
+  --gold-50: #9c6f00;
+  --gold-60: #bd8700;
+  --gold-70: #dca11d;
+  --gold-80: #fbbc3b;
+  --gold-90: #ffdea9;
+  --gold-95: #ffeed8;
+  --gold-98: #fff8f3;
+  --gold-99: #fffbff;
+  @include color-mixins.colors(
+    gold,
+    warn,
+    color-mixins.$color-light-shade-names
+  );
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    @include color-mixins.colors(
+      gold,
+      warn,
+      color-mixins.$color-dark-shade-names
+    );
+  }
+}
+
+@include color-mixins.color-class(warn);

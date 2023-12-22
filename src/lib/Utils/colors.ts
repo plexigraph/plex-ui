@@ -103,12 +103,12 @@ export const COLORS = {
   ERROR_BG_ACCENT: getCssSignalColor("error-bg-accent"),
   ERROR_BG: getCssSignalColor("error-bg"),
 
-  WARNING_FG: getCssSignalColor("warning-fg"),
-  WARNING_FG_ACCENT: getCssSignalColor("warning-fg-accent"),
-  WARNING_MID: getCssSignalColor("warning-mid"),
-  WARNING_MID_ACCENT: getCssSignalColor("warning-mid-accent"),
-  WARNING_BG_ACCENT: getCssSignalColor("warning-bg-accent"),
-  WARNING_BG: getCssSignalColor("warning-bg"),
+  WARN: getCssSignalColor("warn-fg"),
+  WARN_FG_ACCENT: getCssSignalColor("warn-fg-accent"),
+  WARN_MID: getCssSignalColor("warn-mid"),
+  WARN_MID_ACCENT: getCssSignalColor("warn-mid-accent"),
+  WARN_BG_ACCENT: getCssSignalColor("warn-bg-accent"),
+  WARN_BG: getCssSignalColor("warn-bg"),
 
   SUCCESS_FG: getCssSignalColor("success-fg"),
   SUCCESS_FG_ACCENT: getCssSignalColor("success-fg-accent"),

@@ -1,4 +1,4 @@
-import { clamp, lerpFunc } from "@lib/Utils/vec2"
+import { clamp, lerpFunc } from "../../../lib/Utils/vec2"
 import { broadcast, type Listener, type Listeners } from "../Listeners"
 import type { Interp } from "./Interp"
 
@@ -36,7 +36,7 @@ type Mask<T> = {
 }
 
 export type AnimationInfoWithoutChildren<
-  Animating extends RecursiveAnimatable<unknown>,
+  Animating extends RecursiveAnimatable<unknown>
 > = {
   time: number
   timingFunction: Interp
@@ -86,7 +86,7 @@ function copyObject<T>(obj: T) {
   return { ...obj }
 }
 export function createLocalAnimationInfo<
-  Animating extends RecursiveAnimatable<unknown>,
+  Animating extends RecursiveAnimatable<unknown>
 >(
   init: LocalRecursiveAnimatable<Animating>,
   timing: Interp,
@@ -196,7 +196,7 @@ export function removeListener<Animating extends RecursiveAnimatable<unknown>>(
 }
 
 export function addRecursiveStartListener<
-  Animating extends RecursiveAnimatable<unknown>,
+  Animating extends RecursiveAnimatable<unknown>
 >(info: AnimationInfo<Animating>, listener: Listener<undefined>) {
   for (const childInfo of Object.values<
     AnimationInfo<RecursiveAnimatable<unknown>>
@@ -211,7 +211,7 @@ export function addRecursiveStartListener<
 }
 
 export function removeRecursiveStartListener<
-  Animating extends RecursiveAnimatable<unknown>,
+  Animating extends RecursiveAnimatable<unknown>
 >(info: AnimationInfo<Animating>, listener: Listener<undefined>) {
   for (const childInfo of Object.values<
     AnimationInfo<RecursiveAnimatable<unknown>>
@@ -296,7 +296,7 @@ export function getCurrentState<Animating extends RecursiveAnimatable<unknown>>(
 }
 
 export function getCurrentStateWithChildren<
-  Animating extends RecursiveAnimatable<unknown>,
+  Animating extends RecursiveAnimatable<unknown>
 >(info: AnimationInfo<Animating>): Animating {
   const out = getCurrentState(info) as Animating
   for (const [key, childInfo] of Object.entries(info.children)) {
@@ -311,7 +311,7 @@ export function getCurrentStateWithChildren<
  * @returns whether the animation needs to be updated again
  */
 export function updateAnimationInfo<
-  Animating extends RecursiveAnimatable<unknown>,
+  Animating extends RecursiveAnimatable<unknown>
 >(info: AnimationInfo<Animating>, dt: number): boolean {
   info.time += dt
   // needs two calls to animationNeedsUpdate
@@ -343,7 +343,7 @@ export function updateAnimationInfo<
 }
 
 export function changeInterpFunction<
-  Animating extends RecursiveAnimatable<unknown>,
+  Animating extends RecursiveAnimatable<unknown>
 >(
   info: AnimationInfo<Animating>,
   interp: Interp,
@@ -377,7 +377,7 @@ export function getInterpingTo<Animating extends RecursiveAnimatable<unknown>>(
 }
 
 export function getInterpingToWithChildren<
-  Animating extends RecursiveAnimatable<unknown>,
+  Animating extends RecursiveAnimatable<unknown>
 >(info: AnimationInfo<Animating>): Animating {
   const out = getInterpingTo(info) as Animating
   for (const [key, childInfo] of Object.entries<

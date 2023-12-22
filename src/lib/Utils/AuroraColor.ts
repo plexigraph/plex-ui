@@ -1,4 +1,4 @@
-import { COLORS, Color, sleep } from "@lib/Utils"
+import { COLORS, Color, sleep } from "../Utils"
 import { ReadonlySignal, computed, signal } from "@lit-labs/preact-signals"
 
 export type Aurora = {

@@ -1,9 +1,8 @@
-import { LitElement, html, css, unsafeCSS } from "lit"
+import { LitElement, html, css } from "lit"
 import { customElement, property } from "lit/decorators.js"
 import { ifDefined } from "lit/directives/if-defined.js"
 
 import buttonCss from "./button.css.ts"
-import baseCss from "../../styles/base.css.ts"
 import resetCss from "../../styles/reset.css.ts"
 
 @customElement("pg-button")
@@ -23,9 +22,8 @@ export default class PGButton extends LitElement {
 
   static get styles() {
     return [
-      unsafeCSS(buttonCss),
-      unsafeCSS(baseCss),
-      unsafeCSS(resetCss),
+      buttonCss,
+      resetCss,
       css`
         :host {
           display: contents;

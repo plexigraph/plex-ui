@@ -2,8 +2,8 @@ import {
   addObjectWithZIndex,
   type ContextWrapper,
   type DrawableObject,
-} from "@lib/Contexts/context"
-import { newVec2, type Vec2 } from "@lib/Utils/vec2"
+} from "../../../lib/Contexts/context"
+import { newVec2, type Vec2 } from "../../../lib/Utils/vec2"
 import {
   type Animatable,
   modifyTo,

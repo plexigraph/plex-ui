@@ -1,6 +1,6 @@
 import { LitElement, PropertyValueMap, css, html, nothing } from "lit"
 import { customElement, queryAssignedElements } from "lit/decorators.js"
-import "@lib/pg-surface"
+import "../../lib/pg-surface"
 import {
   Context2D,
   NO_INTERP,
@@ -8,8 +8,8 @@ import {
   getLinearInterp,
   getSlerp,
 } from "../Contexts"
-import { getInteractableSignals } from "@lib/InteractableSignals"
-import { surfaceContext2D } from "@lib/surfaceContext"
+import { getInteractableSignals } from "../../lib/InteractableSignals"
+import { surfaceContext2D } from "../../lib/surfaceContext"
 import {
   type ReadonlySignal,
   computed,
@@ -19,7 +19,7 @@ import {
 import { provide } from "@lit/context"
 import "../pg-rounded-rect"
 import "../pg-cursor"
-import { colorFromHex } from "@lib/Utils"
+import { colorFromHex } from "../../lib/Utils"
 import { ifDefined } from "lit/directives/if-defined.js"
 
 const rippleInterp = getLinearInterp(1)
@@ -119,18 +119,17 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
       ></pg-cursor>
       ${clickedX.value && clickedY.value
         ? html`<pg-cursor
-        width=${this.rippleSize.value}
-        height=${this.rippleSize.value}
-        radius=${this.rippleSize.value / 2}
-        .borderColor=${this.cursorColor.value}
-        .borderWidth=${this.rippleWidth.value}
-        .backgroundColor=${colorFromHex("transparent")}
-        x=${clickedX.value - this.rippleSize.value / 2}
-        y=${clickedY.value - this.rippleSize.value / 2}
-        .sizeInterp=${this.rippleSize.value == 0 ? NO_INTERP : rippleInterp}
-        .colorInterp=${colorInterp}
-      ></pg-cursor>
-    </pg-surface>`
+            width=${this.rippleSize.value}
+            height=${this.rippleSize.value}
+            radius=${this.rippleSize.value / 2}
+            .borderColor=${this.cursorColor.value}
+            .borderWidth=${this.rippleWidth.value}
+            .backgroundColor=${colorFromHex("transparent")}
+            x=${clickedX.value - this.rippleSize.value / 2}
+            y=${clickedY.value - this.rippleSize.value / 2}
+            .sizeInterp=${this.rippleSize.value == 0 ? NO_INTERP : rippleInterp}
+            .colorInterp=${colorInterp}
+          ></pg-cursor>`
         : nothing}</pg-surface
     >`
   }

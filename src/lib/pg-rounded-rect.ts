@@ -1,7 +1,7 @@
 import { consume } from "@lit/context"
 import { LitElement, PropertyValues } from "lit"
 import { customElement, property } from "lit/decorators.js"
-import { surfaceContext2D } from "@lib/surfaceContext"
+import { surfaceContext2D } from "../lib/surfaceContext"
 import {
   type Context2D,
   Deletable,
@@ -14,7 +14,7 @@ import {
   AnimationInfo,
   changeInterpFunction,
   addRecursiveStartListener,
-} from "@lib/Contexts"
+} from "../lib/Contexts"
 import {
   Color,
   Vec2,
@@ -22,7 +22,7 @@ import {
   colorToHex,
   mergeDictTrees,
   newVec2,
-} from "@lib/Utils"
+} from "../lib/Utils"
 import { Signal } from "@lit-labs/preact-signals"
 
 type RoundedRect = {

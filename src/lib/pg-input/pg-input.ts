@@ -1,21 +1,20 @@
 import inputStyles from "./text-input.css.ts"
-import base from "../../styles/base.css.ts"
-import resetCss from "../../styles/reset.css.ts"
+import errorCss from "../../styles/colors/status/error.css.ts"
 import { customElement, property, query } from "lit/decorators.js"
 import { LitElement, PropertyValueMap, css, html } from "lit"
 import { ifDefined } from "lit/directives/if-defined.js"
-import "./pg-input-inner.ts"
 
 @customElement("pg-input")
 export default class PgInput extends LitElement {
   static styles = [
-    base,
     inputStyles,
-    resetCss,
+    errorCss,
     css`
       :host {
-        display: inline-block;
-        width: 100%;
+        display: contents;
+      }
+      input {
+        font: inherit;
       }
     `,
   ]
@@ -39,15 +38,17 @@ export default class PgInput extends LitElement {
   render() {
     const text = this.validity != "" ? this.validity : this.placeholder
     return html`
-      <label class=${ifDefined(this.validity != "" ? "error" : "")}>
-        <span> ${text} </span>
-        <input
-          disabled=${ifDefined(this.disabled ? "disabled" : undefined)}
-          class="pg-interactable"
-          placeholder=${this.placeholder}
-          type="text"
-        />
-      </label>
+      <pg-input-inner>
+        <label class=${ifDefined(this.validity != "" ? "error" : "")}>
+          <span> ${text} </span>
+          <input
+            disabled=${ifDefined(this.disabled ? "disabled" : undefined)}
+            class="pg-interactable"
+            placeholder=${this.placeholder}
+            type="text"
+          />
+        </label>
+      </pg-input-inner>
     `
   }
 }

@@ -1,0 +1,36 @@
+@use "./color-mixins";
+
+:root {
+  --violet-1: #02001f;
+  --violet-2: #03002e;
+  --violet-5: #09004a;
+  --violet-10: #100069;
+  --violet-20: #1f00a4;
+  --violet-30: #3728c2;
+  --violet-40: #5047da;
+  --violet-50: #6a62f4;
+  --violet-60: #8681ff;
+  --violet-70: #a5a1ff;
+  --violet-80: #c3c0ff;
+  --violet-90: #e3dfff;
+  --violet-95: #f2efff;
+  --violet-98: #fcf8ff;
+  --violet-99: #fffbff;
+  @include color-mixins.colors(
+    violet,
+    accent,
+    color-mixins.$color-light-shade-names
+  );
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    @include color-mixins.colors(
+      violet,
+      accent,
+      color-mixins.$color-dark-shade-names
+    );
+  }
+}
+
+@include color-mixins.color-class(accent);

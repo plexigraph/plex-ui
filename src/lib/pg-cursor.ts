@@ -1,4 +1,4 @@
-import { NO_INTERP, getSlerp } from "@lib/Contexts"
+import { NO_INTERP, getSlerp } from "./Contexts"
 import { LitElement, html } from "lit"
 import { customElement, property, state } from "lit/decorators.js"
 const colorInterp = getSlerp(0.2)

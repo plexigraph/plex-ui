@@ -1,4 +1,4 @@
-import type { DrawableObject } from "@lib/Contexts/context"
+import type { DrawableObject } from "./context"
 import type { Context2D } from "./2d/Context2D"
 import type { AnimationInfo, RecursiveAnimatable } from "./Animate/Animatable"
 type Animated<Animating extends RecursiveAnimatable<unknown>> = {

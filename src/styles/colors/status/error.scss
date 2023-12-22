@@ -1,0 +1,36 @@
+@use "../color-mixins";
+
+:root {
+  --fire-1: #0c0200;
+  --fire-2: #140300;
+  --fire-5: #240800;
+  --fire-10: #351000;
+  --fire-20: #571f00;
+  --fire-30: #7b2f00;
+  --fire-40: #a14000;
+  --fire-50: #c95203;
+  --fire-60: #eb6a23;
+  --fire-70: #ff8c54;
+  --fire-80: #ffb695;
+  --fire-90: #ffdbcc;
+  --fire-95: #ffede7;
+  --fire-98: #fff8f6;
+  --fire-99: #fffbff;
+  @include color-mixins.colors(
+    fire,
+    error,
+    color-mixins.$color-light-shade-names
+  );
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    @include color-mixins.colors(
+      fire,
+      error,
+      color-mixins.$color-dark-shade-names
+    );
+  }
+}
+
+@include color-mixins.color-class(error);

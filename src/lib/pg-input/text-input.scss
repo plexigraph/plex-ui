@@ -2,7 +2,7 @@ input[type="password"],
 input[type="text"] {
   border: none;
   width: 100%;
-  height: 32px;
+  height: 28px;
   background-color: transparent;
   border-radius: 0px;
   outline: none;
@@ -31,7 +31,8 @@ input[type="text"]:disabled::placeholder {
 input[type="text"]:invalid::placeholder {
   color: var(--pg-error-fg-accent);
 }
-input[type="text"]:focus::placeholder {
+input[type="text"]:focus::placeholder,
+label.focus > input[type="password"]::placeholder {
   color: var(--pg-neutral-mid);
 }
 
@@ -39,25 +40,25 @@ input:placeholder-shown {
   text-overflow: ellipsis;
 }
 
-input:focus::placeholder {
+input:focus::placeholder,
+label.focus > input::placeholder {
   color: transparent;
 }
 
-label:has(input[type="text"], input[type="password"]) {
+label:has(input) {
   display: flex;
   flex-direction: row-reverse;
   flex-wrap: wrap-reverse;
   justify-content: left;
   align-items: start;
   border-radius: 8px;
-  margin-bottom: 8px;
+  align-content: center;
   height: 64px;
   position: relative;
-  margin: 16px;
-  width: calc(100% - 32px);
+  width: 100%;
 }
 
-label:has(input[type="text"], input[type="password"]) > span {
+label:has(input) > span {
   background-color: transparent;
   color: var(--pg-fg-accent);
   width: 100%;
@@ -66,9 +67,8 @@ label:has(input[type="text"], input[type="password"]) > span {
   display: flex;
   align-items: center;
   justify-content: left;
-  height: 32px;
-  padding: 0.25rem;
-  padding-top: 0rem;
+  height: 28px;
+  padding: 0 2px;
   font-size: 14px;
   opacity: 1;
   transform: translateY(0%);
@@ -93,7 +93,7 @@ input[type="password"]:placeholder-shown {
   transition: transform 0.2s ease;
 }
 
-label:has(input[type="text"], input[type="password"])::before {
+label:has(input)::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -116,7 +116,9 @@ label:has(
   background-color: var(--pg-fg-accent);
 }
 
-label:has(input[type="text"]:focus, input[type="password"]:focus)::before {
+label:has(input[type="text"]:focus, input[type="password"]:focus)::before,
+label.focus > input[type="text"]::before,
+label.focus > input[type="password"]::before {
   background-color: var(--pg-fg-accent);
   height: 50%;
   top: 50%;
@@ -132,7 +134,9 @@ label:has(
   top: 0;
 }
 
-label:has(input[type="text"]:focus, input[type="password"]:focus) > span {
+label:has(input[type="text"]:focus, input[type="password"]:focus) > span,
+label.focus > input[type="text"] + span,
+label.focus > input[type="password"] + span {
   color: var(--pg-bg);
   opacity: 1;
   transform: translateY(0%);
@@ -140,7 +144,9 @@ label:has(input[type="text"]:focus, input[type="password"]:focus) > span {
   z-index: 1;
 }
 
-label:has(input[type="text"], input[type="password"]) > span::before {
+label:has(input) > span::before,
+label.focus > input[type="text"] + span::before,
+label.focus > input[type="password"] + span::before {
   // up arrow
   content: "↑";
   margin-right: 0.25rem;
@@ -178,7 +184,9 @@ label:has(
 label:has(
     input[type="text"]:invalid:placeholder-shown,
     input[type="password"]:invalid:placeholder-shown
-  )::before {
+  )::before,
+label.focus > input[type="text"]:invalid::before,
+label.focus > input[type="password"]:invalid::before {
   background-color: var(--pg-error-fg-accent);
 }
 
@@ -204,7 +212,9 @@ label:has(
     input[type="text"]:invalid:focus,
     input[type="password"]:invalid:focus
   )
-  > span {
+  > span,
+label.focus > input[type="text"]:invalid + span,
+label.focus > input[type="password"]:invalid + span {
   color: var(--pg-error-bg);
   &::before {
     color: var(--pg-error-bg-accent);

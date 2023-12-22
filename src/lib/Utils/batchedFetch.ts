@@ -1,4 +1,4 @@
-import { sleep } from "@lib/Utils/sleep"
+import { sleep } from "../Utils/sleep"
 type QueueItem = {
   url: string
   signal: AbortSignal
