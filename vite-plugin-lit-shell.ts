@@ -1,4 +1,4 @@
-const fileRegex = /\.scss$/
+const fileRegex = /\.s?css$/
 import { render } from "@lit-labs/ssr"
 import { collectResult } from "@lit-labs/ssr/lib/render-result"
 

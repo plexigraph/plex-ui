@@ -3,10 +3,9 @@ import fs from "fs"
 import path from "path"
 import { fileURLToPath } from "url"
 import { dirname } from "path"
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const convert = async () => {
-  const __dirname = dirname(fileURLToPath(import.meta.url))
-
   const srcPath = path.resolve(__dirname, "./src")
 
   const allFiles = fs
@@ -50,14 +49,16 @@ const convert = async () => {
     let cssFileContent
     try {
       cssFileContent = (await convertedContents[i]).css.toString()
+      // remove first character if it is U+feff
+      if (cssFileContent.charCodeAt(0) === 0xfeff) {
+        cssFileContent = cssFileContent.slice(1)
+      }
     } catch (e) {
       console.error(e)
       return
     }
     const jsString = `import { css } from "lit"
-export default css\`
-${cssFileContent}
-\``
+export default css\` ${cssFileContent}\``
     // diff the old and new files
     // if they're different, write the new file
     // if they're the same, do nothing
@@ -76,3 +77,5 @@ ${cssFileContent}
 }
 
 export default convert
+
+convert()

@@ -203,6 +203,7 @@ export function getInteractableSignals(): InteractableSignals {
         setPointerPos({ clientX: 0, clientY: 0 } as any)
       }
       out.focused.value = true
+      console.log("focused")
       setColors()
     }
     const onBlurred = () => {

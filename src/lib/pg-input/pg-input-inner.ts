@@ -1,6 +1,6 @@
 import { createContext2D } from "../../lib/Contexts"
 import { getInteractableSignals } from "../../lib/InteractableSignals"
-import { SignalWatcher } from "@lit-labs/preact-signals"
+import { SignalWatcher, watch } from "@lit-labs/preact-signals"
 import { LitElement, PropertyValueMap, css, html } from "lit"
 import { customElement, queryAssignedElements } from "lit/decorators.js"
 
@@ -22,14 +22,17 @@ export class PGInputInner extends SignalWatcher(LitElement) {
   protected firstUpdated(
     _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
   ): void {
-    console.log("firstUpdated")
     this.label = this.labels![0]
     this.input = this.label.querySelector("input")!
+    console.log(this.input)
     this.interactableSignals.initialize(
       this.input,
       this.context.ctx,
       this.label
     )
+    console.log("firstUpdated")
+    // force update
+    this.requestUpdate()
   }
   interactableSignals = getInteractableSignals()
   render() {
@@ -37,8 +40,7 @@ export class PGInputInner extends SignalWatcher(LitElement) {
       return html` <slot /> `
     }
     const { focused } = this.interactableSignals
-    console.log(focused)
-    this.label.classList.toggle("active", focused.value)
+    this.label.classList.toggle("focus", focused.value)
     return html`
       <pg-surface full="full" .context=${this.context}>
         <slot />
