@@ -1,19 +1,20 @@
-import { html } from "lit"
+import { html } from 'lit'
 
-import "./lib/pg-button/pg-button"
-import "./lib/pg-input/pg-input"
+import './lib/pg-button/pg-button'
+import './lib/pg-input/pg-input'
+import './lib/pg-check/pg-check'
 
-import styles from "./styles/base.css.ts"
+import styles from './styles/base.css.ts'
 
 export default html`
-  ${"<style>" + styles.cssText + "</style>"}
-  <style></style>
+  ${'<style>' + styles.cssText + '</style>'}
   <h1 style="display: flex; align-items: center">
     <img
       style="display: inline-block"
       src="/pg-gray.png"
       aspect-ratio="1"
       width="42"
+      height="42"
       alt="Plex UI logo"
     />
     Plex UI
@@ -59,15 +60,57 @@ export default html`
     <h3>Default</h3>
     <div>
       <pg-input placeholder="Username"></pg-input>
-      <pg-input placeholder="Password"></pg-input>
+      <pg-input placeholder="Password" type="password"></pg-input>
     </div>
     <h3>Disabled</h3>
     <div>
-      <pg-input placeholder="Placeholder" disabled></pg-input>
+      <pg-input placeholder="Username" disabled value="scuba"></pg-input>
+      <pg-input placeholder="Password" disabled type="password"></pg-input>
     </div>
     <h3>Invalid</h3>
     <div>
-      <pg-input placeholder="Placeholder" validity="is invalid."></pg-input>
+      <pg-input placeholder="Username" validity="is required."></pg-input>
+      <pg-input
+        placeholder="Password"
+        type="password"
+        validity="is required."
+      ></pg-input>
+    </div>
+    <h3>Disabled &&nbsp;Invalid</h3>
+    <div>
+      <pg-input
+        placeholder="Username"
+        disabled
+        value="scuba"
+        validity="doesn't belong to any account."
+      ></pg-input>
+      <pg-input
+        placeholder="Password"
+        disabled
+        type="password"
+        validity="is required"
+      ></pg-input>
+    </div>
+  </div>
+  <h2>Checkboxes</h2>
+  <div class="ex-grid">
+    <h3>Default</h3>
+    <div>
+      <pg-check>Check me!</pg-check>
+    </div>
+    <h3>Disabled</h3>
+    <div>
+      <pg-check disabled>Not checkable</pg-check>
+    </div>
+    <h3>Invalid</h3>
+    <div>
+      <pg-check validity="invalid">Agree to terms and conditions</pg-check>
+    </div>
+    <h3>Disabled &&nbsp;Invalid</h3>
+    <div>
+      <pg-check disabled validity="invalid">
+        Not checkable and invalid
+      </pg-check>
     </div>
   </div>
 `

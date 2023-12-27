@@ -1,5 +1,5 @@
-import { type Context2D } from "../lib/Contexts"
-import { Signal, signal } from "@lit-labs/preact-signals"
+import { type Context2D } from '../lib/Contexts'
+import { Signal, signal } from '@lit-labs/preact-signals'
 
 const defaultValues = {
   disabled: false,
@@ -15,13 +15,13 @@ const defaultValues = {
   height: 0,
   ctx: undefined as Context2D | undefined,
   colors: {
-    foreground: "#000",
-    foregroundAccent: "#333",
-    mid: "#aaa",
-    midAccent: "#666",
-    backgroundAccent: "#ccc",
-    background: "#fff",
-    cursor: "#aaa",
+    foreground: '#000',
+    foregroundAccent: '#333',
+    mid: '#aaa',
+    midAccent: '#666',
+    backgroundAccent: '#ccc',
+    background: '#fff',
+    cursor: '#aaa',
   },
 }
 
@@ -73,13 +73,13 @@ export function getInteractableSignals(): InteractableSignals {
     const setColors = () => {
       const styles = window.getComputedStyle(elem)
       out.colors.value = {
-        foreground: styles.getPropertyValue("--pg-fg"),
-        foregroundAccent: styles.getPropertyValue("--pg-fg-accent"),
-        mid: styles.getPropertyValue("--pg-mid"),
-        midAccent: styles.getPropertyValue("--pg-mid-accent"),
-        backgroundAccent: styles.getPropertyValue("--pg-bg-accent"),
-        background: styles.getPropertyValue("--pg-bg"),
-        cursor: styles.getPropertyValue("--pg-cursor"),
+        foreground: styles.getPropertyValue('--pg-fg'),
+        foregroundAccent: styles.getPropertyValue('--pg-fg-accent'),
+        mid: styles.getPropertyValue('--pg-mid'),
+        midAccent: styles.getPropertyValue('--pg-mid-accent'),
+        backgroundAccent: styles.getPropertyValue('--pg-bg-accent'),
+        background: styles.getPropertyValue('--pg-bg'),
+        cursor: styles.getPropertyValue('--pg-cursor'),
       }
     }
     const onSchemeChange = () => {
@@ -88,24 +88,24 @@ export function getInteractableSignals(): InteractableSignals {
       }, 0)
     }
     setColors()
-    const matched = window.matchMedia("(prefers-color-scheme: dark)")
-    matched.addEventListener("change", onSchemeChange)
+    const matched = window.matchMedia('(prefers-color-scheme: dark)')
+    matched.addEventListener('change', onSchemeChange)
     unsubscribeMethods.add(() => {
-      matched.removeEventListener("change", onSchemeChange)
+      matched.removeEventListener('change', onSchemeChange)
     })
-    elem.classList.add("pg-interactable")
+    elem.classList.add('pg-interactable')
 
     const onAnimStart = () => {
-      if (elem.matches(":active") && !out.disabled.value) {
+      if (elem.matches(':active') && !out.disabled.value) {
         out.active.value = true
       } else {
         if (clickTimeout) return
         out.active.value = false
       }
     }
-    elem.addEventListener("animationstart", onAnimStart)
+    elem.addEventListener('animationstart', onAnimStart)
     unsubscribeMethods.add(() => {
-      elem.removeEventListener("animationstart", onAnimStart)
+      elem.removeEventListener('animationstart', onAnimStart)
     })
     const onEnter = (e: PointerEvent) => {
       out.hovered.value = true
@@ -154,28 +154,28 @@ export function getInteractableSignals(): InteractableSignals {
       downAt = undefined
     }
     const onKeydown = (e: KeyboardEvent) => {
-      if (e.key === "Enter") {
+      if (e.key === 'Enter') {
         out.active.value = true
       }
-      if (e.key === " ") {
+      if (e.key === ' ') {
         out.active.value = true
       }
     }
-    pElem.addEventListener("pointerenter", onEnter)
-    pElem.addEventListener("pointerleave", onLeave)
-    pElem.addEventListener("pointermove", onMove)
-    pElem.addEventListener("click", onClick)
-    pElem.addEventListener("pointerdown", onPointerDown)
-    pElem.addEventListener("pointerup", onPointerUp)
-    pElem.addEventListener("keydown", onKeydown)
+    pElem.addEventListener('pointerenter', onEnter)
+    pElem.addEventListener('pointerleave', onLeave)
+    pElem.addEventListener('pointermove', onMove)
+    pElem.addEventListener('click', onClick)
+    pElem.addEventListener('pointerdown', onPointerDown)
+    window.addEventListener('pointerup', onPointerUp)
+    pElem.addEventListener('keydown', onKeydown)
     unsubscribeMethods.add(() => {
-      pElem.removeEventListener("pointerenter", onEnter)
-      pElem.removeEventListener("pointerleave", onLeave)
-      pElem.removeEventListener("pointermove", onMove)
-      pElem.removeEventListener("click", onClick)
-      pElem.removeEventListener("pointerdown", onPointerDown)
-      pElem.removeEventListener("pointerup", onPointerUp)
-      pElem.removeEventListener("keydown", onKeydown)
+      pElem.removeEventListener('pointerenter', onEnter)
+      pElem.removeEventListener('pointerleave', onLeave)
+      pElem.removeEventListener('pointermove', onMove)
+      pElem.removeEventListener('click', onClick)
+      pElem.removeEventListener('pointerdown', onPointerDown)
+      window.removeEventListener('pointerup', onPointerUp)
+      pElem.removeEventListener('keydown', onKeydown)
     })
 
     const rect = elem.getBoundingClientRect()
@@ -183,27 +183,31 @@ export function getInteractableSignals(): InteractableSignals {
     out.pointerY.value = rect.height / 2
 
     // listen for disabled attribute change
-    const observer = new MutationObserver(mutations => {
+    const observer = new MutationObserver((mutations) => {
       setColors()
-      mutations.forEach(mutation => {
-        if (mutation.attributeName === "disabled") {
-          out.disabled.value = elem.hasAttribute("disabled")
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'disabled') {
+          out.disabled.value = elem.hasAttribute('disabled')
+        }
+        if (mutation.attributeName === 'invalid') {
+          out.invalid.value = elem.hasAttribute('invalid')
         }
       })
     })
     observer.observe(elem, { attributes: true })
-    console.log(elem)
-    out.disabled.value = elem.hasAttribute("disabled")
+    out.disabled.value = elem.hasAttribute('disabled')
+    out.invalid.value =
+      'validationMessage' in elem && elem.validationMessage != ''
     unsubscribeMethods.add(() => {
       observer.disconnect()
     })
 
     const onFocused = () => {
+      console.log("focused")
       if (!out.hovered.value) {
         setPointerPos({ clientX: 0, clientY: 0 } as any)
       }
       out.focused.value = true
-      console.log("focused")
       setColors()
     }
     const onBlurred = () => {
@@ -211,11 +215,11 @@ export function getInteractableSignals(): InteractableSignals {
       setColors()
     }
     // listen for focus
-    elem.addEventListener("focus", onFocused)
-    elem.addEventListener("blur", onBlurred)
+    elem.addEventListener('focus', onFocused)
+    elem.addEventListener('blur', onBlurred)
     unsubscribeMethods.add(() => {
-      elem.removeEventListener("focus", onFocused)
-      elem.removeEventListener("blur", onBlurred)
+      elem.removeEventListener('focus', onFocused)
+      elem.removeEventListener('blur', onBlurred)
     })
     // add resize observer
     out.ctx.value = parentContext.addChild(0, 0, 1).ctx
@@ -237,7 +241,7 @@ export function getInteractableSignals(): InteractableSignals {
       resizeObserver.disconnect()
     })
     const unsubscribe = () => {
-      unsubscribeMethods.forEach(method => method())
+      unsubscribeMethods.forEach((method) => method())
       unsubscribeMethods.clear()
     }
     out.unsubscribe = unsubscribe

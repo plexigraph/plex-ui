@@ -1,0 +1,11 @@
+@use './color-mixins';
+
+*::selection {
+  background-color: var(--pg-mid-accent);
+  color: var(--pg-fg);
+}
+:host {
+  display: contents;
+}
+
+@include color-mixins.color-class(error);

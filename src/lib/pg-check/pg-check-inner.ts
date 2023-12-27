@@ -1,18 +1,19 @@
-import { createContext2D } from '../../lib/Contexts'
-import { getInteractableSignals } from '../../lib/InteractableSignals'
-import { SignalWatcher, watch } from '@lit-labs/preact-signals'
+import { createContext2D } from '../Contexts'
+import { getInteractableSignals } from '../InteractableSignals'
+import { SignalWatcher } from '@lit-labs/preact-signals'
 import { LitElement, PropertyValueMap, css, html } from 'lit'
+import '../pg-cursor'
+import '../pg-surface'
 import {
   customElement,
   property,
   queryAssignedElements,
 } from 'lit/decorators.js'
 
-@customElement('pg-input-inner')
-export class PGInputInner extends SignalWatcher(LitElement) {
+@customElement('pg-check-inner')
+export class PGCheckInner extends SignalWatcher(LitElement) {
   @queryAssignedElements({
-    selector:
-      'label:first-child:last-child:has(> span:first-child+input:last-child)',
+    selector: 'label:first-child:last-child:has(> input:first-child)',
   })
   labels?: Array<HTMLLabelElement>
   label!: HTMLLabelElement
@@ -23,8 +24,9 @@ export class PGInputInner extends SignalWatcher(LitElement) {
     }
   `
   context = createContext2D()
-  handleSlotChange(): void {
+  protected handleSlotChange(): void {
     this.label = this.labels![0]
+    console.log(this.label)
     this.input = this.label.querySelector('input')!
     const { focused, invalid } = this.interactableSignals
     focused.subscribe((f) => this.label.classList.toggle('focus', f))
@@ -41,7 +43,7 @@ export class PGInputInner extends SignalWatcher(LitElement) {
   interactableSignals = getInteractableSignals()
   render() {
     if (!this.label) {
-      return html` <slot @slotchange=${this.handleSlotChange} /> `
+      return html` <slot /> `
     }
     const { focused, invalid } = this.interactableSignals
     this.label.classList.toggle('focus', focused.value)
@@ -56,6 +58,6 @@ export class PGInputInner extends SignalWatcher(LitElement) {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'pg-input-inner': PGInputInner
+    'pg-check-inner': PGCheckInner
   }
 }

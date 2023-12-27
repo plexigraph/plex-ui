@@ -1,2 +1,2 @@
 import { css } from "lit"
-export default css` `
+export default css` *::selection{background-color:var(--pg-mid-accent);color:var(--pg-fg)}:host{display:contents}.error{--pg-fg: var(--pg-error-fg);--pg-fg-accent: var(--pg-error-fg-accent);--pg-mid: var(--pg-error-mid);--pg-mid-accent: var(--pg-error-mid-accent);--pg-bg-accent: var(--pg-error-bg-accent);--pg-bg: var(--pg-error-bg);--pg-cursor: var(--pg-mid)}`

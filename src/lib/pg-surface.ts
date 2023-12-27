@@ -1,8 +1,8 @@
-import { LitElement, css, html } from "lit"
-import { customElement, property, query, state } from "lit/decorators.js"
-import { NO_CONTEXT, type ContextWrapper } from "../lib/Contexts"
+import { LitElement, css, html } from 'lit'
+import { customElement, property, query, state } from 'lit/decorators.js'
+import { NO_CONTEXT, type ContextWrapper } from '../lib/Contexts'
 
-@customElement("pg-surface")
+@customElement('pg-surface')
 export default class PGSurface extends LitElement {
   static get styles() {
     return [
@@ -42,7 +42,7 @@ export default class PGSurface extends LitElement {
   @state()
   lastTime: number | null = null
 
-  @query("div")
+  @query('div')
   elem!: HTMLDivElement | null
 
   updateLoop = (time: number) => {
@@ -76,23 +76,24 @@ export default class PGSurface extends LitElement {
       this.context.init(this.elem)
     }
   }
-
-  firstUpdated(): void {
+  handleSlotChange() {
     this.setupContext()
   }
 
   render() {
-    const classes = ["surface"]
+    const classes = ['surface']
     if (this.full) {
-      classes.push("full")
+      classes.push('full')
     }
-    const classString = classes.join(" ")
-    return html`<div class=${classString}><slot /></div>`
+    const classString = classes.join(' ')
+    return html`<div class=${classString}>
+      <slot @slotchange=${this.handleSlotChange} />
+    </div>`
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pg-surface": PGSurface
+    'pg-surface': PGSurface
   }
 }

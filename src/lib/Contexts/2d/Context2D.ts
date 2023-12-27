@@ -2,8 +2,8 @@ import {
   addObjectWithZIndex,
   type ContextWrapper,
   type DrawableObject,
-} from "../../../lib/Contexts/context"
-import { newVec2, type Vec2 } from "../../../lib/Utils/vec2"
+} from '../../../lib/Contexts/context'
+import { newVec2, type Vec2 } from '../../../lib/Utils/vec2'
 import {
   type Animatable,
   modifyTo,
@@ -17,15 +17,15 @@ import {
   type RecursiveAnimatable,
   addRecursiveStartListener,
   createAnimationInfo,
-} from "../Animate/Animatable"
-import type { DrawableShape } from "../DrawableShape"
-import { NO_INTERP, type Interp } from "../Animate/Interp"
+} from '../Animate/Animatable'
+import type { DrawableShape } from '../DrawableShape'
+import { NO_INTERP, type Interp } from '../Animate/Interp'
 import {
   CanvasManager,
   createCanvasManager,
   InitCanvas,
   RemoveCanvas,
-} from "./CanvasManager"
+} from './CanvasManager'
 
 export type HasZIndex = { zIndex: number }
 
@@ -111,7 +111,7 @@ export function createContext2D(
   const restartListeners = new Set<() => void>()
 
   function restartListener() {
-    restartListeners.forEach(listener => listener())
+    restartListeners.forEach((listener) => listener())
   }
   const out: ContextWrapper<Context2D> & {
     objects: {
@@ -161,7 +161,7 @@ export function createContext2D(
         addRecursiveStartListener(shape.animationInfo, () => {
           restartListener()
         })
-        addListener(shape.animationInfo, "start", () => {
+        addListener(shape.animationInfo, 'start', () => {
           restartListener()
         })
         restartListener()
@@ -181,7 +181,7 @@ export function createContext2D(
         out.ctx.pos = pos
         modifyTo(animationInfo, { pos })
         if (out.animationInfo.timingFunction === NO_INTERP) {
-          updateAnimationInfo(out.animationInfo, 1)
+          updateAnimationInfo(out.animationInfo, 0.99)
         }
         restartListener()
       },
@@ -233,8 +233,8 @@ export function createContext2D(
         restartListener()
       },
     },
-    init: parent => {
-      deleteFuncs = initFuncs.map(func => {
+    init: (parent) => {
+      deleteFuncs = initFuncs.map((func) => {
         return func(parent, restartListener)
       })
       out.addRestartListener(() => {
@@ -301,12 +301,12 @@ export function createContext2D(
   out.addRestartListener(() => {
     out.needsUpdate = true
   })
-  out.ctx.addScaleListener("start", scale => {
+  out.ctx.addScaleListener('start', (scale) => {
     if (scale.scale) {
       out.ctx.scale = scale.scale
     }
   })
-  out.ctx.addPosListener("start", pos => {
+  out.ctx.addPosListener('start', (pos) => {
     const newPos = { ...out.ctx.pos, ...pos }
     out.ctx.pos = newPos
   })

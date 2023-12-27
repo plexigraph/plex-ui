@@ -1,6 +1,8 @@
 pg-button-inner {
   button,
   a {
+    min-width: fit-content;
+    text-wrap: nowrap;
     outline: 2px solid var(--pg-fg-accent);
     outline-offset: -1px;
     background-color: var(--pg-bg);

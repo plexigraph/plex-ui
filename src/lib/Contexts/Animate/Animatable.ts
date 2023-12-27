@@ -1,6 +1,6 @@
-import { clamp, lerpFunc } from "../../../lib/Utils/vec2"
-import { broadcast, type Listener, type Listeners } from "../Listeners"
-import type { Interp } from "./Interp"
+import { clamp, lerpFunc } from '../../../lib/Utils/vec2'
+import { broadcast, type Listener, type Listeners } from '../Listeners'
+import type { Interp } from './Interp'
 
 export type Animatable = { [key: string]: number }
 
@@ -9,7 +9,7 @@ export type Bounds<T> = {
   upper?: Partial<T>
 }
 
-export type AnimatableEvents = "start" | "end" | "bounce" | "interrupt"
+export type AnimatableEvents = 'start' | 'end' | 'bounce' | 'interrupt'
 
 export type RecursiveAnimatable<T> = {
   [P in keyof T]: T[P] extends RecursiveAnimatable<unknown>
@@ -44,7 +44,7 @@ export type AnimationInfoWithoutChildren<
   to: Partial<LocalRecursiveAnimatable<Animating>> | null
   bounds?: Bounds<LocalRecursiveAnimatable<Animating>>
 } & Listeners<AnimatableEvents, Partial<LocalRecursiveAnimatable<Animating>>> &
-  Listeners<"recursiveStart", undefined>
+  Listeners<'recursiveStart', undefined>
 
 export type AnimationInfo<Animating extends RecursiveAnimatable<unknown>> =
   AnimationInfoWithoutChildren<Animating> & {
@@ -75,8 +75,7 @@ function lerpAnimatable<Animating extends Animatable>(
   const out = {} as Animatable
   for (const [key, fromValue] of Object.entries(from)) {
     const toValue = to[key]
-    out[key] =
-      toValue !== undefined ? lerpFunc(fromValue, toValue, progress) : fromValue
+    out[key] = toValue !== undefined ? lerpFunc(fromValue, toValue, progress) : fromValue
   }
 
   return out
@@ -115,7 +114,7 @@ function separateChildren<T extends RecursiveAnimatable<unknown>>(
   const children = {} as ChildrenOfRecursiveAnimatable<T>
   for (const key in obj) {
     const value = obj[key]
-    if (typeof value === "number") {
+    if (typeof value === 'number') {
       anim[key] = value as LocalRecursiveAnimatable<T>[Extract<keyof T, string>]
     } else {
       children[key] =
@@ -140,7 +139,7 @@ export function createAnimationInfo<Init extends RecursiveAnimatable<unknown>>(
     timing,
     boundsAnim
   ) as unknown as AnimationInfo<Init>
-  info.children = {} as AnimationInfo<Init>["children"]
+  info.children = {} as AnimationInfo<Init>['children']
   for (const [key, child] of Object.entries(children)) {
     info.children[key as keyof typeof info.children] = createAnimationInfo(
       child as RecursiveAnimatable<unknown>,

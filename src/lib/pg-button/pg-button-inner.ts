@@ -1,46 +1,46 @@
-import { LitElement, PropertyValueMap, css, html, nothing } from "lit"
-import { customElement, queryAssignedElements } from "lit/decorators.js"
-import "../../lib/pg-surface"
+import { LitElement, PropertyValueMap, css, html, nothing } from 'lit'
+import { customElement, queryAssignedElements } from 'lit/decorators.js'
+import '../../lib/pg-surface'
 import {
   Context2D,
   NO_INTERP,
   createContext2D,
   getLinearInterp,
   getSlerp,
-} from "../Contexts"
-import { getInteractableSignals } from "../../lib/InteractableSignals"
-import { surfaceContext2D } from "../../lib/surfaceContext"
+} from '../Contexts'
+import { getInteractableSignals } from '../../lib/InteractableSignals'
+import { surfaceContext2D } from '../../lib/surfaceContext'
 import {
   type ReadonlySignal,
   computed,
   SignalWatcher,
   signal,
-} from "@lit-labs/preact-signals"
-import { provide } from "@lit/context"
-import "../pg-rounded-rect"
-import "../pg-cursor"
-import { colorFromHex } from "../../lib/Utils"
-import { ifDefined } from "lit/directives/if-defined.js"
+} from '@lit-labs/preact-signals'
+import { provide } from '@lit/context'
+import '../pg-rounded-rect'
+import '../pg-cursor'
+import { colorFromHex, sleep } from '../../lib/Utils'
+import { ifDefined } from 'lit/directives/if-defined.js'
 
 const rippleInterp = getLinearInterp(1)
 const dotInterp = getSlerp(0.15)
 const colorInterp = getSlerp(0.05)
 
-@customElement("pg-button-inner")
+@customElement('pg-button-inner')
 export class PGButtonInner extends SignalWatcher(LitElement) {
   @queryAssignedElements({
-    selector: "button:first-child:last-child, a:first-child:last-child",
+    selector: 'button:first-child:last-child, a:first-child:last-child',
   })
   buttons?: Array<HTMLButtonElement>
   context = createContext2D()
   interactableSignals = getInteractableSignals()
   rippleSize = signal(0)
   rippleWidth = signal(0)
-  button = document.createElement("button")
+  button = document.createElement('button')
   rippleTimeout = undefined as NodeJS.Timeout | undefined
   onClick = () => {
     // check prefers reduced motion
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return
     }
     this.rippleSize.value = 0
@@ -60,20 +60,22 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
   `
   @provide({ context: surfaceContext2D })
   ctx: ReadonlySignal<Context2D> = computed(() => this.context.ctx)
-  protected firstUpdated(
-    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
-  ): void {
+  async handleSlotChange() {
+    await sleep(0)
     if (this.buttons!.length == 1) {
       this.button = this.buttons![0]
     }
-    const marginL = window.getComputedStyle(this.button).marginLeft
-    const marginT = window.getComputedStyle(this.button).marginTop
+    const style = window.getComputedStyle(this.button)
+    const marginL = style.getPropertyValue('margin-left')
+    console.log(marginL)
+    const marginT = style.getPropertyValue('margin-top')
     // parse for number
-    const marginLNum = parseInt(marginL.substring(0, marginL.length - 2))
-    const marginTNum = parseInt(marginT.substring(0, marginT.length - 2))
+    const marginLNum = parseInt(marginL.substring(0, marginL.length - 2)) ?? 16
+    const marginTNum = parseInt(marginT.substring(0, marginT.length - 2)) ?? 16
+    console.log(this.button, marginL, marginT, marginLNum, marginTNum)
     this.context.ctx.setPos(marginLNum, marginTNum)
     this.interactableSignals.initialize(this.button, this.context.ctx)
-    this.button.addEventListener("click", this.onClick)
+    this.button.addEventListener('click', this.onClick)
   }
   cursorSize = computed(() => {
     return this.interactableSignals.active.value ? 24 : 0
@@ -84,7 +86,7 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
   disconnectedCallback(): void {
     super.disconnectedCallback()
     this.interactableSignals.unsubscribe()
-    this.button.removeEventListener("click", this.onClick)
+    this.button.removeEventListener('click', this.onClick)
   }
   connectedCallback(): void {
     super.connectedCallback()
@@ -95,18 +97,18 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
   }
   render() {
     const { pointerX, pointerY, clickedX, clickedY } = this.interactableSignals
-    const full = this.button.classList.contains("full")
+    const full = this.button.classList.contains('full')
 
     this.button.classList.toggle(
-      "active",
+      'active',
       this.interactableSignals.active.value
     )
 
     return html`<pg-surface
       .context=${this.context}
-      full=${ifDefined(full ? "full" : undefined)}
+      full=${ifDefined(full ? 'full' : undefined)}
     >
-      <slot />
+      <slot @slotchange=${this.handleSlotChange} />
       <pg-cursor
         width=${this.cursorSize.value}
         height=${this.cursorSize.value}
@@ -124,7 +126,7 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
             radius=${this.rippleSize.value / 2}
             .borderColor=${this.cursorColor.value}
             .borderWidth=${this.rippleWidth.value}
-            .backgroundColor=${colorFromHex("transparent")}
+            .backgroundColor=${colorFromHex('transparent')}
             x=${clickedX.value - this.rippleSize.value / 2}
             y=${clickedY.value - this.rippleSize.value / 2}
             .sizeInterp=${this.rippleSize.value == 0 ? NO_INTERP : rippleInterp}
@@ -137,6 +139,6 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pg-button-inner": PGButtonInner
+    'pg-button-inner': PGButtonInner
   }
 }

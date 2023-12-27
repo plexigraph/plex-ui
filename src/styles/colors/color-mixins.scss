@@ -12,15 +12,19 @@ $color-light-shade-names: fg, fg-accent, mid, mid-accent, bg-accent, bg;
   --pg-#{$name}-#{$shade-name}: var(--#{$color-name}-#{$num});
 }
 
+@mixin current-colors($name) {
+  --pg-fg: var(--pg-#{$name}-fg);
+  --pg-fg-accent: var(--pg-#{$name}-fg-accent);
+  --pg-mid: var(--pg-#{$name}-mid);
+  --pg-mid-accent: var(--pg-#{$name}-mid-accent);
+  --pg-bg-accent: var(--pg-#{$name}-bg-accent);
+  --pg-bg: var(--pg-#{$name}-bg);
+  --pg-cursor: var(--pg-mid);
+}
+
 @mixin color-class($name) {
   .#{$name} {
-    --pg-fg: var(--pg-#{$name}-fg);
-    --pg-fg-accent: var(--pg-#{$name}-fg-accent);
-    --pg-mid: var(--pg-#{$name}-mid);
-    --pg-mid-accent: var(--pg-#{$name}-mid-accent);
-    --pg-bg-accent: var(--pg-#{$name}-bg-accent);
-    --pg-bg: var(--pg-#{$name}-bg);
-    --pg-cursor: var(--pg-mid);
+    @include current-colors($name);
   }
 }
 

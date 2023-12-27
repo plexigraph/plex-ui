@@ -1,0 +1,92 @@
+@use '../../styles/colors/color-mixins.scss';
+
+pg-check-inner {
+  label {
+    --size: 16px;
+    --neg-size-05: -8px;
+    --padding: 0px;
+    --color: var(--pg-fg-accent);
+    display: flex;
+    padding: 8px;
+    align-items: center;
+    border-radius: 4px;
+    gap: 8px;
+    min-width: fit-content;
+    white-space: nowrap;
+    width: 100%;
+    color: var(--color);
+    position: relative;
+  }
+  input {
+    height: 0px;
+    width: 0px;
+    margin: var(--size);
+    position: relative;
+  }
+  input::before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: var(--neg-size-05);
+    left: var(--neg-size-05);
+    width: var(--size);
+    height: var(--size);
+    border-radius: 4px;
+    border: 2px solid var(--color);
+    background-color: var(--pg-bg);
+    transition: background-color 0.2s ease;
+  }
+  input::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: calc(var(--neg-size-05) + 2px);
+    left: calc(var(--neg-size-05) + 2px);
+    width: calc(var(--size) - 4px);
+    height: calc(var(--size) - 4px);
+    border-radius: 1px;
+    background-color: var(--color);
+    transform-origin: 50% 50%;
+    transform: scale(0);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  @media (hover: hover) {
+    input:hover::after {
+      transform: scale(0.33);
+    }
+    input:hover:checked::after {
+      background-color: var(--pg-mid);
+    }
+    input:hover:checked:disabled::after {
+      background-color: var(--color);
+    }
+  }
+  input:checked::after {
+    transform: scale(1);
+    background: var(--color);
+  }
+
+  label:has(input:disabled) {
+    background-color: var(--pg-bg);
+    --color: var(--pg-mid-accent);
+  }
+  input:disabled:hover::after {
+    transform: scale(0);
+  }
+  input:disabled:hover:checked::after {
+    transform: scale(1);
+  }
+  label:has(input:invalid) {
+    @include color-mixins.current-colors(error);
+  }
+  label:has(input:invalid)::after {
+    content: 'is required.';
+    position: absolute;
+    top: 70%;
+    left: calc(var(--size) * 3);
+    font-size: 12px;
+  }
+  label:has(input:invalid:checked)::after {
+    content: 'should be unchecked.';
+  }
+}
