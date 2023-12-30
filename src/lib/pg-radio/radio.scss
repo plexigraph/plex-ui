@@ -1,7 +1,6 @@
 @use '../../styles/colors/color-mixins.scss';
 
 pg-check-inner {
-  display: contents;
   label {
     --size: 16px;
     --neg-size-05: -8px;
@@ -83,16 +82,14 @@ pg-check-inner {
   label:has(input:invalid) {
     @include color-mixins.current-colors(error);
   }
-  label:has(input:invalid)::after,
-  &.error label::after {
+  label:has(input:invalid)::after {
     content: 'is required.';
     position: absolute;
-    top: 22px;
+    top: 70%;
     left: calc(var(--size) * 2);
     font-size: 12px;
   }
-  label:has(input:invalid:checked)::after,
-  &.error label:has(input:checked)::after {
+  label:has(input:invalid:checked)::after {
     content: 'should be unchecked.';
   }
 }

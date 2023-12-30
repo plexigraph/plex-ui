@@ -1,4 +1,4 @@
-import { LitElement, PropertyValueMap, css, html, nothing } from 'lit'
+import { LitElement, css, html, nothing } from 'lit'
 import { customElement, queryAssignedElements } from 'lit/decorators.js'
 import '../../lib/pg-surface'
 import {

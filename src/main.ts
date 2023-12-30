@@ -82,7 +82,7 @@ export default html`
         placeholder="Username"
         disabled
         value="scuba"
-        validity="doesn't belong to any account."
+        validity="was not found. Try creating an account instead."
       ></pg-input>
       <pg-input
         placeholder="Password"
@@ -96,7 +96,7 @@ export default html`
   <div class="ex-grid">
     <h3>Default</h3>
     <div>
-      <pg-check>Save Password</pg-check>
+      <pg-check>Show Password</pg-check>
     </div>
     <h3>Disabled</h3>
     <div>
@@ -104,11 +104,11 @@ export default html`
     </div>
     <h3>Invalid</h3>
     <div>
-      <pg-check validity="invalid">Save Password</pg-check>
+      <pg-check validity="invalid">Show Password</pg-check>
     </div>
     <h3>Disabled &&nbsp;Invalid</h3>
     <div>
-      <pg-check disabled validity="invalid"> Save Password </pg-check>
+      <pg-check disabled validity="invalid"> Show Password </pg-check>
     </div>
   </div>
 `

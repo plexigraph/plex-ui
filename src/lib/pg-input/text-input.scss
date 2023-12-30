@@ -212,13 +212,11 @@ pg-input-inner {
     border-color: transparent;
   }
 
-  label:has(input:invalid) > span {
+  label:has(input:invalid) > span,
+  &.error > span {
     font-size: 12px;
     padding: 2px;
     line-height: 1;
-  }
-
-  label:has(input:invalid) > span {
     color: var(--pg-error-fg-accent);
     &::before {
       color: var(--pg-error-fg-accent);
@@ -226,7 +224,7 @@ pg-input-inner {
   }
 
   label:has(input:invalid:focus) > span,
-  label.focus > input:invalid + span {
+  &.error > label.focus > span {
     color: var(--pg-error-bg);
     &::before {
       color: var(--pg-error-bg-accent);
@@ -234,7 +232,7 @@ pg-input-inner {
   }
 
   label:has(input:invalid) > span::before,
-  label.error > span::before {
+  &.error span::before {
     content: '↳';
     color: var(--pg-error-fg-accent);
   }

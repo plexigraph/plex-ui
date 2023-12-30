@@ -10,8 +10,8 @@ import {
   queryAssignedElements,
 } from 'lit/decorators.js'
 
-@customElement('pg-check-inner')
-export class PGCheckInner extends SignalWatcher(LitElement) {
+@customElement('pg-radio-inner')
+export class PGRadioInner extends SignalWatcher(LitElement) {
   @queryAssignedElements({
     selector: 'label:first-child:last-child:has(> input:first-child)',
   })
@@ -58,6 +58,6 @@ export class PGCheckInner extends SignalWatcher(LitElement) {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'pg-check-inner': PGCheckInner
+    'pg-radio-inner': PGRadioInner
   }
 }

@@ -44,15 +44,12 @@ export default class PgInput extends SignalWatcher(LitElement) {
     changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
   ): void {
     if (changedProperties.has('validity') && this.input) {
-      this.input.setCustomValidity(this.validity)
+      this.input.setCustomValidity(this.validity || '')
       this.input.checkValidity()
     }
   }
   render() {
-    const disabled =
-      this.inner?.interactableSignals.disabled.value ?? this.disabled
-    const text =
-      this.validity != '' && !disabled ? this.validity : this.placeholder
+    const text = this.validity != '' ? this.validity : this.placeholder
     const focused = this.inner?.interactableSignals.focused.value
     const placeholder =
       this.validity == '' || focused
@@ -60,9 +57,12 @@ export default class PgInput extends SignalWatcher(LitElement) {
         : this.placeholder + ' ' + this.validity
     return html`
       <pg-input-inner class=${this.validity != '' ? 'error' : ''}>
-        <label aria-hidden=${focused || this.value != '' ? 'false' : 'true'}>
+        <label>
           <span aria-live="assertive" class="loading"> ${text} </span>
           <input
+            @input=${(e: Event) => {
+              this.value = (e.target as HTMLInputElement).value
+            }}
             value=${this.value}
             disabled=${ifDefined(this.disabled ? 'disabled' : undefined)}
             placeholder=${placeholder}

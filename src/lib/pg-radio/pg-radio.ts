@@ -6,8 +6,8 @@ import checkCss from './check.css.ts'
 import resetCss from '../../styles/reset.css.ts'
 import perElementCss from '../../styles/per-element.css.ts'
 
-@customElement('pg-check')
-export default class PGCheck extends LitElement {
+@customElement('pg-radio')
+export default class PGRadio extends LitElement {
   @property({ type: Boolean })
   disabled = false
   @property({ type: String })
@@ -55,6 +55,6 @@ export default class PGCheck extends LitElement {
 }
 declare global {
   interface HTMLElementTagNameMap {
-    'pg-check': PGCheck
+    'pg-radio': PGRadio
   }
 }

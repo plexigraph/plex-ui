@@ -1,7 +1,7 @@
 import { createContext2D } from '../../lib/Contexts'
 import { getInteractableSignals } from '../../lib/InteractableSignals'
-import { SignalWatcher, watch } from '@lit-labs/preact-signals'
-import { LitElement, PropertyValueMap, css, html } from 'lit'
+import { SignalWatcher } from '@lit-labs/preact-signals'
+import { LitElement, css, html } from 'lit'
 import {
   customElement,
   property,
