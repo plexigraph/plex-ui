@@ -203,7 +203,6 @@ export function getInteractableSignals(): InteractableSignals {
     })
 
     const onFocused = () => {
-      console.log("focused")
       if (!out.hovered.value) {
         setPointerPos({ clientX: 0, clientY: 0 } as any)
       }

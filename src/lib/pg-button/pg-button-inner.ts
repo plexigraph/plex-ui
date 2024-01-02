@@ -68,12 +68,10 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
     }
     const style = window.getComputedStyle(this.button)
     const marginL = style.getPropertyValue('margin-left')
-    console.log(marginL)
     const marginT = style.getPropertyValue('margin-top')
     // parse for number
     const marginLNum = parseInt(marginL.substring(0, marginL.length - 2)) ?? 16
     const marginTNum = parseInt(marginT.substring(0, marginT.length - 2)) ?? 16
-    console.log(this.button, marginL, marginT, marginLNum, marginTNum)
     this.context.ctx.setPos(marginLNum, marginTNum)
     this.interactableSignals.initialize(this.button, this.context.ctx)
     this.button.addEventListener('click', this.onClick)

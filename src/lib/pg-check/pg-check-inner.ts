@@ -26,7 +26,6 @@ export class PGCheckInner extends SignalWatcher(LitElement) {
   context = createContext2D()
   protected handleSlotChange(): void {
     this.label = this.labels![0]
-    console.log(this.label)
     this.input = this.label.querySelector('input')!
     const { focused, invalid } = this.interactableSignals
     focused.subscribe((f) => this.label.classList.toggle('focus', f))

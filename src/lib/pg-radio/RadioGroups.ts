@@ -23,7 +23,6 @@ export function getGroup(groups: RadioGroups, radio: PGRadio) {
     radios: new Set(),
     selected: signal(undefined),
   }
-  console.log(group)
   return group
 }
 

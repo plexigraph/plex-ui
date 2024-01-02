@@ -122,23 +122,19 @@ export default html`
       </div>
       <h3>Disabled</h3>
       <div>
-        <pg-radio name="options" value="1" disabled>Option 1</pg-radio>
-        <pg-radio name="options" value="2" disabled>Option 2</pg-radio>
-        <pg-radio name="options" value="3" disabled>Option 3</pg-radio>
+        <pg-radio name="options1" value="1" disabled>Option 1</pg-radio>
+        <pg-radio name="options1" value="2" disabled>Option 2</pg-radio>
+        <pg-radio name="options1" value="3" disabled>Option 3</pg-radio>
       </div>
       <h3>Invalid</h3>
       <div>
-        <pg-radio
-          name="options"
-          value="1"
-          validity="wrong answer"
-          checked
+        <pg-radio name="options2" value="1" validity="wrong answer" checked
           >Option 1</pg-radio
         >
-        <pg-radio name="options" value="2" validity="correct answer"
+        <pg-radio name="options2" value="2" validity="correct answer"
           >Option 2</pg-radio
         >
-        <pg-radio name="options" value="3">Option 3</pg-radio>
+        <pg-radio name="options2" value="3">Option 3</pg-radio>
       </div>
       <h3>Disabled &&nbsp;Invalid</h3>
       <div>
