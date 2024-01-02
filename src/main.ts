@@ -138,7 +138,18 @@ export default html`
       </div>
       <h3>Disabled &&nbsp;Invalid</h3>
       <div>
-        <pg-check disabled validity="invalid">Show Password</pg-check>
+        <pg-radio
+          name="options3"
+          value="1"
+          validity="wrong answer"
+          checked
+          disabled
+          >Option 1</pg-radio
+        >
+        <pg-radio name="options3" value="2" validity="correct answer" disabled
+          >Option 2</pg-radio
+        >
+        <pg-radio name="options3" value="3" disabled>Option 3</pg-radio>
       </div>
     </div>
   </main>
