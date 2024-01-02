@@ -15,6 +15,7 @@ import {
   computed,
   SignalWatcher,
   signal,
+  Signal,
 } from '@lit-labs/preact-signals'
 import { provide } from '@lit/context'
 import '../pg-rounded-rect'
@@ -34,8 +35,8 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
   buttons?: Array<HTMLButtonElement>
   context = createContext2D()
   interactableSignals = getInteractableSignals()
-  rippleSize = signal(0)
-  rippleWidth = signal(0)
+  rippleSize: Signal<number> = signal(0)
+  rippleWidth: Signal<number> = signal(0)
   button = document.createElement('button')
   rippleTimeout = undefined as NodeJS.Timeout | undefined
   onClick = () => {

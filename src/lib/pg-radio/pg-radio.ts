@@ -1,13 +1,24 @@
 import { LitElement, PropertyValueMap, html } from 'lit'
-import { customElement, property, query } from 'lit/decorators.js'
+import { customElement, property, query, state } from 'lit/decorators.js'
 import { ifDefined } from 'lit/directives/if-defined.js'
 
-import checkCss from './check.css.ts'
+import radioCss from './radio.css.ts'
 import resetCss from '../../styles/reset.css.ts'
 import perElementCss from '../../styles/per-element.css.ts'
+import { SignalWatcher } from '@lit-labs/preact-signals'
+import {
+  type RadioGroup,
+  addRadio,
+  createRadioGroups,
+  removeRadio,
+  radioSelected,
+  subscribeToSelected,
+} from './RadioGroups.ts'
+
+const radioGroups = createRadioGroups()
 
 @customElement('pg-radio')
-export default class PGRadio extends LitElement {
+export default class PGRadio extends SignalWatcher(LitElement) {
   @property({ type: Boolean })
   disabled = false
   @property({ type: String })
@@ -22,11 +33,20 @@ export default class PGRadio extends LitElement {
   value = 'on'
   @property({ type: Boolean })
   checked = false
+  @property({ type: String })
+  name = 'radio'
   @query('input')
   input: HTMLInputElement | undefined
+  @state()
+  group: RadioGroup = addRadio(radioGroups, this)
+  selectedSignalUnsub = () => {}
+
+  constructor() {
+    super()
+  }
 
   static get styles() {
-    return [checkCss, resetCss, perElementCss]
+    return [radioCss, resetCss, perElementCss]
   }
   protected willUpdate(
     changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
@@ -35,22 +55,44 @@ export default class PGRadio extends LitElement {
       this.input.setCustomValidity(this.validity)
       this.input.checkValidity()
     }
+    if (changedProperties.has('checked')) {
+      if (this.checked) {
+        console.log('checked changed', this.validity, this.checked)
+        radioSelected(this.group, this)
+      }
+    }
+    console.log(this.group.selected.value === this, this.validity)
+    this.checked = this.group.selected.value === this
   }
+
+  protected updated(
+    changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
+  ): void {
+    if (changedProperties.has('name')) {
+      this.group = addRadio(radioGroups, this)
+    }
+  }
+
   render() {
-    return html`<pg-check-inner class=${this.validity != '' ? 'error' : ''}>
+    return html`<pg-radio-inner
+      class=${this.validity != '' ? 'error' : ''}
+      style=${`--validity: '${this.validity}'`}
+    >
       <label>
         <input
           value=${this.value}
-          @change=${(e: Event) => {
-            this.checked = (e.target as HTMLInputElement).checked
+          @change=${() => {
+            console.log('changing')
+            this.checked = true
           }}
-          checked=${ifDefined(this.checked ? '' : undefined)}
-          type="checkbox"
+          name=${this.name}
+          .checked=${ifDefined(this.checked ? 'checked' : undefined)}
+          type="radio"
           disabled=${ifDefined(this.disabled ? 'disabled' : undefined)}
         />
         <slot></slot>
       </label>
-    </pg-check-inner> `
+    </pg-radio-inner>`
   }
 }
 declare global {

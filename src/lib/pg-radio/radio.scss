@@ -1,18 +1,14 @@
 @use '../../styles/colors/color-mixins.scss';
 
-pg-check-inner {
+pg-radio-inner {
   label {
-    --size: 16px;
-    --neg-size-05: -8px;
-    --padding: 0px;
     --color: var(--pg-fg-accent);
+    --size: 16px;
     display: flex;
     padding: 8px;
     align-items: center;
     border-radius: 8px;
     gap: 8px;
-    min-width: fit-content;
-    white-space: nowrap;
     width: 100%;
     color: var(--color);
     position: relative;
@@ -31,7 +27,7 @@ pg-check-inner {
     left: -2px;
     width: var(--size);
     height: var(--size);
-    border-radius: 4px;
+    border-radius: 50%;
     border: 2px solid var(--color);
     background-color: var(--pg-bg);
     transition: background-color 0.2s ease;
@@ -42,7 +38,7 @@ pg-check-inner {
     position: absolute;
     width: calc(var(--size) - 4px);
     height: calc(var(--size) - 4px);
-    border-radius: 1px;
+    border-radius: 50%;
     background-color: var(--color);
     transform-origin: 50% 50%;
     transform: scale(0);
@@ -83,13 +79,13 @@ pg-check-inner {
     @include color-mixins.current-colors(error);
   }
   label:has(input:invalid)::after {
-    content: 'is required.';
+    content: var(--validity, 'is required.');
     position: absolute;
     top: 70%;
     left: calc(var(--size) * 2);
     font-size: 12px;
   }
   label:has(input:invalid:checked)::after {
-    content: 'should be unchecked.';
+    content: var(--validity, 'should be unchecked.');
   }
 }

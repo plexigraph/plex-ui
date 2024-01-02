@@ -48,11 +48,7 @@ export class PGRadioInner extends SignalWatcher(LitElement) {
     const { focused, invalid } = this.interactableSignals
     this.label.classList.toggle('focus', focused.value)
     this.label.classList.toggle('error', invalid.value)
-    return html`
-      <pg-surface full="full" .context=${this.context}>
-        <slot @slotchange=${this.handleSlotChange} />
-      </pg-surface>
-    `
+    return html`<slot />`
   }
 }
 

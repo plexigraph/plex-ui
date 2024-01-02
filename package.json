@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "plex-ui.js",
+  "module": "plex-ui.js",
+  "types": "all-components.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

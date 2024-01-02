@@ -1,12 +1,17 @@
-import { Signal, computed, signal } from "@lit-labs/preact-signals"
+import {
+  ReadonlySignal,
+  Signal,
+  computed,
+  signal,
+} from '@lit-labs/preact-signals'
 
 export default function asyncComputed<T>(
   initial: T,
   asyncSignal: Signal<Promise<T>>
-) {
+): ReadonlySignal<T> {
   const s = signal(initial)
-  asyncSignal.subscribe(promise => {
-    promise.then(value => {
+  asyncSignal.subscribe((promise) => {
+    promise.then((value) => {
       s.value = value
     })
   })

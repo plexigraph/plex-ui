@@ -37,12 +37,16 @@ export default class PGCheck extends LitElement {
     }
   }
   render() {
-    return html`<pg-check-inner class=${this.validity != '' ? 'error' : ''}>
+    return html`<pg-check-inner
+      class=${this.validity != '' ? 'error' : ''}
+      style=${`--validity: '${this.validity}'`}
+    >
       <label>
         <input
           value=${this.value}
-          @change=${(e: Event) => {
-            this.checked = (e.target as HTMLInputElement).checked
+          @change=${() => {
+
+            this.checked = this.input!.checked
           }}
           checked=${ifDefined(this.checked ? '' : undefined)}
           type="checkbox"

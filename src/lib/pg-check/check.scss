@@ -12,8 +12,6 @@ pg-check-inner {
     align-items: center;
     border-radius: 8px;
     gap: 8px;
-    min-width: fit-content;
-    white-space: nowrap;
     width: 100%;
     color: var(--color);
     position: relative;
@@ -85,14 +83,14 @@ pg-check-inner {
   }
   label:has(input:invalid)::after,
   &.error label::after {
-    content: 'is required.';
+    content: var(--validity, 'is required.');
     position: absolute;
-    top: 22px;
+    bottom: -2px;
     left: calc(var(--size) * 2);
     font-size: 12px;
   }
   label:has(input:invalid:checked)::after,
   &.error label:has(input:checked)::after {
-    content: 'should be unchecked.';
+    content: var(--validity, 'should be unchecked.');
   }
 }

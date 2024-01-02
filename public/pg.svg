@@ -1,0 +1,11 @@
+<svg fill="currentColor" stroke="currentColor" viewBox="0 0 1080 1080" width="100%" xmlns="http://www.w3.org/2000/svg"
+    id="img">
+    <path
+        d="M540 220.196L933.604 220.196L933.604 72.5948L933.604 220.196L933.604 810.603C933.604 958.205 835.203 1007.41 736.802 1007.41C589.201 1007.41 540 909.004 540 859.804L540 859.804C540 909.004 589.201 1007.41 736.802 1007.41C835.203 1007.41 933.604 958.205 933.604 810.603L933.604 613.801C933.604 613.801 884.404 613.801 835.203 613.801C786.003 613.801 712.202 589.201 638.401 515.4C564.6 441.599 515.4 441.599 441.599 515.4C367.798 589.201 293.997 613.801 244.797 613.801C195.596 613.801 146.396 613.801 146.396 613.801L146.396 958.205L146.396 416.999C146.396 392.398 146.396 318.598 195.596 269.397C244.797 220.196 318.598 220.196 343.198 220.196L540 220.196"
+        fill-opacity="0.25" fill-rule="nonzero" opacity="1" stroke="currentColor" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="109.15" />
+    <path d="M736.802 392.398L736.802 392.398" opacity="1" stroke="currentColor" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="98.4011" />
+    <path d="M343.198 392.398L343.198 392.398" opacity="1" stroke="currentColor" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="98.4011" />
+</svg>
