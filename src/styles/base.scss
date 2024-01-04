@@ -13,6 +13,10 @@
   color: var(--pg-fg) !important;
 }
 
+:host {
+  display: contents;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
@@ -29,10 +33,6 @@ h5,
 h6 {
   font-family: 'Comfortaa', sans-serif;
   margin: 0;
-}
-
-.full {
-  width: 100%;
 }
 
 :host {
@@ -70,60 +70,13 @@ hr.thin {
   --pg-cursor: var(--pg-mid);
 }
 
-.accent {
-  --pg-fg: var(--pg-accent-fg);
-  --pg-fg-accent: var(--pg-accent-fg-accent);
-  --pg-mid: var(--pg-accent-mid);
-  --pg-mid-accent: var(--pg-accent-mid-accent);
-  --pg-bg-accent: var(--pg-accent-bg-accent);
-  --pg-bg: var(--pg-accent-bg);
-  --pg-cursor: var(--pg-mid);
-}
-
-.success {
-  --pg-fg: var(--pg-success-fg);
-  --pg-fg-accent: var(--pg-success-fg-accent);
-  --pg-mid: var(--pg-success-mid);
-  --pg-mid-accent: var(--pg-success-mid-accent);
-  --pg-bg-accent: var(--pg-success-bg-accent);
-  --pg-bg: var(--pg-success-bg);
-  --pg-cursor: var(--pg-mid);
-}
-
-.warn {
-  --pg-fg: var(--pg-warn-fg);
-  --pg-fg-accent: var(--pg-warn-fg-accent);
-  --pg-mid: var(--pg-warn-mid);
-  --pg-mid-accent: var(--pg-warn-mid-accent);
-  --pg-bg-accent: var(--pg-warn-bg-accent);
-  --pg-bg: var(--pg-warn-bg);
-  --pg-cursor: var(--pg-mid);
-}
-
-.error {
-  --pg-fg: var(--pg-error-fg);
-  --pg-fg-accent: var(--pg-error-fg-accent);
-  --pg-mid: var(--pg-error-mid);
-  --pg-mid-accent: var(--pg-error-mid-accent);
-  --pg-bg-accent: var(--pg-error-bg-accent);
-  --pg-bg: var(--pg-error-bg);
-  --pg-cursor: var(--pg-mid);
-}
-
-// .pg-interactable:disabled {
-//   --pg-fg: var(--pg-neutral-fg);
-//   --pg-fg-accent: var(--pg-neutral-fg-accent);
-//   --pg-mid: var(--pg-neutral-mid);
-//   --pg-mid-accent: var(--pg-neutral-mid-accent);
-//   --pg-bg-accent: var(--pg-neutral-bg-accent);
-//   --pg-bg: var(--pg-neutral-bg);
-// }
 .pg-interactable {
   -webkit-animation: inactive 0s linear;
   -o-animation: inactive 0s linear;
   -ms-animation: inactive 0s linear;
   animation: inactive 0s linear;
 }
+
 .pg-interactable:active {
   -webkit-animation: active 0s linear;
   -o-animation: active 0s linear;
@@ -132,9 +85,9 @@ hr.thin {
 }
 
 @keyframes active {
-  // intentionally empty
+  // intentionally empty - used to check when an element is active using the animationstart event
 }
 
 @keyframes inactive {
-  // intentionally empty
+  // intentionally empty - used to check when an element is active using the animationstart event
 }

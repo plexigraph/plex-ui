@@ -1,4 +1,5 @@
 pg-button-inner {
+  display: contents;
   button,
   a {
     min-width: fit-content;
@@ -87,7 +88,6 @@ pg-button-inner {
   button.full,
   a.full {
     width: calc(100% - 32px);
-    display: block;
   }
 
   button.normal,

@@ -78,14 +78,16 @@ pg-radio-inner {
   label:has(input:invalid) {
     @include color-mixins.current-colors(error);
   }
-  label:has(input:invalid)::after {
+  label:has(input:invalid)::after,
+  &.error label::after {
     content: var(--validity, 'is required.');
     position: absolute;
     top: 70%;
     left: calc(var(--size) * 2);
     font-size: 12px;
   }
-  label:has(input:invalid:checked)::after {
+  label:has(input:invalid:checked)::after,
+  &.error label::after {
     content: var(--validity, 'should be unchecked.');
   }
 }

@@ -56,7 +56,6 @@ export default class PGRadio extends SignalWatcher(LitElement) {
       this.input.checkValidity()
     }
     if (changedProperties.has('checked')) {
-      console.log(this.checked, this.validity)
       if (this.checked) {
         radioSelected(this.group, this)
       }
@@ -77,7 +76,6 @@ export default class PGRadio extends SignalWatcher(LitElement) {
   }
 
   onChecked() {
-    console.log('changing')
     this.checked = true
   }
 
@@ -91,7 +89,6 @@ export default class PGRadio extends SignalWatcher(LitElement) {
 
   render() {
     this.checked = this.group.selected.value === this
-    console.log(this.group.selected.value, this.validity)
     return html`<pg-radio-inner
       class=${this.validity != '' ? 'error' : ''}
       style=${`--validity: '${this.validity}'`}

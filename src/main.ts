@@ -33,25 +33,25 @@ export default html`
     <div class="ex-grid">
       <h3>Default</h3>
       <div>
-        <pg-button>Click me!</pg-button>
+        <pg-button size="full">Click me!</pg-button>
       </div>
       <h3>Outlined</h3>
       <div>
-        <pg-button type="outlined">Click me!</pg-button>
+        <pg-button type="outlined" size="full">Click me!</pg-button>
       </div>
       <h3>Inset</h3>
       <div>
-        <pg-button type="inset">Click me!</pg-button>
+        <pg-button type="inset" size="full">Click me!</pg-button>
       </div>
       <h3>Text</h3>
-      <div><pg-button type="text">Click me!</pg-button></div>
+      <div><pg-button type="text" size="full">Click me!</pg-button></div>
       <h3>Filled</h3>
       <div>
-        <pg-button type="filled">Click me!</pg-button>
+        <pg-button type="filled" size="full">Click me!</pg-button>
       </div>
       <h3>Disabled</h3>
       <div>
-        <pg-button disabled>not clickable</pg-button>
+        <pg-button disabled type="filled" size="full">not clickable</pg-button>
       </div>
     </div>
     <h2>Inputs</h2>
