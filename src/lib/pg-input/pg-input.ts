@@ -63,7 +63,7 @@ export default class PgInput extends SignalWatcher(LitElement) {
             @input=${(e: Event) => {
               this.value = (e.target as HTMLInputElement).value
             }}
-            value=${this.value}
+            .value=${this.value}
             disabled=${ifDefined(this.disabled ? 'disabled' : undefined)}
             placeholder=${placeholder}
             type=${this.type}

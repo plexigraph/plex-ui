@@ -4,8 +4,12 @@ import './lib/pg-button/pg-button'
 import './lib/pg-input/pg-input'
 import './lib/pg-check/pg-check'
 import './lib/pg-radio/pg-radio'
-
+import './lib/pg-grid/pg-grid'
+import './lib/pg-grid/pg-grid-element'
 import styles from './styles/base.css.ts'
+
+const gridDivStyles =
+  'background-color: var(--pg-bg); border: 1px solid var(--pg-mid); width: 100%; height: 100%; overflow: hidden; font-size: 12px'
 
 export default html`
   ${'<style>' + styles.cssText + '</style>'}
@@ -150,6 +154,43 @@ export default html`
           >Option 2</pg-radio
         >
         <pg-radio name="options3" value="3" disabled>Option 3</pg-radio>
+      </div>
+    </div>
+    <h2>Grid</h2>
+    <div class="ex-grid">
+      <h3>Divs</h3>
+      <div>
+        <pg-grid gap="16" columns="6">
+          <pg-grid-element width="3" height="1">
+            <div style="${gridDivStyles}">3x1</div>
+          </pg-grid-element>
+          <pg-grid-element width="2" height="2">
+            <div style="${gridDivStyles}">2x2</div>
+          </pg-grid-element>
+          <pg-grid-element width="1" height="3">
+            <div style="${gridDivStyles}">1x3</div>
+          </pg-grid-element>
+          <pg-grid-element width="3" height="2">
+            <div style="${gridDivStyles}">3x2</div>
+          </pg-grid-element>
+          <pg-grid-element width="2" height="1">
+            <div style="${gridDivStyles}">2x1</div>
+          </pg-grid-element>
+        </pg-grid>
+      </div>
+      <h3>Form</h3>
+      <div>
+        <pg-grid gap="2" columns="auto">
+          <pg-grid-element start="1" width="fill" height="4">
+            <pg-input placeholder="Username"></pg-input>
+          </pg-grid-element>
+          <pg-grid-element width="4" height="3">
+            <pg-check>Show</pg-check>
+          </pg-grid-element>
+          <pg-grid-element start="5" width="fill" height="4">
+            <pg-input placeholder="Password" type="password"></pg-input>
+          </pg-grid-element>
+        </pg-grid>
       </div>
     </div>
   </main>
