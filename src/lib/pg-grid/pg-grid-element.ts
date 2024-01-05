@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import perElementCss from '../../styles/per-element.css'
-
+// TODO: disallow auto width without start
 @customElement('pg-grid-element')
 export default class PGGrid extends LitElement {
   @property({ type: String })
