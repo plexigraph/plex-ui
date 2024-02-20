@@ -22,7 +22,11 @@ export function colorToHex(color: Color): string {
 
 export function colorFromHex(hex: string): Color {
   // get whether light or dark mode is active
-  const scheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+
+  const scheme =
+    typeof window != 'undefined'
+      ? window.matchMedia('(prefers-color-scheme: dark)').matches
+      : false
   if (hex === '')
     return { hue: 288, chroma: 50, tone: scheme ? 0 : 100, opacity: 0 }
   if (hex === 'transparent')

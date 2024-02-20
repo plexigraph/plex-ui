@@ -31,7 +31,7 @@ pg-input-inner {
     color: var(--pg-neutral-mid);
   }
   input:disabled::placeholder {
-    color: var(--pg-mid-accent);
+    color: var(--pg-bg-mid);
   }
   input:invalid::placeholder {
     color: var(--pg-error-fg-accent);
@@ -189,7 +189,7 @@ pg-input-inner {
   }
 
   input:disabled {
-    color: var(--pg-mid);
+    color: var(--pg-fg-mid);
     z-index: 1;
   }
 
@@ -207,7 +207,7 @@ pg-input-inner {
   }
 
   label:has(input:disabled) > span {
-    color: var(--pg-mid-accent);
+    color: var(--pg-bg-mid);
     border-color: transparent;
   }
 

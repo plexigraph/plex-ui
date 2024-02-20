@@ -1,7 +1,7 @@
 @use './color-mixins';
 
 *::selection {
-  background-color: var(--pg-mid-accent);
+  background-color: var(--pg-bg-mid);
   color: var(--pg-fg);
 }
 :host {

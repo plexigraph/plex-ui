@@ -9,7 +9,7 @@
   --pos-transition-speed: 0.2s;
 }
 *::selection {
-  background-color: var(--pg-mid-accent) !important;
+  background-color: var(--pg-bg-mid) !important;
   color: var(--pg-fg) !important;
 }
 
@@ -63,11 +63,11 @@ hr.thin {
 :root {
   --pg-fg: var(--pg-neutral-fg);
   --pg-fg-accent: var(--pg-neutral-fg-accent);
-  --pg-mid: var(--pg-neutral-mid);
-  --pg-mid-accent: var(--pg-neutral-mid-accent);
+  --pg-fg-mid: var(--pg-neutral-mid);
+  --pg-bg-mid: var(--pg-neutral-mid-accent);
   --pg-bg-accent: var(--pg-neutral-bg-accent);
   --pg-bg: var(--pg-neutral-bg);
-  --pg-cursor: var(--pg-mid);
+  --pg-cursor: var(--pg-fg-mid);
 }
 
 .pg-interactable {

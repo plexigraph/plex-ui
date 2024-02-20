@@ -75,8 +75,8 @@ export function getInteractableSignals(): InteractableSignals {
       out.colors.value = {
         foreground: styles.getPropertyValue('--pg-fg'),
         foregroundAccent: styles.getPropertyValue('--pg-fg-accent'),
-        mid: styles.getPropertyValue('--pg-mid'),
-        midAccent: styles.getPropertyValue('--pg-mid-accent'),
+        mid: styles.getPropertyValue('--pg-fg-mid'),
+        midAccent: styles.getPropertyValue('--pg-bg-mid'),
         backgroundAccent: styles.getPropertyValue('--pg-bg-accent'),
         background: styles.getPropertyValue('--pg-bg'),
         cursor: styles.getPropertyValue('--pg-cursor'),

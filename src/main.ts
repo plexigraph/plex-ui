@@ -6,16 +6,17 @@ import './lib/pg-check/pg-check'
 import './lib/pg-radio/pg-radio'
 import './lib/pg-grid/pg-grid'
 import './lib/pg-grid/pg-grid-element'
+import './lib/pg-split/pg-split'
 import styles from './styles/base.css.ts'
 
 const gridDivStyles =
-  'background-color: var(--pg-bg); border: 1px solid var(--pg-mid); width: 100%; height: 100%; overflow: hidden; font-size: 12px'
+  'background-color: var(--pg-bg); border: 1px solid var(--pg-fg-mid); width: 100%; height: 100%; overflow: hidden; font-size: 12px'
 
 export default html`
   ${'<style>' + styles.cssText + '</style>'}
   <main>
     <h1 style="display: flex; align-items: center; color: var(--pg-fg-accent)">
-      <span style="color: var(--pg-mid)">
+      <span style="color: var(--pg-fg-mid)">
         <svg style="fill: currentColor" width="42" height="42">
           <use xlink:href="pg.svg#img" href="pg.svg#img"></use>
         </svg>
@@ -191,6 +192,43 @@ export default html`
             <pg-input placeholder="Password" type="password"></pg-input>
           </pg-grid-element>
         </pg-grid>
+      </div>
+    </div>
+    <h2>Split</h2>
+    <div class="ex-grid">
+      <h3>Vertical</h3>
+      <div>
+        <pg-split vertical>
+          <span slot="first">top</span>
+          <span slot="second">bottom</span>
+        </pg-split>
+      </div>
+      <h3>Horizontal</h3>
+      <div>
+        <pg-split>
+          <span slot="first">left</span>
+          <span slot="second">right</span>
+        </pg-split>
+      </div>
+      <h3>Multiple</h3>
+      <div>
+        <pg-split startingPercent=${25}>
+          <span slot="first">left</span>
+          <pg-split vertical slot="second">
+            <span slot="first">top right</span>
+            <span slot="second">bottom right</span>
+          </pg-split>
+        </pg-split>
+      </div>
+      <h3>Multiple</h3>
+      <div>
+        <pg-split vertical startingPercent=${25}>
+          <span slot="first">top</span>
+          <pg-split slot="second">
+            <span slot="first">bottom right</span>
+            <span slot="second">bottom left</span>
+          </pg-split>
+        </pg-split>
       </div>
     </div>
   </main>

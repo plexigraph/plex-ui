@@ -49,7 +49,7 @@ pg-button-inner {
 
   button.filled,
   a.filled {
-    --pg-cursor: var(--pg-mid-accent);
+    --pg-cursor: var(--pg-bg-mid);
     background-color: var(--pg-fg);
     outline-color: transparent;
     color: var(--pg-bg);
@@ -60,7 +60,7 @@ pg-button-inner {
     }
     &:active,
     &.active {
-      background-color: var(--pg-mid);
+      background-color: var(--pg-fg-mid);
       color: var(--pg-bg);
     }
   }
@@ -119,7 +119,7 @@ pg-button-inner {
   button.active,
   a:active,
   a.active {
-    background-color: var(--pg-mid-accent);
+    background-color: var(--pg-bg-mid);
     color: var(--pg-fg);
   }
   button:disabled,
@@ -130,7 +130,7 @@ pg-button-inner {
     border-color: var(--pg-bg);
     outline-color: var(--pg-bg);
     background-color: var(--pg-bg);
-    color: var(--pg-mid-accent);
+    color: var(--pg-bg-mid);
     border-radius: 4px;
   }
 }

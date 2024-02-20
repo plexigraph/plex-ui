@@ -12,7 +12,6 @@ import {
   createRadioGroups,
   removeRadio,
   radioSelected,
-  subscribeToSelected,
 } from './RadioGroups.ts'
 
 const radioGroups = createRadioGroups()
@@ -40,10 +39,6 @@ export default class PGRadio extends SignalWatcher(LitElement) {
   @state()
   group: RadioGroup = addRadio(radioGroups, this)
   selectedSignalUnsub = () => {}
-
-  constructor() {
-    super()
-  }
 
   static get styles() {
     return [radioCss, resetCss, perElementCss]

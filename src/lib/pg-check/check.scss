@@ -57,7 +57,7 @@ pg-check-inner {
       transform: scale(0.33);
     }
     input:hover:checked::after {
-      background-color: var(--pg-mid);
+      background-color: var(--pg-fg-mid);
     }
     input:hover:checked:disabled::after {
       background-color: var(--color);
@@ -70,7 +70,7 @@ pg-check-inner {
 
   label:has(input:disabled) {
     background-color: var(--pg-bg);
-    --color: var(--pg-mid-accent);
+    --color: var(--pg-bg-mid);
   }
   input:disabled:hover::after {
     transform: scale(0);

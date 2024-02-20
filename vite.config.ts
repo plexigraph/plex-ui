@@ -19,11 +19,7 @@ export default defineConfig(({ mode }) => {
             }),
             brotli(),
           ]
-        : [
-            litShell(),
-            litConvertScss(),
-            brotli(),
-          ],
+        : [litShell(), litConvertScss(), brotli()],
     build: {
       lib: {
         entry: 'src/all-components.ts',
