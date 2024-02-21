@@ -47,6 +47,9 @@ export default class PGRadio extends SignalWatcher(LitElement) {
     changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
   ): void {
     if (changedProperties.has('validity') && this.input) {
+      if (this.validity == null) {
+        this.validity = ''
+      }
       this.input.setCustomValidity(this.validity)
       this.input.checkValidity()
     }

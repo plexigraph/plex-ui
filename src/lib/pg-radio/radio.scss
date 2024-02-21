@@ -75,14 +75,17 @@ pg-radio-inner {
   input:disabled:hover:checked::after {
     transform: scale(1);
   }
-  label:has(input:invalid) {
+  label:has(input:invalid),
+  &.error label {
     @include color-mixins.current-colors(error);
+    padding-top: 0px;
+    padding-bottom: 16px;
   }
   label:has(input:invalid)::after,
   &.error label::after {
     content: var(--validity, 'is required.');
     position: absolute;
-    top: 70%;
+    bottom: 0;
     left: calc(var(--size) * 2);
     font-size: 12px;
   }

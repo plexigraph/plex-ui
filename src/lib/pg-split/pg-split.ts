@@ -3,7 +3,7 @@ import { customElement, property, state } from 'lit/decorators.js'
 import perElementCss from '../../styles/per-element.css'
 import splitCss from './split.css'
 import { clamp } from '../Utils'
-
+const capturingKeypresses = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight']
 @customElement('pg-split')
 export default class PGSplit extends LitElement {
   @property({ type: Boolean })
@@ -29,7 +29,6 @@ export default class PGSplit extends LitElement {
     splitCss,
   ]
   getStyle(percentX: number, percentY: number) {
-    console.log('HERE')
     return css`
       --percentX: ${Math.round(percentX * 100)}%;
       --percentY: ${Math.round(percentY * 100)}%;
@@ -37,7 +36,6 @@ export default class PGSplit extends LitElement {
   }
   pointersDown = 0
   onDown() {
-    console.log('down')
     this.pointersDown++
   }
   timeUp = 0
@@ -46,47 +44,61 @@ export default class PGSplit extends LitElement {
       this.percentX = this.startingPercent / 100
       this.percentY = this.startingPercent / 100
       this.timeUp = 0
-      console.log('RESETTING POINTER')
       return
     }
     if (this.pointersDown == 0) this.timeUp = performance.now()
   }
   onUp(e: PointerEvent) {
-    console.log('up')
     if (this.pointersDown > 0) {
       this.setDivisionPercent(e)
       this.pointersDown--
     }
   }
   onLeave(e: PointerEvent) {
-    console.log('up')
     if (this.pointersDown > 0) {
       this.setDivisionPercent(e)
     }
   }
   setDivisionPercent(e: PointerEvent) {
-    console.log(e.currentTarget)
     const parent: HTMLDivElement = e.currentTarget as HTMLDivElement
     const { x, y, width, height } = parent.getBoundingClientRect()
-    console.log({ x, y, width, height })
     const pX = e.clientX
     const pY = e.clientY
     const relativeX = pX - x
     const relativeY = pY - y
     this.percentX = clamp(0, relativeX / width, 1)
     this.percentY = clamp(0, relativeY / height, 1)
-    console.log('setting division percent')
   }
   onMove(e: PointerEvent) {
     this.timeUp = 0
-    console.log(this.pointersDown)
     if (this.pointersDown > 0) {
       this.setDivisionPercent(e)
     }
   }
+
+  onKeypress(e: KeyboardEvent) {
+    switch (e.key) {
+      case 'ArrowUp':
+        this.percentY -= 0.01
+        break
+      case 'ArrowDown':
+        this.percentY += 0.01
+        break
+      case 'ArrowLeft':
+        this.percentX -= 0.01
+        break
+      case 'ArrowRight':
+        this.percentX += 0.01
+        break
+      default:
+        return
+    }
+    this.percentY = clamp(0, this.percentY, 1)
+    this.percentX = clamp(0, this.percentX, 1)
+    e.preventDefault()
+    e.stopPropagation()
+  }
   onWindowUp() {
-    console.log(this)
-    console.log(this.pointersDown)
     if (this.pointersDown > 0) this.pointersDown--
   }
   connectedCallback(): void {
@@ -105,11 +117,9 @@ export default class PGSplit extends LitElement {
     if (changedProperties.has('startingPercent')) {
       this.percentX = this.startingPercent / 100
       this.percentY = this.startingPercent / 100
-      console.log(this.percentX, this.percentY)
     }
   }
   render() {
-    console.log(this.percentX, this.percentY)
     return html`<div
       @pointerup=${this.onUp}
       @pointerleave=${this.onLeave}
@@ -123,6 +133,7 @@ export default class PGSplit extends LitElement {
       <button
         class="draggable"
         @click=${this.onClick}
+        @keydown=${this.onKeypress}
         @pointerdown=${this.onDown}
       >
         drag

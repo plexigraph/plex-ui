@@ -230,6 +230,28 @@ export default html`
           </pg-split>
         </pg-split>
       </div>
+      <h3>Many</h3>
+      <div style="min-height: 256px">
+        <pg-split vertical>
+          <span slot="first">1</span>
+          <pg-split slot="second">
+            <span slot="first">2</span>
+            <pg-split slot="second" vertical>
+              <span slot="first">3</span>
+              <pg-split slot="second">
+                <span slot="first">4</span>
+                <pg-split slot="second" vertical>
+                  <span slot="first">5</span>
+                  <pg-split slot="second">
+                    <span slot="first">6</span>
+                    <span slot="second">7</span>
+                  </pg-split>
+                </pg-split>
+              </pg-split>
+            </pg-split>
+          </pg-split>
+        </pg-split>
+      </div>
     </div>
   </main>
 `
