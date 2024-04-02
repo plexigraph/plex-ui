@@ -45,7 +45,6 @@ export default class PGCheck extends LitElement {
         <input
           value=${this.value}
           @change=${() => {
-
             this.checked = this.input!.checked
           }}
           checked=${ifDefined(this.checked ? '' : undefined)}

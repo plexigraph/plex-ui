@@ -33,21 +33,21 @@ export function createCanvasManager() {
   ) {
     canvas.width = parent.clientWidth * devicePixelRatio
     canvas.height = parent.clientHeight * devicePixelRatio
-    canvas.style.width = "100%"
-    canvas.style.height = "100%"
+    canvas.style.width = '100%'
+    canvas.style.height = '100%'
     ctx.scale(devicePixelRatio, devicePixelRatio)
 
     afterResize()
   }
   return {
     addCanvas(zIndex: number) {
-      const canvas = document.createElement("canvas")
-      const ctx = canvas.getContext("2d")!
-      canvas.style.position = "absolute"
-      canvas.style.top = "0"
-      canvas.style.left = "0"
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')!
+      canvas.style.position = 'absolute'
+      canvas.style.top = '0'
+      canvas.style.left = '0'
       canvas.style.zIndex = zIndex.toString()
-      canvas.style.pointerEvents = "none"
+      canvas.style.pointerEvents = 'none'
       canvases[zIndex] = {
         canvas,
         ctx,
@@ -66,12 +66,12 @@ export function createCanvasManager() {
         function onResize() {
           setSizes(ctx, canvas, parent, afterResize)
         }
-        window.addEventListener("resize", onResize)
+        window.addEventListener('resize', onResize)
         return () => {
           delete canvases[zIndex]
           zIndices.splice(zIndices.indexOf(zIndex), 1)
           observer.disconnect()
-          window.removeEventListener("resize", onResize)
+          window.removeEventListener('resize', onResize)
         }
       }
     },

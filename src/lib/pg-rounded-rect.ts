@@ -1,20 +1,18 @@
-import { consume } from "@lit/context"
-import { LitElement, PropertyValues } from "lit"
-import { customElement, property } from "lit/decorators.js"
-import { surfaceContext2D } from "../lib/surfaceContext"
+import { consume } from '@lit/context'
+import { LitElement, PropertyValues } from 'lit'
+import { customElement, property } from 'lit/decorators.js'
+import { surfaceContext2D } from '../lib/surfaceContext'
+import { type Context2D, Deletable, DrawableShape } from '../lib/Contexts'
 import {
-  type Context2D,
-  Deletable,
-  DrawableShape,
   NO_INTERP,
-  createAnimationInfo,
-  getCurrentStateWithChildren,
+  createAnimation,
+  getStateTree,
   modifyTo,
-  updateAnimationInfo,
-  AnimationInfo,
+  updateAnimation,
+  Animation,
   changeInterpFunction,
-  addRecursiveStartListener,
-} from "../lib/Contexts"
+  addRecursiveListener,
+} from 'aninest'
 import {
   Color,
   Vec2,
@@ -22,8 +20,8 @@ import {
   colorToHex,
   mergeDictTrees,
   newVec2,
-} from "../lib/Utils"
-import { Signal } from "@lit-labs/preact-signals"
+} from '../lib/Utils'
+import { Signal } from '@lit-labs/preact-signals'
 
 type RoundedRect = {
   pos: Vec2
@@ -37,7 +35,7 @@ type RoundedRect = {
   }
 }
 
-@customElement("pg-rounded-rect")
+@customElement('pg-rounded-rect')
 export default class PGRoundedRect extends LitElement {
   @consume({ context: surfaceContext2D })
   parentContext?: Signal<Context2D | undefined>
@@ -67,18 +65,18 @@ export default class PGRoundedRect extends LitElement {
   stylesInterp = NO_INTERP
   @property({ type: Function })
   colorInterp = NO_INTERP
-  animationInfo: AnimationInfo<RoundedRect>
+  animationInfo: Animation<RoundedRect>
   self: DrawableShape<RoundedRect> & Deletable
   constructor() {
     super()
-    this.animationInfo = createAnimationInfo<RoundedRect>(
+    this.animationInfo = createAnimation<RoundedRect>(
       {
         pos: newVec2(this.x, this.y),
         size: { radius: this.radius, width: this.width, height: this.height },
         styles: {
           colors: {
-            backgroundColor: this.backgroundColor || colorFromHex("#000000"),
-            borderColor: this.borderColor || colorFromHex("#000000"),
+            backgroundColor: this.backgroundColor || colorFromHex('#000000'),
+            borderColor: this.borderColor || colorFromHex('#000000'),
           },
           borderWidth: this.borderWidth,
         },
@@ -90,9 +88,9 @@ export default class PGRoundedRect extends LitElement {
       needsUpdate: true,
       deleteWhenDoneUpdating: false,
       update(dt) {
-        return updateAnimationInfo(this.animationInfo, dt)
+        return updateAnimation(this.animationInfo, dt)
       },
-      draw: ctx => {
+      draw: (ctx) => {
         const c = ctx.canvasCtx
         c.save()
         const {
@@ -102,7 +100,7 @@ export default class PGRoundedRect extends LitElement {
             colors: { backgroundColor, borderColor },
             borderWidth,
           },
-        } = getCurrentStateWithChildren(this.animationInfo)
+        } = getStateTree(this.animationInfo)
         c.beginPath()
         if (c.roundRect) {
           c.roundRect(x - width / 2, y - height / 2, width, height, radius)
@@ -144,19 +142,19 @@ export default class PGRoundedRect extends LitElement {
         this.self.needsUpdate = true
       },
     }
-    addRecursiveStartListener(this.animationInfo, () => {
+    addRecursiveListener(this.animationInfo, 'start', () => {
       this.self.needsUpdate = true
     })
   }
   firstUpdated(): void {
-    if (!this.parentContext?.value) throw new Error("No context provided")
+    if (!this.parentContext?.value) throw new Error('No context provided')
     this.parentContext.value.addShape(this.self, this.zIndex)
   }
   /**
    *
    * @returns
    */
-  getAnimationInfo(): AnimationInfo<RoundedRect> {
+  getAnimationInfo(): Animation<RoundedRect> {
     return this.animationInfo
   }
   render() {
@@ -167,62 +165,62 @@ export default class PGRoundedRect extends LitElement {
     let out = false // whether to update the dom or not
     changedProperties.forEach((_oldValue, propName) => {
       switch (propName) {
-        case "x":
+        case 'x':
           modifyingDict = mergeDictTrees(modifyingDict, {
             pos: { x: this.x },
           })
           break
-        case "y":
+        case 'y':
           modifyingDict = mergeDictTrees(modifyingDict, {
             pos: { y: this.y },
           })
           break
-        case "width":
+        case 'width':
           modifyingDict = mergeDictTrees(modifyingDict, {
             size: { width: this.width },
           })
           break
-        case "height":
+        case 'height':
           modifyingDict = mergeDictTrees(modifyingDict, {
             size: { height: this.height },
           })
           break
-        case "radius":
+        case 'radius':
           modifyingDict = mergeDictTrees(modifyingDict, {
             size: { radius: this.radius },
           })
           break
-        case "backgroundColor":
+        case 'backgroundColor':
           modifyingDict = mergeDictTrees(modifyingDict, {
             styles: { colors: { backgroundColor: this.backgroundColor } },
           })
           break
-        case "borderColor":
+        case 'borderColor':
           modifyingDict = mergeDictTrees(modifyingDict, {
             styles: { colors: { borderColor: this.borderColor } },
           })
           break
-        case "borderWidth":
+        case 'borderWidth':
           modifyingDict = mergeDictTrees(modifyingDict, {
             styles: { borderWidth: this.borderWidth },
           })
           break
-        case "posInterp":
+        case 'posInterp':
           changeInterpFunction(this.animationInfo.children.pos, this.posInterp)
           break
-        case "sizeInterp":
+        case 'sizeInterp':
           changeInterpFunction(
             this.animationInfo.children.size,
             this.sizeInterp
           )
           break
-        case "stylesInterp":
+        case 'stylesInterp':
           changeInterpFunction(
             this.animationInfo.children.styles,
             this.stylesInterp
           )
           break
-        case "colorInterp":
+        case 'colorInterp':
           changeInterpFunction(
             this.animationInfo.children.styles.children.colors,
             this.colorInterp
@@ -261,6 +259,6 @@ export default class PGRoundedRect extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pg-rounded-rect": PGRoundedRect
+    'pg-rounded-rect': PGRoundedRect
   }
 }

@@ -153,6 +153,9 @@ export function getInteractableSignals(): InteractableSignals {
       out.active.value = false
       downAt = undefined
     }
+    const onPointerMove = (_e: PointerEvent) => {
+      setColors()
+    }
     const onKeydown = (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
         out.active.value = true
@@ -166,6 +169,7 @@ export function getInteractableSignals(): InteractableSignals {
     pElem.addEventListener('pointermove', onMove)
     pElem.addEventListener('click', onClick)
     pElem.addEventListener('pointerdown', onPointerDown)
+    pElem.addEventListener('pointermove', onPointerMove)
     window.addEventListener('pointerup', onPointerUp)
     pElem.addEventListener('keydown', onKeydown)
     unsubscribeMethods.add(() => {
@@ -176,6 +180,7 @@ export function getInteractableSignals(): InteractableSignals {
       pElem.removeEventListener('pointerdown', onPointerDown)
       window.removeEventListener('pointerup', onPointerUp)
       pElem.removeEventListener('keydown', onKeydown)
+      pElem.addEventListener('pointermove', onPointerMove)
     })
 
     const rect = elem.getBoundingClientRect()

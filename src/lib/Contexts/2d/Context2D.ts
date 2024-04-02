@@ -7,19 +7,20 @@ import { newVec2, type Vec2 } from '../../../lib/Utils/vec2'
 import {
   type Animatable,
   modifyTo,
-  updateAnimationInfo,
+  updateAnimation,
   changeInterpFunction,
-  modifyAnimationBounds,
+  boundAnimation,
   type AnimatableEvents,
-  getCurrentStateWithChildren,
-  addListener,
+  getLocalState,
+  addLocalListener,
   removeListener,
   type RecursiveAnimatable,
-  addRecursiveStartListener,
-  createAnimationInfo,
-} from '../Animate/Animatable'
+  addRecursiveListener,
+  createAnimation,
+  getStateTree,
+} from 'aninest'
 import type { DrawableShape } from '../DrawableShape'
-import { NO_INTERP, type Interp } from '../Animate/Interp'
+import { NO_INTERP, type Interp } from 'aninest'
 import {
   CanvasManager,
   createCanvasManager,
@@ -88,7 +89,7 @@ export function createContext2D(
   let { canvasManager: parentCanvasManager } = parent || {
     canvasManager: null,
   }
-  const animationInfo = createAnimationInfo<ScalePos>(
+  const animationInfo = createAnimation<ScalePos>(
     {
       scale: 1,
       pos: newVec2(0, 0),
@@ -128,7 +129,7 @@ export function createContext2D(
       canvasCtx: canvasManager.getContext(0),
       canvasManager,
       addScaleListener: function (type, listener) {
-        addListener(animationInfo, type, listener)
+        addLocalListener(animationInfo, type, listener)
       },
       removeScaleListener: function (type, listener) {
         removeListener(animationInfo, type, listener)
@@ -137,17 +138,17 @@ export function createContext2D(
         removeListener(animationInfo.children.pos, type, listener)
       },
       addPosListener: function (type, listener) {
-        addListener(animationInfo.children.pos, type, listener)
+        addLocalListener(animationInfo.children.pos, type, listener)
       },
       setPosBounds(lower, upper) {
-        modifyAnimationBounds<Vec2>(animationInfo.children.pos, {
+        boundAnimation<Vec2>(animationInfo.children.pos, {
           lower,
           upper,
         })
         restartListener()
       },
       setScaleBounds(lower, upper) {
-        modifyAnimationBounds<Scale>(animationInfo, {
+        boundAnimation<Scale>(animationInfo, {
           lower: { scale: lower },
           upper: { scale: upper },
         })
@@ -158,10 +159,10 @@ export function createContext2D(
         zIndex: number = 0
       ) {
         addObjectWithZIndex(out.objects, keysInObjects, zIndex, shape)
-        addRecursiveStartListener(shape.animationInfo, () => {
+        addRecursiveListener(shape.animationInfo, 'start', () => {
           restartListener()
         })
-        addListener(shape.animationInfo, 'start', () => {
+        addLocalListener(shape.animationInfo, 'start', () => {
           restartListener()
         })
         restartListener()
@@ -181,7 +182,7 @@ export function createContext2D(
         out.ctx.pos = pos
         modifyTo(animationInfo, { pos })
         if (out.animationInfo.timingFunction === NO_INTERP) {
-          updateAnimationInfo(out.animationInfo, 0.99)
+          updateAnimation(out.animationInfo, 0.99)
         }
         restartListener()
       },
@@ -243,7 +244,7 @@ export function createContext2D(
     },
     update(dt) {
       let draw = false
-      if (updateAnimationInfo(animationInfo, dt)) {
+      if (updateAnimation(animationInfo, dt)) {
         draw = true
       }
       // loop through the in-order keys
@@ -278,7 +279,7 @@ export function createContext2D(
         canvasManager.clearContexts()
       }
       // transform the canvas
-      const state = getCurrentStateWithChildren(animationInfo)
+      const state = getStateTree(animationInfo)
       canvasManager.translateAndScaleContexts(state)
       for (const key of keysInObjects) {
         ctx.canvasCtx = canvasManager.getContext(key)

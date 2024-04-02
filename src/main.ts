@@ -8,7 +8,6 @@ import './lib/pg-grid/pg-grid'
 import './lib/pg-grid/pg-grid-element'
 import './lib/pg-split/pg-split'
 import styles from './styles/base.css.ts'
-
 const gridDivStyles =
   'background-color: var(--pg-bg); border: 1px solid var(--pg-fg-mid); width: 100%; height: 100%; overflow: hidden; font-size: 12px'
 
@@ -28,11 +27,11 @@ export default html`
       id="color-select"
       onchange="document.querySelector('body').className = this.value;"
     >
-      <option value="accent">Accent</option>
+      <option value="accent" selected>Accent</option>
       <option value="success">Success</option>
       <option value="warn">Warn</option>
       <option value="error">Error</option>
-      <option value="neutral" selected>Neutral</option>
+      <option value="neutral">Neutral</option>
     </select>
     <h2>Buttons</h2>
     <div class="ex-grid">
@@ -193,6 +192,41 @@ export default html`
           </pg-grid-element>
         </pg-grid>
       </div>
+      <h3>Skeleton</h3>
+      <div>
+        <pg-grid gap="2" columns="auto">
+          <pg-grid-element start="1" width="fill" height="4" skeletonOffset="0" skeleton>
+            <pg-input placeholder="Username"></pg-input>
+          </pg-grid-element>
+          <pg-grid-element start="1" width="4" height="3"  skeletonOffset="2" skeleton>
+            <pg-check>Show</pg-check>
+          </pg-grid-element>
+          <pg-grid-element start="5" width="fill" height="4"  skeletonOffset="3" skeleton>
+            <pg-input placeholder="Password" type="password"></pg-input>
+          </pg-grid-element>
+        </pg-grid>
+      </div>
+      <h3>Skeleton</h3>
+      <div>
+        <pg-grid gap="2" columns="auto">
+          <pg-grid-element start="1" width="fill" height="4" skeletonOffset="0" skeleton>
+            <pg-input placeholder="Username"></pg-input>
+          </pg-grid-element>
+          <pg-grid-element start="1" width="4" height="3" skeletonOffset="1" skeleton>
+            <pg-check>Show</pg-check>
+          </pg-grid-element>
+          <pg-grid-element width="5" height="4" skeletonOffset="2" skeleton>
+            <pg-input placeholder="Password" type="password"></pg-input>
+          </pg-grid-element>
+          <pg-grid-element start="10" width="fill" height="8" skeletonOffset="3" skeleton>
+            <pg-input placeholder="Password" type="password"></pg-input>
+          </pg-grid-element>
+          <pg-grid-element start="1" width="9" height="4" skeletonOffset="4" skeleton>
+            <pg-check>Show</pg-check>
+          </pg-grid-element>
+        </pg-grid>
+      </div>
+    </div>
     </div>
     <h2>Split</h2>
     <div class="ex-grid">

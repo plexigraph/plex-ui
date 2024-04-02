@@ -1,9 +1,10 @@
-import { NO_INTERP, getSlerp } from "./Contexts"
-import { LitElement, html } from "lit"
-import { customElement, property, state } from "lit/decorators.js"
+import { NO_INTERP, getSlerp } from 'aninest'
+import { LitElement, html } from 'lit'
+import { customElement, property, state } from 'lit/decorators.js'
+import { sleep } from './Utils'
 const colorInterp = getSlerp(0.2)
 
-@customElement("pg-cursor")
+@customElement('pg-cursor')
 export default class PGCursor extends LitElement {
   @property({ type: Number })
   width = 0
@@ -35,11 +36,12 @@ export default class PGCursor extends LitElement {
   actualPosInterp = this.posInterp
   actualPosInterpTimeout: NodeJS.Timeout | undefined = undefined
   willUpdate(changedProperties: Map<string, unknown>) {
-    if (changedProperties.has("hidden")) {
-      if (changedProperties.get("hidden")) {
+    if (changedProperties.has('hidden')) {
+      if (changedProperties.get('hidden')) {
         if (this.actualPosInterpTimeout) {
           clearTimeout(this.actualPosInterpTimeout)
         }
+        sleep(0.2)
         this.actualPosInterp = NO_INTERP
         this.actualPosInterpTimeout = setTimeout(() => {
           this.actualPosInterp = this.posInterp
@@ -70,6 +72,6 @@ export default class PGCursor extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pg-cursor": PGCursor
+    'pg-cursor': PGCursor
   }
 }

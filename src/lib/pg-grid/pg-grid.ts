@@ -1,7 +1,6 @@
 import { LitElement, css, html } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import perElementCss from '../../styles/per-element.css'
-
 @customElement('pg-grid')
 export default class PGGrid extends LitElement {
   @property({ type: String })
@@ -11,10 +10,10 @@ export default class PGGrid extends LitElement {
   static styles = [
     perElementCss,
     css`
-    :host {
-      display: block;
-      width: 100%;
-    }
+      :host {
+        display: block;
+        width: 100%;
+      }
       #grid {
         display: grid;
         grid-template-columns: var(--cols);

@@ -1,13 +1,8 @@
 import { LitElement, css, html, nothing } from 'lit'
 import { customElement, queryAssignedElements } from 'lit/decorators.js'
 import '../../lib/pg-surface'
-import {
-  Context2D,
-  NO_INTERP,
-  createContext2D,
-  getLinearInterp,
-  getSlerp,
-} from '../Contexts'
+import { Context2D, createContext2D } from '../Contexts'
+import { NO_INTERP, getLinearInterp, getSlerp } from 'aninest'
 import { getInteractableSignals } from '../../lib/InteractableSignals'
 import { surfaceContext2D } from '../../lib/surfaceContext'
 import {
@@ -25,7 +20,7 @@ import { ifDefined } from 'lit/directives/if-defined.js'
 
 const rippleInterp = getLinearInterp(1)
 const dotInterp = getSlerp(0.15)
-const colorInterp = getSlerp(0.05)
+const colorInterp = getSlerp(0.2)
 
 @customElement('pg-button-inner')
 export class PGButtonInner extends SignalWatcher(LitElement) {

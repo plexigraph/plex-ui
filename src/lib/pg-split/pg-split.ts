@@ -3,7 +3,6 @@ import { customElement, property, state } from 'lit/decorators.js'
 import perElementCss from '../../styles/per-element.css'
 import splitCss from './split.css'
 import { clamp } from '../Utils'
-const capturingKeypresses = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight']
 @customElement('pg-split')
 export default class PGSplit extends LitElement {
   @property({ type: Boolean })

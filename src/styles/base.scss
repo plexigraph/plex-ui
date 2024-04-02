@@ -61,12 +61,12 @@ hr.thin {
 }
 
 :root {
-  --pg-fg: var(--pg-neutral-fg);
-  --pg-fg-accent: var(--pg-neutral-fg-accent);
-  --pg-fg-mid: var(--pg-neutral-mid);
-  --pg-bg-mid: var(--pg-neutral-mid-accent);
-  --pg-bg-accent: var(--pg-neutral-bg-accent);
-  --pg-bg: var(--pg-neutral-bg);
+  --pg-fg: var(--pg-accent-fg);
+  --pg-fg-accent: var(--pg-accent-fg-accent);
+  --pg-fg-mid: var(--pg-accent-mid);
+  --pg-bg-mid: var(--pg-accent-mid-accent);
+  --pg-bg-accent: var(--pg-accent-bg-accent);
+  --pg-bg: var(--pg-accent-bg);
   --pg-cursor: var(--pg-fg-mid);
 }
 
