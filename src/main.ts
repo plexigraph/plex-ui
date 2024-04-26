@@ -7,9 +7,38 @@ import './lib/pg-radio/pg-radio'
 import './lib/pg-grid/pg-grid'
 import './lib/pg-grid/pg-grid-element'
 import './lib/pg-split/pg-split'
+import './lib/pg-skeleton/pg-skeleton'
+import './lib/pg-draggable-list/pg-draggable-list'
+import './lib/pg-draggable-list/pg-draggable-item'
+import './lib/pg-sandbox/pg-sandbox'
 import styles from './styles/base.css.ts'
 const gridDivStyles =
   'background-color: var(--pg-bg); border: 1px solid var(--pg-fg-mid); width: 100%; height: 100%; overflow: hidden; font-size: 12px'
+
+const injection_html = `
+<!DOCTYPE html>
+<html>
+  <head>
+  <script>
+    fetch('https://zphrs.github.io/humn-55-final/')
+    .then(console.log)
+    .catch(() => setTimeout(() => document.body.innerHTML += ' & fetch was blocked', 0))
+  </script>
+  </head>
+  <body>
+  <script>
+    try {
+      console.log(localStorage.getItem('test'))
+      console.log('localStorage:', localStorage.getItem('test'))
+      localStorage.setItem('test', 'test')
+    } catch (_) {
+      console.log('HERE')
+      document.body.append('scripts work, local storage blocked,')
+    }
+  </script>
+  </body>
+</html>
+`
 
 export default html`
   ${'<style>' + styles.cssText + '</style>'}
@@ -22,6 +51,9 @@ export default html`
       </span>
       Plex UI
     </h1>
+    <pg-sandbox html=${injection_html} 
+    style="height: 150px; display: block;"
+    ></pg-sandbox>
     <label for="color-select">Theme:</label>
     <select
       id="color-select"
@@ -150,7 +182,7 @@ export default html`
           disabled
           >Option 1</pg-radio
         >
-        <pg-radio name="options3" value="2" validity="correct answer" disabled
+        <pg-radio name="options3" value="2" validity="Correct answer" disabled
           >Option 2</pg-radio
         >
         <pg-radio name="options3" value="3" disabled>Option 3</pg-radio>
@@ -287,5 +319,16 @@ export default html`
         </pg-split>
       </div>
     </div>
+    <h2>Draggable List</h2>
+    <div class="ex-grid">
+      <h3>Two Items</h3>
+      <div>
+        <pg-draggable-list>
+          <pg-draggable-item>Short Item</pg-draggable-item>
+          <pg-draggable-item>
+            <div style="min-height: 256px"> Tall Item</div>
+          </pg-draggable-item>
+        </pg-draggable-list>
+      </div>
   </main>
 `

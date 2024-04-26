@@ -23,6 +23,7 @@
     "@lit-labs/ssr": "^3.2.0",
     "@lit-labs/ssr-client": "^1.1.5",
     "@rollup/plugin-typescript": "^11.1.5",
+    "@sveltejs/adapter-static": "^3.0.1",
     "@types/node": "^20.10.4",
     "esm-env": "^1.0.0",
     "fsevents": "^2.3.3",

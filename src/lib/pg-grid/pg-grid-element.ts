@@ -91,6 +91,7 @@ export default class PGGrid extends SignalWatcher(LitElement) {
     return html`<div id="elem" style=${cssVarsStr}>
       ${this.skeleton
         ? html`<pg-skeleton
+            style="width: calc(100% - 8px); height: calc(100% - 32px); display: block;"
             id="elem"
             .offset=${this.skeletonOffset}
           ></pg-skeleton>`

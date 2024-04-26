@@ -1,8 +1,7 @@
 import { LitElement, PropertyValueMap, css, html } from 'lit'
 import { customElement, property, state } from 'lit/decorators.js'
-import perElementCss from '../../styles/per-element.css'
-import splitCss from './split.css'
-import { clamp } from '../Utils'
+import splitCss from './split.css.ts'
+import perElementCss from '../../styles/per-element.css.ts'
 @customElement('pg-split')
 export default class PGSplit extends LitElement {
   @property({ type: Boolean })
@@ -12,12 +11,9 @@ export default class PGSplit extends LitElement {
   @property({ type: Number })
   startingPercent = 50
   @state()
-  percentX = this.startingPercent / 100
-  @state()
-  percentY = this.startingPercent / 100
+  ssr = true
 
   static styles = [
-    perElementCss,
     css`
       :host {
         display: block;
@@ -26,120 +22,48 @@ export default class PGSplit extends LitElement {
       }
     `,
     splitCss,
+    perElementCss,
   ]
   getStyle(percentX: number, percentY: number) {
     return css`
-      --percentX: ${Math.round(percentX * 100)}%;
-      --percentY: ${Math.round(percentY * 100)}%;
+      --percentX: ${Math.round(percentX)}%;
+      --percentY: ${Math.round(percentY)}%;
     `
   }
-  pointersDown = 0
-  onDown() {
-    this.pointersDown++
-  }
-  timeUp = 0
-  onClick() {
-    if (performance.now() - this.timeUp < this.doubleTapTimeout * 1000) {
-      this.percentX = this.startingPercent / 100
-      this.percentY = this.startingPercent / 100
-      this.timeUp = 0
-      return
-    }
-    if (this.pointersDown == 0) this.timeUp = performance.now()
-  }
-  onUp(e: PointerEvent) {
-    if (this.pointersDown > 0) {
-      this.setDivisionPercent(e)
-      this.pointersDown--
-    }
-  }
-  onLeave(e: PointerEvent) {
-    if (this.pointersDown > 0) {
-      this.setDivisionPercent(e)
-    }
-  }
-  setDivisionPercent(e: PointerEvent) {
-    const parent: HTMLDivElement = e.currentTarget as HTMLDivElement
-    const { x, y, width, height } = parent.getBoundingClientRect()
-    const pX = e.clientX
-    const pY = e.clientY
-    const relativeX = pX - x
-    const relativeY = pY - y
-    this.percentX = clamp(0, relativeX / width, 1)
-    this.percentY = clamp(0, relativeY / height, 1)
-  }
-  onMove(e: PointerEvent) {
-    this.timeUp = 0
-    if (this.pointersDown > 0) {
-      this.setDivisionPercent(e)
-    }
-  }
-
-  onKeypress(e: KeyboardEvent) {
-    switch (e.key) {
-      case 'ArrowUp':
-        this.percentY -= 0.01
-        break
-      case 'ArrowDown':
-        this.percentY += 0.01
-        break
-      case 'ArrowLeft':
-        this.percentX -= 0.01
-        break
-      case 'ArrowRight':
-        this.percentX += 0.01
-        break
-      default:
-        return
-    }
-    this.percentY = clamp(0, this.percentY, 1)
-    this.percentX = clamp(0, this.percentX, 1)
-    e.preventDefault()
-    e.stopPropagation()
-  }
-  onWindowUp() {
-    if (this.pointersDown > 0) this.pointersDown--
-  }
-  connectedCallback(): void {
-    super.connectedCallback()
-    if (typeof window != 'undefined')
-      window.addEventListener('pointerup', this.onWindowUp.bind(this))
-  }
-  disconnectedCallback(): void {
-    super.disconnectedCallback()
-    if (typeof window != 'undefined')
-      window.removeEventListener('pointerup', this.onWindowUp.bind(this))
-  }
-  protected willUpdate(
-    changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
+  protected firstUpdated(
+    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
   ): void {
-    if (changedProperties.has('startingPercent')) {
-      this.percentX = this.startingPercent / 100
-      this.percentY = this.startingPercent / 100
-    }
+    this.ssr = false
   }
   render() {
-    return html`<div
-      @pointerup=${this.onUp}
-      @pointerleave=${this.onLeave}
-      @pointermove=${this.onMove}
-      style=${this.getStyle(this.percentX, this.percentY)}
+    let c = this.vertical ? 'vertical' : 'horizontal'
+    if (this.ssr) {
+      c += ' ssr'
+    }
+    return html` <pg-split-inner
+      .vertical=${this.vertical}
+      .startingPercent=${this.startingPercent}
+      .doubleTapTimeout=${this.doubleTapTimeout}
+      class=${c}
+      style=${this.getStyle(this.startingPercent, this.startingPercent)}
       id="split"
-      class=${this.vertical ? 'vertical' : 'horizontal'}
     >
-      <slot name="first"></slot>
+      <slot slot="first" name="first" id="primary-split"></slot>
 
       <button
+        role="separator"
+        aria-valuenow="${this.startingPercent}"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-label="${this.vertical ? 'vertical' : 'horizontal'} split"
+        aria-controls="primary-split"
         class="draggable"
-        @click=${this.onClick}
-        @keydown=${this.onKeypress}
-        @pointerdown=${this.onDown}
       >
         drag
       </button>
 
-      <slot name="second"></slot>
-    </div>`
+      <slot slot="second" name="second"></slot>
+    </pg-split-inner>`
   }
 }
 

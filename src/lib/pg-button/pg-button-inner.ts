@@ -1,6 +1,8 @@
 import { LitElement, css, html, nothing } from 'lit'
 import { customElement, queryAssignedElements } from 'lit/decorators.js'
 import '../../lib/pg-surface'
+import '../../lib/pg-cursor'
+import '../../lib/pg-ripple/pg-ripple'
 import { Context2D, createContext2D } from '../Contexts'
 import { NO_INTERP, getLinearInterp, getSlerp } from 'aninest'
 import { getInteractableSignals } from '../../lib/InteractableSignals'
@@ -114,18 +116,15 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
         y=${pointerY.value - this.cursorSize.value / 2}
       ></pg-cursor>
       ${clickedX.value && clickedY.value
-        ? html`<pg-cursor
-            width=${this.rippleSize.value}
-            height=${this.rippleSize.value}
-            radius=${this.rippleSize.value / 2}
-            .borderColor=${this.cursorColor.value}
-            .borderWidth=${this.rippleWidth.value}
-            .backgroundColor=${colorFromHex('transparent')}
-            x=${clickedX.value - this.rippleSize.value / 2}
-            y=${clickedY.value - this.rippleSize.value / 2}
-            .sizeInterp=${this.rippleSize.value == 0 ? NO_INTERP : rippleInterp}
+        ? html`<pg-ripple
+            .size=${this.rippleSize.value}
+            .width=${this.rippleWidth.value}
+            .color=${this.cursorColor.value}
+            .sizeInterp=${rippleInterp}
             .colorInterp=${colorInterp}
-          ></pg-cursor>`
+            .x=${clickedX.value}
+            .y=${clickedY.value}
+          ></pg-ripple> `
         : nothing}</pg-surface
     >`
   }
