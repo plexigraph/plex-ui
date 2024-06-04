@@ -3,11 +3,11 @@
   "private": false,
   "version": "0.0.0",
   "type": "module",
-  "main": "plex-ui.js",
-  "module": "plex-ui.js",
+  "main": "dist/plex-ui.js",
   "types": "all-components.d.ts",
   "repository": {
-    
+    "type": "git",
+    "url": "https://github.com/plexigraph/plex-ui"
   },
   "scripts": {
     "dev": "vite",
