@@ -1,11 +1,14 @@
 {
-  "name": "plex-ui",
-  "private": true,
+  "name": "@plexigraph/plex-ui",
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "main": "plex-ui.js",
   "module": "plex-ui.js",
   "types": "all-components.d.ts",
+  "repository": {
+    
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

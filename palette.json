@@ -1,0 +1,122 @@
+[
+  {
+    "paletteName": "seafoam",
+    "swatches": [
+      { "name": "seafoam-1", "color": "#000502" },
+      { "name": "seafoam-2", "color": "#000a05" },
+      { "name": "seafoam-5", "color": "#00150c" },
+      { "name": "seafoam-10", "color": "#002115" },
+      { "name": "seafoam-20", "color": "#043827" },
+      { "name": "seafoam-30", "color": "#214f3d" },
+      { "name": "seafoam-40", "color": "#3a6754" },
+      { "name": "seafoam-50", "color": "#52806c" },
+      { "name": "seafoam-60", "color": "#6c9b85" },
+      { "name": "seafoam-70", "color": "#86b59e" },
+      { "name": "seafoam-80", "color": "#a0d1b9" },
+      { "name": "seafoam-90", "color": "#bceed5" },
+      { "name": "seafoam-95", "color": "#cafce3" },
+      { "name": "seafoam-98", "color": "#e7fff1" },
+      { "name": "seafoam-99", "color": "#f4fff7" }
+    ]
+  },
+  {
+    "paletteName": "violet",
+    "swatches": [
+      { "name": "violet-1", "color": "#02001f" },
+      { "name": "violet-2", "color": "#03002e" },
+      { "name": "violet-5", "color": "#09004a" },
+      { "name": "violet-10", "color": "#100069" },
+      { "name": "violet-20", "color": "#1f00a4" },
+      { "name": "violet-30", "color": "#3728c2" },
+      { "name": "violet-40", "color": "#5047da" },
+      { "name": "violet-50", "color": "#6a62f4" },
+      { "name": "violet-60", "color": "#8681ff" },
+      { "name": "violet-70", "color": "#a5a1ff" },
+      { "name": "violet-80", "color": "#c3c0ff" },
+      { "name": "violet-90", "color": "#e3dfff" },
+      { "name": "violet-95", "color": "#f2efff" },
+      { "name": "violet-98", "color": "#fcf8ff" },
+      { "name": "violet-99", "color": "#fffbff" }
+    ]
+  },
+  {
+    "paletteName": "gold",
+    "swatches": [
+      { "name": "gold-1", "color": "#070300" },
+      { "name": "gold-2", "color": "#0d0600" },
+      { "name": "gold-5", "color": "#190f00" },
+      { "name": "gold-10", "color": "#271900" },
+      { "name": "gold-20", "color": "#422d00" },
+      { "name": "gold-30", "color": "#5e4200" },
+      { "name": "gold-40", "color": "#7d5800" },
+      { "name": "gold-50", "color": "#9c6f00" },
+      { "name": "gold-60", "color": "#bd8700" },
+      { "name": "gold-70", "color": "#dca11d" },
+      { "name": "gold-80", "color": "#fbbc3b" },
+      { "name": "gold-90", "color": "#ffdea9" },
+      { "name": "gold-95", "color": "#ffeed8" },
+      { "name": "gold-98", "color": "#fff8f3" },
+      { "name": "gold-99", "color": "#fffbff" }
+    ]
+  },
+  {
+    "paletteName": "fire",
+    "swatches": [
+      { "name": "fire-1", "color": "#0c0200" },
+      { "name": "fire-2", "color": "#140300" },
+      { "name": "fire-5", "color": "#240800" },
+      { "name": "fire-10", "color": "#351000" },
+      { "name": "fire-20", "color": "#571f00" },
+      { "name": "fire-30", "color": "#7b2f00" },
+      { "name": "fire-40", "color": "#a14000" },
+      { "name": "fire-50", "color": "#c95203" },
+      { "name": "fire-60", "color": "#eb6a23" },
+      { "name": "fire-70", "color": "#ff8c54" },
+      { "name": "fire-80", "color": "#ffb695" },
+      { "name": "fire-90", "color": "#ffdbcc" },
+      { "name": "fire-95", "color": "#ffede7" },
+      { "name": "fire-98", "color": "#fff8f6" },
+      { "name": "fire-99", "color": "#fffbff" }
+    ]
+  },
+  {
+    "paletteName": "rose",
+    "swatches": [
+      { "name": "rose-1", "color": "#100000" },
+      { "name": "rose-2", "color": "#190000" },
+      { "name": "rose-5", "color": "#2a0301" },
+      { "name": "rose-10", "color": "#390b05" },
+      { "name": "rose-20", "color": "#542017" },
+      { "name": "rose-30", "color": "#70362b" },
+      { "name": "rose-40", "color": "#8d4c41" },
+      { "name": "rose-50", "color": "#aa6458" },
+      { "name": "rose-60", "color": "#c87d70" },
+      { "name": "rose-70", "color": "#e79788" },
+      { "name": "rose-80", "color": "#ffb4a7" },
+      { "name": "rose-90", "color": "#ffdad4" },
+      { "name": "rose-95", "color": "#ffedea" },
+      { "name": "rose-98", "color": "#fff8f6" },
+      { "name": "rose-99", "color": "#fffbff" }
+    ]
+  },
+  {
+    "paletteName": "gray",
+    "swatches": [
+      { "name": "gray-1", "color": "2, 4, 3" },
+      { "name": "gray-2", "color": "5, 8, 7" },
+      { "name": "gray-5", "color": "14, 18, 15" },
+      { "name": "gray-10", "color": "25, 28, 26" },
+      { "name": "gray-20", "color": "46, 49, 45" },
+      { "name": "gray-30", "color": "69, 72, 67" },
+      { "name": "gray-40", "color": "94, 95, 89" },
+      { "name": "gray-50", "color": "119, 119, 113" },
+      { "name": "gray-60", "color": "147, 145, 138" },
+      { "name": "gray-70", "color": "174, 171, 163" },
+      { "name": "gray-80", "color": "203, 198, 189" },
+      { "name": "gray-90", "color": "232, 226, 216" },
+      { "name": "gray-95", "color": "247, 240, 230" },
+      { "name": "gray-98", "color": "255, 248, 243" },
+      { "name": "gray-99", "color": "255, 251, 255" }
+    ]
+  }
+]

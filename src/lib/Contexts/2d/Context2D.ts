@@ -11,7 +11,6 @@ import {
   changeInterpFunction,
   boundAnimation,
   type AnimatableEvents,
-  getLocalState,
   addLocalListener,
   removeListener,
   type RecursiveAnimatable,
@@ -181,7 +180,7 @@ export function createContext2D(
       setPosToVec: function (pos: Vec2): void {
         out.ctx.pos = pos
         modifyTo(animationInfo, { pos })
-        if (out.animationInfo.timingFunction === NO_INTERP) {
+        if (out.animationInfo._timingFunction === NO_INTERP) {
           updateAnimation(out.animationInfo, 0.99)
         }
         restartListener()

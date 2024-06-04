@@ -4,7 +4,7 @@ import '../../lib/pg-surface'
 import '../../lib/pg-cursor'
 import '../../lib/pg-ripple/pg-ripple'
 import { Context2D, createContext2D } from '../Contexts'
-import { NO_INTERP, getLinearInterp, getSlerp } from 'aninest'
+import { getLinearInterp, getSlerp } from 'aninest'
 import { getInteractableSignals } from '../../lib/InteractableSignals'
 import { surfaceContext2D } from '../../lib/surfaceContext'
 import {

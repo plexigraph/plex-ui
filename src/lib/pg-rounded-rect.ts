@@ -87,10 +87,10 @@ export default class PGRoundedRect extends LitElement {
       animationInfo: this.animationInfo,
       needsUpdate: true,
       deleteWhenDoneUpdating: false,
-      update(dt) {
+      update(dt: number) {
         return updateAnimation(this.animationInfo, dt)
       },
-      draw: (ctx) => {
+      draw: (ctx: Context2D) => {
         const c = ctx.canvasCtx
         c.save()
         const {

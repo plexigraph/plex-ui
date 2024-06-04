@@ -1,9 +1,5 @@
 // no need for an inner since it should only be used within inner components anyway
-import { Context2D, createContext2D } from '@lib/Contexts'
 import { colorFromHex } from '../../lib/Utils'
-import { surfaceContext2D } from '@lib/surfaceContext'
-import { computed, type ReadonlySignal } from '@lit-labs/preact-signals'
-import { provide } from '@lit/context'
 import { LitElement, html, css } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import { NO_INTERP, getSlerp } from 'aninest'

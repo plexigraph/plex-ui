@@ -11,12 +11,6 @@ export default class PGCheck extends LitElement {
   @property({ type: Boolean })
   disabled = false
   @property({ type: String })
-  href = '' // only set if you want to use an anchor tag
-  @property({ type: String })
-  download = '' // only set if you want to use an anchor tag
-  @property({ type: String })
-  target = '' // only set if you want to use an anchor tag
-  @property({ type: String })
   validity = ''
   @property({ type: String })
   value = 'on'

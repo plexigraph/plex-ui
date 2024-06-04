@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit'
-import { customElement, property, state } from 'lit/decorators.js'
+import { customElement, state } from 'lit/decorators.js'
 
 @customElement('pg-draggable-item')
 export class PgDraggableItem extends LitElement {
@@ -27,6 +27,7 @@ export class PgDraggableItem extends LitElement {
         overflow: hidden;
         margin-right: 16px;
         cursor: move;
+        border: transparent;
       }
       .drag::before {
         content: '';
@@ -36,6 +37,11 @@ export class PgDraggableItem extends LitElement {
         width: 100%;
         height: 100%;
         background-color: var(--pg-bg);
+      }
+      .drag:focus-visible {
+        outline: 4px solid var(--pg-cursor);
+        transition: background-color 0.2s ease,
+          outline-width 0.2s cubic-bezier(0, 0, 0.5, 3);
       }
       .drag::after {
         content: '';
@@ -61,7 +67,7 @@ export class PgDraggableItem extends LitElement {
 
   render() {
     return html`
-      <span class="drag">Drag me</span>
+      <button class="drag">Drag me</button>
       <slot></slot>
       <span aria-live="assertive" class="assistive-text"
         >${this.announcement}</span
