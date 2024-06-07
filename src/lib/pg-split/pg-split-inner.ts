@@ -33,11 +33,21 @@ export default class PGSplitInner extends LitElement {
       --percentY: ${Math.round(percentY * 100)}%;
     `
   }
+  broadcastSplitEvent(type: string) {
+    const event = new CustomEvent(`pg-split-${type}`, {
+      bubbles: true,
+      detail: {
+        percent: this.vertical ? this.percentY : this.percentX,
+      },
+    })
+    window.dispatchEvent(event)
+  }
   pointersDown = 0
   onDown() {
     this.pointersDown++
     if (this.pointersDown == 1) {
       window.addEventListener('pointermove', this.onWindowMove.bind(this))
+      this.broadcastSplitEvent('down')
     }
   }
   timeUp = 0
@@ -91,10 +101,11 @@ export default class PGSplitInner extends LitElement {
     e.stopPropagation()
   }
   onWindowUp() {
-    if (this.pointersDown > 0) this.pointersDown--
-    if (this.pointersDown == 0) {
+    if (this.pointersDown == 1) {
+      this.broadcastSplitEvent('up')
       window.removeEventListener('pointermove', this.onWindowMove.bind(this))
     }
+    if (this.pointersDown > 0) this.pointersDown--
   }
   connectedCallback(): void {
     super.connectedCallback()
@@ -118,7 +129,6 @@ export default class PGSplitInner extends LitElement {
     }
   }
   render() {
-    console.log('render')
     return html`<div
       class=${this.vertical ? 'vertical' : 'horizontal'}
       style=${this.getStyle(this.percentX, this.percentY)}

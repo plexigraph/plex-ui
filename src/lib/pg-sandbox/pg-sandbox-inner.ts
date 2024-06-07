@@ -11,6 +11,8 @@ export class PgSandbox extends LitElement {
   html = '' // can be any html string
   @property({ type: String })
   sandbox = 'allow-scripts'
+  @property({ type: Number })
+  height = 50
   doc: Document | undefined
   static styles = [
     perElementCss,
@@ -56,6 +58,7 @@ export class PgSandbox extends LitElement {
     return html` <iframe
       srcdoc=${this.doc?.documentElement.outerHTML}
       sandbox=${this.sandbox}
+      style=${`--height: ${this.height}`}
     ></iframe>`
   }
 }

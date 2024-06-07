@@ -40,6 +40,7 @@ export default class PGSplit extends LitElement {
     if (this.ssr) {
       c += ' ssr'
     }
+
     return html` <pg-split-inner
       .vertical=${this.vertical}
       .startingPercent=${this.startingPercent}

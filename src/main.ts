@@ -42,6 +42,10 @@ const injection_html = `
 
 export default html`
   ${'<style>' + styles.cssText + '</style>'}
+  <script>
+    window.addEventListener("pg-split-down", (e) => console.log("splitttt", e.detail))
+    window.addEventListener("pg-split-up", (e) => console.log("split done", e.detail))
+  </script>
   <main>
     <h1 style="display: flex; align-items: center; color: var(--pg-fg-accent)">
       <span style="color: var(--pg-fg-mid)">
