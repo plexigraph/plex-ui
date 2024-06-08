@@ -11,7 +11,14 @@ export class PgSandbox extends LitElement {
   html = '' // can be any html string
   @property({ type: String })
   sandbox = 'allow-scripts'
+  @property({ type: String })
+  csp = `default-src 'none'; script-src 'unsafe-inline'; frame-src 'none';`
   doc: Document | undefined
+  metaTag = metaTag.cloneNode() as HTMLMetaElement
+  constructor() {
+    super()
+    this.metaTag.content = this.csp
+  }
   static styles = [
     perElementCss,
     css`
@@ -43,11 +50,12 @@ export class PgSandbox extends LitElement {
   protected willUpdate(
     changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
   ): void {
-    if (changedProperties.has('html')) {
+    if (changedProperties.has('html') || changedProperties.has('csp')) {
       this.doc = document.implementation.createHTMLDocument()
       this.doc.documentElement.innerHTML = this.html
+      this.metaTag.content = this.csp
       // add meta tag to prevent loading external resources
-      this.doc.head.prepend(metaTag)
+      this.doc.head.prepend(this.metaTag)
     }
   }
 
