@@ -7,6 +7,8 @@ export class PgSandbox extends LitElement {
   html = '' // can be any html string
   @property({ type: String })
   sandbox = 'allow-scripts'
+  @property({ type: String })
+  csp = `default-src 'none'; script-src 'unsafe-inline'; frame-src 'none';`
   static styles = [
     css`
       :host {
@@ -16,7 +18,10 @@ export class PgSandbox extends LitElement {
   ]
 
   render() {
-    return html`<pg-sandbox-inner html=${this.html} sandbox=${this.sandbox}
+    return html`<pg-sandbox-inner
+      html=${this.html}
+      sandbox=${this.sandbox}
+      csp=${this.csp}
       ><pg-skeleton></pg-skeleton
     ></pg-sandbox-inner>`
   }
