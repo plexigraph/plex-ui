@@ -29,7 +29,6 @@ export class PgSandbox extends LitElement {
         width: 100%;
         height: var(--height, 100%);
         border: none;
-        background: transparent;
         animation: 0.5s fadein;
       }
       @keyframes fadein {
