@@ -28,6 +28,7 @@ export class PgSandbox extends LitElement {
       iframe {
         width: 100%;
         height: var(--height, 100%);
+        background: white;
         border: none;
         animation: 0.5s fadein;
       }
