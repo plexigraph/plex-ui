@@ -12,7 +12,7 @@ export class PgSandbox extends LitElement {
   @property({ type: String })
   sandbox = 'allow-scripts'
   @property({ type: String })
-  csp = `default-src 'none'; script-src 'unsafe-inline'; frame-src 'none';`
+  csp = `default-src 'unsafe-inline'; script-src 'unsafe-inline'; frame-src 'none';`
   doc: Document | undefined
   metaTag = metaTag.cloneNode() as HTMLMetaElement
   constructor() {

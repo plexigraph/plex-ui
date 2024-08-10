@@ -20,11 +20,11 @@ export default defineConfig(({ mode }) => {
             brotli(),
           ]
         : [litShell(), litConvertScss(), brotli()],
-    build: {
-      lib: {
-        entry: 'src/all-components.ts',
-        formats: ['es'],
-      },
-    },
+    // build: {
+    //   lib: {
+    //     entry: 'src/all-components.ts',
+    //     formats: ['es'],
+    //   },
+    // },
   }
 })

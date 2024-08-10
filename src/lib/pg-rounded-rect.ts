@@ -160,7 +160,7 @@ export default class PGRoundedRect extends LitElement {
   render() {
     return
   }
-  protected shouldUpdate(changedProperties: PropertyValues): boolean {
+  protected shouldSnap(changedProperties: PropertyValues): boolean {
     let modifyingDict = {}
     let out = false // whether to update the dom or not
     changedProperties.forEach((_oldValue, propName) => {

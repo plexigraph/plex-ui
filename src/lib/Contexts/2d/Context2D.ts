@@ -5,21 +5,21 @@ import {
 } from '../../../lib/Contexts/context'
 import { newVec2, type Vec2 } from '../../../lib/Utils/vec2'
 import {
-  type Animatable,
   modifyTo,
   updateAnimation,
   changeInterpFunction,
-  boundAnimation,
-  type AnimatableEvents,
   addLocalListener,
-  removeListener,
-  type RecursiveAnimatable,
+  removeLocalListener,
   addRecursiveListener,
   createAnimation,
   getStateTree,
+  NO_INTERP,
+  type Interp,
+  type AnimatableEvents,
+  type RecursiveAnimatable,
 } from 'aninest'
 import type { DrawableShape } from '../DrawableShape'
-import { NO_INTERP, type Interp } from 'aninest'
+import { setupBoundsLayer } from '@aninest/extensions'
 import {
   CanvasManager,
   createCanvasManager,
@@ -95,6 +95,9 @@ export function createContext2D(
     },
     NO_INTERP // TODO: make this configurable
   )
+  const boundLayer = setupBoundsLayer<ScalePos>(animationInfo, {})
+  boundLayer.mount(animationInfo)
+  const { update: updateBounds } = boundLayer
   let canvasManager: CanvasManager
   const initFuncs: InitCanvas[] = []
   let deleteFuncs: RemoveCanvas[]
@@ -131,23 +134,23 @@ export function createContext2D(
         addLocalListener(animationInfo, type, listener)
       },
       removeScaleListener: function (type, listener) {
-        removeListener(animationInfo, type, listener)
+        removeLocalListener(animationInfo, type, listener)
       },
       removePosListener: function (type, listener) {
-        removeListener(animationInfo.children.pos, type, listener)
+        removeLocalListener(animationInfo.children.pos, type, listener)
       },
       addPosListener: function (type, listener) {
         addLocalListener(animationInfo.children.pos, type, listener)
       },
       setPosBounds(lower, upper) {
-        boundAnimation<Vec2>(animationInfo.children.pos, {
-          lower,
-          upper,
+        updateBounds({
+          lower: { pos: lower },
+          upper: { pos: upper },
         })
         restartListener()
       },
       setScaleBounds(lower, upper) {
-        boundAnimation<Scale>(animationInfo, {
+        updateBounds({
           lower: { scale: lower },
           upper: { scale: upper },
         })
