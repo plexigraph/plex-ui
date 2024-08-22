@@ -43,7 +43,6 @@ function getBoundPreemptivelyExtension(
       const ending = getLocalInterpingTo(anim)
       const starting = getLocalState(anim)
       const vel = momentumLayer.getVelocity()
-      console.log('VEL', vel)
       const clampAxis = (axis: 'percentX' | 'percentY') => {
         if (ending[axis] > 1 || ending[axis] < 0) {
           const clamped = clamp(0, ending[axis], 1)

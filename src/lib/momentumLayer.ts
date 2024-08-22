@@ -81,18 +81,6 @@ class RingQueue<T extends UnknownRecursiveAnimatable> {
     this.tail = 0
     this.length = 0
   }
-  // allow js iteration over the queue starting from the head
-  [Symbol.iterator]() {
-    let index = this.tail
-    return {
-      next: () => {
-        if (index === this.tail) {
-          return { done: true, value: undefined }
-        }
-        return { done: false, value: this.queue[index++] }
-      },
-    }
-  }
 }
 const PIXELS_PER_INCH = 96
 const PIXELS_PER_CM = PIXELS_PER_INCH / 2.54

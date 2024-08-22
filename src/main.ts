@@ -19,23 +19,10 @@ const injection_html = `
 <!DOCTYPE html>
 <html>
   <head>
-  <script>
-    fetch('https://zphrs.github.io/humn-55-final/')
-    .then(console.log)
-    .catch(() => setTimeout(() => document.body.innerHTML += ' & fetch was blocked', 0))
-  </script>
   </head>
   <body>
-  <script>
-    try {
-      console.log(localStorage.getItem('test'))
-      console.log('localStorage:', localStorage.getItem('test'))
-      localStorage.setItem('test', 'test')
-    } catch (_) {
-      console.log('HERE')
-      document.body.append('scripts work, local storage blocked,')
-    }
-  </script>
+  hello!
+  <iframe srcdoc='asdf'></iframe>
   </body>
 </html>
 `
