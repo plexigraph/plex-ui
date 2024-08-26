@@ -27,6 +27,7 @@
       "@lib/*": ["./src/lib/*"]
     }
   },
-  "include": ["src"],
-  "exclude": ["src/main.ts"]
+
+  "include": ["src/**/pg-*.ts"],
+  "exclude": ["src/main.ts", "!src/**/pg-*.ts"]
 }

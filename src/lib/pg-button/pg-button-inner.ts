@@ -41,6 +41,7 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return
     }
+    console.log('CLICK')
     this.rippleSize.value = 0
     this.rippleWidth.value = 5
     this.rippleTimeout && clearTimeout(this.rippleTimeout)
@@ -92,6 +93,7 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
     this.interactableSignals.initialize(this.button, this.context.ctx)
   }
   render() {
+    console.log('ripple width', this.rippleWidth.value)
     const { pointerX, pointerY, clickedX, clickedY } = this.interactableSignals
     const full = this.button.classList.contains('full')
 

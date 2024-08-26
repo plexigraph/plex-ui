@@ -28,6 +28,7 @@ export function litShell() {
   return {
     name: 'html-lit-shell',
     async transformIndexHtml(html) {
+      // return html // disable transformation and injection of main.ts
       // match for body opening and closing tags
       const bodyRegex = /<body[^>]*>([\s\S]*)<\/body>/
 

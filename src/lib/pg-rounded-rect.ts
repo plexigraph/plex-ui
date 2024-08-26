@@ -163,6 +163,7 @@ export default class PGRoundedRect extends LitElement {
   protected shouldUpdate(changedProperties: PropertyValues): boolean {
     let modifyingDict = {}
     let out = false // whether to update the dom or not
+    let moddingWidth = false
     changedProperties.forEach((_oldValue, propName) => {
       switch (propName) {
         case 'x':
@@ -201,6 +202,7 @@ export default class PGRoundedRect extends LitElement {
           })
           break
         case 'borderWidth':
+          moddingWidth = true
           modifyingDict = mergeDictTrees(modifyingDict, {
             styles: { borderWidth: this.borderWidth },
           })
@@ -231,6 +233,11 @@ export default class PGRoundedRect extends LitElement {
           break
       }
     })
+    if (
+      (modifyingDict as any)?.styles?.width ||
+      this.animationInfo.children.styles._to !== null
+    )
+      console.log('MODIFYING DICT', modifyingDict)
     modifyTo(this.animationInfo, modifyingDict)
     if (!this.hasUpdated) {
       changeInterpFunction(this.animationInfo.children.pos, NO_INTERP)

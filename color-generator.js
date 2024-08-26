@@ -119,4 +119,5 @@ import path from 'path'
 const filePath = path.join('palette.json')
 fs.writeFileSync(filePath, JSON.stringify(paletteImport))
 
+
 // console.log(colors)

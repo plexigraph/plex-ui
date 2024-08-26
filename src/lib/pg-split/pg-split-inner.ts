@@ -26,8 +26,11 @@ import {
   Animation,
   getLinearInterp,
 } from 'aninest'
-import { getSnapPointLayer, snapGridExtension } from '@aninest/extensions'
-import { localMomentumLayer } from '../momentumLayer'
+import {
+  getSnapPointLayer,
+  snapGridExtension,
+  localMomentumLayer,
+} from '@aninest/extensions'
 const INTERP = getSlerp(0.05)
 
 type SplitState = {
