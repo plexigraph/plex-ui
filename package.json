@@ -20,7 +20,7 @@
     "@lit-labs/preact-signals": "^1.0.1",
     "@lit/context": "^1.1.0",
     "@material/material-color-utilities": "^0.2.7",
-    "aninest": "^4.3.0",
+    "aninest": "^4.4.0",
     "lit": "^3.1.0"
   },
   "devDependencies": {

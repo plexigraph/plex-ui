@@ -72,14 +72,31 @@ export function getInteractableSignals(): InteractableSignals {
     }
     const setColors = () => {
       const styles = window.getComputedStyle(elem)
-      out.colors.value = {
-        foreground: styles.getPropertyValue('--pg-fg'),
-        foregroundAccent: styles.getPropertyValue('--pg-fg-accent'),
-        mid: styles.getPropertyValue('--pg-fg-mid'),
-        midAccent: styles.getPropertyValue('--pg-bg-mid'),
-        backgroundAccent: styles.getPropertyValue('--pg-bg-accent'),
-        background: styles.getPropertyValue('--pg-bg'),
-        cursor: styles.getPropertyValue('--pg-cursor'),
+      const oldColors = out.colors.value
+      // only change the colors if they are different
+      const newColorTags = {
+        foreground: '--pg-fg',
+        foregroundAccent: '--pg-fg-accent',
+        mid: '--pg-fg-mid',
+        midAccent: '--pg-bg-mid',
+        backgroundAccent: '--pg-bg-accent',
+        background: '--pg-bg',
+        cursor: '--pg-cursor',
+      }
+      const newColors = {} as Record<keyof typeof newColorTags, string>
+      let shouldUpdateColors = false
+      for (const k in newColorTags) {
+        const key = k as keyof typeof newColorTags
+        const tag = newColorTags[key] as string
+        if (styles.getPropertyValue(tag) !== oldColors[key]) {
+          shouldUpdateColors = true
+          newColors[key] = styles.getPropertyValue(tag)
+        } else {
+          newColors[key] = oldColors[key]
+        }
+      }
+      if (shouldUpdateColors) {
+        out.colors.value = newColors
       }
     }
     const onSchemeChange = () => {
@@ -148,8 +165,8 @@ export function getInteractableSignals(): InteractableSignals {
     }
     const onPointerUp = (e: PointerEvent) => {
       if (out.disabled.value) return
-      setColors()
-      setPointerPos(e)
+      // setColors()
+      // setPointerPos(e)
       out.active.value = false
       downAt = undefined
     }
@@ -166,7 +183,7 @@ export function getInteractableSignals(): InteractableSignals {
     }
     pElem.addEventListener('pointerenter', onEnter)
     pElem.addEventListener('pointerleave', onLeave)
-    pElem.addEventListener('pointermove', onMove)
+    window.addEventListener('pointermove', onMove)
     pElem.addEventListener('click', onClick)
     pElem.addEventListener('pointerdown', onPointerDown)
     pElem.addEventListener('pointermove', onPointerMove)
@@ -175,7 +192,7 @@ export function getInteractableSignals(): InteractableSignals {
     unsubscribeMethods.add(() => {
       pElem.removeEventListener('pointerenter', onEnter)
       pElem.removeEventListener('pointerleave', onLeave)
-      pElem.removeEventListener('pointermove', onMove)
+      window.removeEventListener('pointermove', onMove)
       pElem.removeEventListener('click', onClick)
       pElem.removeEventListener('pointerdown', onPointerDown)
       window.removeEventListener('pointerup', onPointerUp)

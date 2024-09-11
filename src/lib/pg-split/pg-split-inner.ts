@@ -81,8 +81,8 @@ export default class PGSplitInner extends LitElement {
 
   shouldSnap = (snapTo: SplitState, state: SplitState) => {
     return this.vertical
-      ? Math.abs(snapTo.percentY - state.percentY) < 0.05
-      : Math.abs(snapTo.percentX - state.percentX) < 0.05
+      ? Math.abs(snapTo.percentY - state.percentY) < 0.025
+      : Math.abs(snapTo.percentX - state.percentX) < 0.025
   }
 
   animation = createAnimation(
@@ -98,16 +98,14 @@ export default class PGSplitInner extends LitElement {
     snapGridExtension<SplitState>({ percentX: 0.01, percentY: 0.01 })
   )
   afterUpMode = createMode(this.animation, this.afterUpStack)
-  snapLayer = addLayerToStack(
-    this.afterUpStack,
-    getSnapPointLayer(
-      {
-        percentX: this.startingPercent / 100,
-        percentY: this.startingPercent / 100,
-      },
-      this.shouldSnap
-    )
+  snapLayer = getSnapPointLayer(
+    {
+      percentX: this.startingPercent / 100,
+      percentY: this.startingPercent / 100,
+    },
+    this.shouldSnap
   )
+  removeSnapLayer = this.snapLayer.mount(this.animation)
   momentumStack = createExtensionStack<SplitState>()
   momentumLayer = addLayerToStack(
     this.momentumStack,

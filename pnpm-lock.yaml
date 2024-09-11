@@ -21,8 +21,8 @@ importers:
         specifier: ^0.2.7
         version: 0.2.7
       aninest:
-        specifier: ^4.3.0
-        version: 4.3.0
+        specifier: ^4.4.0
+        version: 4.4.0
       lit:
         specifier: ^3.1.0
         version: 3.1.0
@@ -421,8 +421,8 @@ packages:
     resolution: {integrity: sha512-o/zjMZRhJxny7OyEF+Op8X+efiELC7k7yOjMzgfzVqOzXqkBkWI79YoTdOtsuWd5BWhAGAuOY/Xa6xpiaWXiNg==}
     engines: {node: '>= 14'}
 
-  aninest@4.3.0:
-    resolution: {integrity: sha512-kplLlTYHBYY09G4yOzE17CWCnmddxsTiYMuo1R9v4qN3TzYU5DP8wmr+pBUsgGRIU+SeRRsgBLmwXuDp1sQSqQ==}
+  aninest@4.4.0:
+    resolution: {integrity: sha512-zvfbM2yfDarWpBoAgipoDYugDIv39JvVdceNAzEmEssjQl/tN8ZDE9MTEnl/rXeC3Ulj3WMO7mkUTnh2ARdsdg==}
 
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
@@ -1058,7 +1058,7 @@ snapshots:
 
   '@aninest/extensions@1.5.1':
     dependencies:
-      aninest: 4.3.0
+      aninest: 4.4.0
 
   '@esbuild/android-arm64@0.19.8':
     optional: true
@@ -1334,7 +1334,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  aninest@4.3.0: {}
+  aninest@4.4.0: {}
 
   ansi-regex@5.0.1: {}
 
