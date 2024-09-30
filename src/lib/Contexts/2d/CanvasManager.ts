@@ -1,8 +1,8 @@
-export type RemoveCanvas = () => void
+export type Remove = () => void
 export type InitCanvas = (
   parent: HTMLElement,
   afterResize: () => void
-) => RemoveCanvas
+) => Remove
 
 export type CanvasManager = {
   getContext(zIndex: number): CanvasRenderingContext2D

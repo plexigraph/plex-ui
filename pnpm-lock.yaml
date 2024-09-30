@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@aninest/extensions':
-        specifier: ^1.5.1
-        version: 1.5.1
+        specifier: ^1.7.1
+        version: 1.7.1
       '@lit-labs/preact-signals':
         specifier: ^1.0.1
         version: 1.0.1
@@ -82,8 +82,8 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
-  '@aninest/extensions@1.5.1':
-    resolution: {integrity: sha512-2AgaZ2b9fncsEtQBUsfGH+Jfy0Vq9eJxXtRTnJfKJqnD+Ou4aWrTOM5esmQcYfCNIG3hAtoHsfn+JJfntu/+Dg==}
+  '@aninest/extensions@1.7.1':
+    resolution: {integrity: sha512-dh7SxGzNK9cqr79+XH5o+g97QsNXL+pbykSzsNkEahCUzwyM4nrMNsKPG+EeZXVWT2gS7A5AS7e4YrTWXqhw0g==}
 
   '@esbuild/android-arm64@0.19.8':
     resolution: {integrity: sha512-B8JbS61bEunhfx8kasogFENgQfr/dIp+ggYXwTqdbMAgGDhRa3AaPpQMuQU0rNxDLECj6FhDzk1cF9WHMVwrtA==}
@@ -1056,7 +1056,7 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@aninest/extensions@1.5.1':
+  '@aninest/extensions@1.7.1':
     dependencies:
       aninest: 4.4.0
 

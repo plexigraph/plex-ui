@@ -42,6 +42,7 @@ export type InteractableSignals = SignalWrapper<Signals> & {
 
 export function getInteractableSignals(): InteractableSignals {
   const out = {} as InteractableSignals
+  let previouslyInitialized = false
   for (const key in defaultValues) {
     const value = defaultValues[key as keyof Signals]
     const s = signal(value)
@@ -163,7 +164,7 @@ export function getInteractableSignals(): InteractableSignals {
       out.active.value = true
       downAt = performance.now()
     }
-    const onPointerUp = (e: PointerEvent) => {
+    const onPointerUp = (_e: PointerEvent) => {
       if (out.disabled.value) return
       // setColors()
       // setPointerPos(e)
@@ -199,10 +200,11 @@ export function getInteractableSignals(): InteractableSignals {
       pElem.removeEventListener('keydown', onKeydown)
       pElem.addEventListener('pointermove', onPointerMove)
     })
-
-    const rect = elem.getBoundingClientRect()
-    out.pointerX.value = rect.width / 2
-    out.pointerY.value = rect.height / 2
+    if (!previouslyInitialized) {
+      const rect = elem.getBoundingClientRect()
+      out.pointerX.value = rect.width / 2
+      out.pointerY.value = rect.height / 2
+    }
 
     // listen for disabled attribute change
     const observer = new MutationObserver((mutations) => {
@@ -243,7 +245,7 @@ export function getInteractableSignals(): InteractableSignals {
       elem.removeEventListener('blur', onBlurred)
     })
     // add resize observer
-    out.ctx.value = parentContext.addChild(0, 0, 1).ctx
+    out.ctx.value = parentContext.addChild(0, 0, 1)[0].ctx
     const resizeObserver = new ResizeObserver(() => {
       if (!out.ctx.value) return
       out.width.value = pElem.offsetWidth
@@ -266,6 +268,7 @@ export function getInteractableSignals(): InteractableSignals {
       unsubscribeMethods.clear()
     }
     out.unsubscribe = unsubscribe
+    previouslyInitialized = true
   }
   return out
 }

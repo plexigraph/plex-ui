@@ -11,6 +11,9 @@ import './lib/pg-skeleton/pg-skeleton'
 import './lib/pg-draggable-list/pg-draggable-list'
 import './lib/pg-draggable-list/pg-draggable-item'
 import './lib/pg-sandbox/pg-sandbox'
+import './lib/pg-dropdown/pg-dropdown'
+import './lib/pg-dropdown/pg-dropdown-item'
+import './lib/pg-separator'
 import styles from './styles/base.css.ts'
 const gridDivStyles =
   'background-color: var(--pg-bg); border: 1px solid var(--pg-fg-mid); width: 100%; height: 100%; overflow: hidden; font-size: 12px'
@@ -42,20 +45,24 @@ export default html`
       </span>
       Plex UI
     </h1>
-    <pg-sandbox html=${injection_html} 
-    style="height: 150px; display: block;"
-    ></pg-sandbox>
-    <label for="color-select">Theme:</label>
-    <select
-      id="color-select"
-      onchange="document.querySelector('body').className = this.value;"
-    >
-      <option value="accent" selected>Accent</option>
-      <option value="success">Success</option>
-      <option value="warn">Warn</option>
-      <option value="error">Error</option>
-      <option value="neutral">Neutral</option>
-    </select>
+    <pg-dropdown id="theme-dropdown">
+    <pg-button id="theme-button" slot="trigger" type="default" size="normal">Change Theme</pg-button>
+      <pg-dropdown-item class="accent" onclick="setTheme('accent')">Accent</pg-dropdown-item>
+      <pg-dropdown-item class="success" onclick="setTheme('success')">Success</pg-dropdown-item>
+      <pg-dropdown-item class="warn" onclick="setTheme('warn')">Warn</pg-dropdown-item>
+      <pg-dropdown-item class="error" onclick="setTheme('error')">Error</pg-dropdown-item>
+      <pg-dropdown-item class="neutral" onclick="setTheme('neutral')">Neutral</pg-dropdown-item>
+    </pg-dropdown>
+    <script>
+      const setTheme = (theme) => {
+        document.body.className = theme
+      }
+      const button = document.querySelector('#theme-button')
+      const dropdown = document.querySelector('#theme-dropdown')
+      dropdown.addEventListener('open', ({detail: {open}}) => {
+        button.textContent = open ? 'Close' : 'Choose Theme'
+      })
+</script>
     <h2>Buttons</h2>
     <div class="ex-grid">
       <h3>Default</h3>
@@ -321,5 +328,24 @@ export default html`
           </pg-draggable-item>
         </pg-draggable-list>
       </div>
+    </div>
+    <h2>Dropdown</h2>
+    <div class="ex-grid">
+      <h3>Dropdown</h3>
+      <div>
+        <pg-dropdown>
+          <pg-button slot="trigger" type="outlined">format</pg-button>
+          <pg-dropdown-item>cut</pg-dropdown-item>
+          <pg-dropdown-item>copy</pg-dropdown-item>
+          <pg-dropdown-item>copy as markdown</pg-dropdown-item>
+          <pg-dropdown-item>paste</pg-dropdown-item>
+          <pg-dropdown-item>paste without formatting</pg-dropdown-item>
+          <pg-dropdown-item>paste from markdown</pg-dropdown-item>
+          <pg-separator></pg-separator>
+          <pg-dropdown-item>highlight</pg-dropdown-item>
+          <pg-dropdown-item>link</pg-dropdown-item>
+        </pg-dropdown>
+      </div>
+    </div>
   </main>
 `

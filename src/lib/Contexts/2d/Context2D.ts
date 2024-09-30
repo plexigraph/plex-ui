@@ -10,7 +10,6 @@ import {
   changeInterpFunction,
   addLocalListener,
   removeLocalListener,
-  addRecursiveListener,
   createAnimation,
   getStateTree,
   NO_INTERP,
@@ -19,12 +18,12 @@ import {
   type RecursiveAnimatable,
 } from 'aninest'
 import type { DrawableShape } from '../DrawableShape'
-import { setupBoundsLayer } from '@aninest/extensions'
+import { setupBoundsLayer, getUpdateLayer } from '@aninest/extensions'
 import {
   CanvasManager,
   createCanvasManager,
   InitCanvas,
-  RemoveCanvas,
+  Remove,
 } from './CanvasManager'
 
 export type HasZIndex = { zIndex: number }
@@ -47,14 +46,13 @@ export type Context2D = Readonly<{
   addShape: (
     shape: DrawableShape<RecursiveAnimatable<unknown>> & Deletable,
     zIndex: number
-  ) => void
+  ) => Remove
   addChild: (
     x: number,
     y: number,
     scale: number
-  ) => ContextWrapper<Context2D> & DrawableShape<ScalePos> & Deletable
-  adoptChild: (child: ReturnType<typeof createContext2D>) => void
-  removeChild: (child: Deletable) => void
+  ) => [ContextWrapper<Context2D> & DrawableShape<ScalePos> & Deletable, Remove]
+  adoptChild: (child: ReturnType<typeof createContext2D>) => Remove
   setInterp: (interp: Interp) => void
   addScaleListener: (
     type: AnimatableEvents,
@@ -95,12 +93,14 @@ export function createContext2D(
     },
     NO_INTERP // TODO: make this configurable
   )
+  const updateLayer = getUpdateLayer()
+  updateLayer.mount(animationInfo)
   const boundLayer = setupBoundsLayer<ScalePos>(animationInfo, {})
   boundLayer.mount(animationInfo)
   const { update: updateBounds } = boundLayer
   let canvasManager: CanvasManager
   const initFuncs: InitCanvas[] = []
-  let deleteFuncs: RemoveCanvas[]
+  let deleteFuncs: Remove[]
   if (parentCanvasManager) {
     canvasManager = parentCanvasManager
   } else {
@@ -109,21 +109,17 @@ export function createContext2D(
     initFuncs.push(canvasManager.addCanvas(1))
     initFuncs.push(canvasManager.addCanvas(-1))
   }
-  const keysInObjects: number[] = []
+  const zIndicies: number[] = []
   type extendedAnimatable = unknown extends Animatable ? Animatable : never
-  const restartListeners = new Set<() => void>()
-
-  function restartListener() {
-    restartListeners.forEach((listener) => listener())
-  }
   const out: ContextWrapper<Context2D> & {
     objects: {
       [zIndex: number]: Set<DrawableObject<extendedAnimatable> & Deletable>
     }
   } & DrawableShape<ScalePos> &
     Deletable = {
+    zIndicies: zIndicies,
+    updateLayer,
     animationInfo,
-    needsUpdate: false,
     objects: { 0: new Set() },
     ctx: {
       pos: newVec2(0, 0),
@@ -147,32 +143,22 @@ export function createContext2D(
           lower: { pos: lower },
           upper: { pos: upper },
         })
-        restartListener()
       },
       setScaleBounds(lower, upper) {
         updateBounds({
           lower: { scale: lower },
           upper: { scale: upper },
         })
-        restartListener()
       },
       addShape<Animating extends RecursiveAnimatable<unknown>>(
         shape: DrawableShape<Animating> & Deletable,
         zIndex: number = 0
       ) {
-        addObjectWithZIndex(out.objects, keysInObjects, zIndex, shape)
-        addRecursiveListener(shape.animationInfo, 'start', () => {
-          restartListener()
-        })
-        addLocalListener(shape.animationInfo, 'start', () => {
-          restartListener()
-        })
-        restartListener()
+        return addObjectWithZIndex(out, shape, zIndex)
       },
       setScale: function (scale: number): void {
         out.ctx.scale = scale
         modifyTo<Scale>(animationInfo, { scale })
-        restartListener()
       },
       getScale: function (): number {
         return out.ctx.scale
@@ -186,94 +172,41 @@ export function createContext2D(
         if (out.animationInfo._timingFunction === NO_INTERP) {
           updateAnimation(out.animationInfo, 0.99)
         }
-        restartListener()
       },
       getPos: function (): Vec2 {
         return out.ctx.pos
       },
       delete: function () {
-        for (const zIndex of keysInObjects) {
+        for (const zIndex of zIndicies) {
           if (!out.objects[zIndex]) continue
           for (const obj of out.objects[zIndex]) {
             obj.delete()
           }
         }
-        out.needsUpdate = true
         out.deleteWhenDoneUpdating = true
       },
       addChild: function (x: number, y: number, scale: number) {
         const child = createContext2D(out.ctx)
         child.ctx.setScale(scale)
         child.ctx.setPos(x, y)
-        out.ctx.adoptChild(child)
-        return child
+        const removeChild = out.ctx.adoptChild(child)
+        return [child, removeChild]
       },
       adoptChild: function (child: ReturnType<typeof createContext2D>) {
         child.ctx.setInterp(NO_INTERP)
-        addObjectWithZIndex(
-          out.objects,
-          keysInObjects,
-          0, // make zIndex configurable
-          child
-        )
-        child.addRestartListener(() => {
-          restartListener()
-        })
-        restartListener()
-        return child
-      },
-
-      removeChild: function (child: Deletable) {
-        child.delete()
-        restartListener()
+        return addObjectWithZIndex(out, child, 0)
       },
       setInterp(interp: Interp): void {
         changeInterpFunction(animationInfo, interp)
-        restartListener()
       },
       setPosInterp(interp: Interp): void {
         changeInterpFunction(animationInfo.children.pos, interp)
-        restartListener()
       },
     },
     init: (parent) => {
       deleteFuncs = initFuncs.map((func) => {
-        return func(parent, restartListener)
+        return func(parent, () => out.draw(out.ctx))
       })
-      out.addRestartListener(() => {
-        out.needsUpdate = true
-      })
-    },
-    update(dt) {
-      let draw = false
-      if (updateAnimation(animationInfo, dt)) {
-        draw = true
-      }
-      // loop through the in-order keys
-      for (const key of keysInObjects) {
-        // loop through the objects
-        for (const object of this.objects[key]) {
-          if (object.needsUpdate) {
-            draw = true
-            object.needsUpdate = object.update(dt)
-          } else if (object.deleteWhenDoneUpdating) {
-            this.objects[key].delete(object)
-            if (this.objects[key].size === 0) {
-              delete this.objects[key]
-              const keyIndex = keysInObjects.indexOf(key)
-              keysInObjects.splice(keyIndex, 1)
-            }
-          }
-        }
-      }
-      this.needsUpdate = draw
-      if (this.deleteWhenDoneUpdating && !draw) {
-        if (deleteFuncs)
-          for (const func of deleteFuncs) {
-            func()
-          }
-      }
-      return draw
     },
     draw(ctx) {
       canvasManager.saveContexts()
@@ -283,7 +216,7 @@ export function createContext2D(
       // transform the canvas
       const state = getStateTree(animationInfo)
       canvasManager.translateAndScaleContexts(state)
-      for (const key of keysInObjects) {
+      for (const key of zIndicies) {
         ctx.canvasCtx = canvasManager.getContext(key)
         for (const object of this.objects[key]) {
           object.draw(ctx)
@@ -291,19 +224,10 @@ export function createContext2D(
       }
       canvasManager.restoreContexts()
     },
-    addRestartListener: (listener: () => void) => {
-      restartListeners.add(listener)
-    },
-    removeRestartListener: (listener: () => void) => {
-      restartListeners.delete(listener)
-    },
     delete: () => {
       out.ctx.delete()
     },
   }
-  out.addRestartListener(() => {
-    out.needsUpdate = true
-  })
   out.ctx.addScaleListener('start', (scale) => {
     if (scale.scale) {
       out.ctx.scale = scale.scale
@@ -313,5 +237,14 @@ export function createContext2D(
     const newPos = { ...out.ctx.pos, ...pos }
     out.ctx.pos = newPos
   })
+  const checkToDelete = () => {
+    if (out.deleteWhenDoneUpdating) {
+      console.log('deleting')
+      for (const func of deleteFuncs) {
+        func()
+      }
+    }
+  }
+  // out.updateLayer.subscribe('done', checkToDelete)
   return out
 }

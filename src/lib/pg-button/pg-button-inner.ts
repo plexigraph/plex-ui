@@ -59,7 +59,6 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
   @provide({ context: surfaceContext2D })
   ctx: ReadonlySignal<Context2D> = computed(() => this.context.ctx)
   async handleSlotChange() {
-    await sleep(0)
     if (this.buttons!.length == 1) {
       this.button = this.buttons![0]
     }
@@ -92,7 +91,6 @@ export class PGButtonInner extends SignalWatcher(LitElement) {
     this.interactableSignals.initialize(this.button, this.context.ctx)
   }
   render() {
-    console.log('ripple width', this.rippleWidth.value)
     const { pointerX, pointerY, clickedX, clickedY } = this.interactableSignals
     const full = this.button.classList.contains('full')
 

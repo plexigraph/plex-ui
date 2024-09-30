@@ -25,4 +25,4 @@ export class PgSandbox extends LitElement {
       ><pg-skeleton></pg-skeleton
     ></pg-sandbox-inner>`
   }
-}
+} 

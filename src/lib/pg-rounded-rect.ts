@@ -8,10 +8,8 @@ import {
   createAnimation,
   getStateTree,
   modifyTo,
-  updateAnimation,
   Animation,
   changeInterpFunction,
-  addRecursiveListener,
 } from 'aninest'
 import {
   Color,
@@ -22,6 +20,7 @@ import {
   newVec2,
 } from '../lib/Utils'
 import { Signal } from '@lit-labs/preact-signals'
+import { getUpdateLayer } from '@aninest/extensions'
 
 type RoundedRect = {
   pos: Vec2
@@ -67,6 +66,7 @@ export default class PGRoundedRect extends LitElement {
   colorInterp = NO_INTERP
   animationInfo: Animation<RoundedRect>
   self: DrawableShape<RoundedRect> & Deletable
+  removeShape?: () => void
   constructor() {
     super()
     this.animationInfo = createAnimation<RoundedRect>(
@@ -83,13 +83,13 @@ export default class PGRoundedRect extends LitElement {
       },
       NO_INTERP
     )
+    const updateLayer = getUpdateLayer()
+    updateLayer.mount(this.animationInfo)
+
     this.self = {
       animationInfo: this.animationInfo,
-      needsUpdate: true,
+      updateLayer,
       deleteWhenDoneUpdating: false,
-      update(dt: number) {
-        return updateAnimation(this.animationInfo, dt)
-      },
       draw: (ctx: Context2D) => {
         const c = ctx.canvasCtx
         c.save()
@@ -139,17 +139,23 @@ export default class PGRoundedRect extends LitElement {
           radius: 0,
         })
         this.self.deleteWhenDoneUpdating = true
-        this.self.needsUpdate = true
       },
     }
-    addRecursiveListener(this.animationInfo, 'start', () => {
-      this.self.needsUpdate = true
-    })
   }
   firstUpdated(): void {
     if (!this.parentContext?.value) throw new Error('No context provided')
-    this.parentContext.value.addShape(this.self, this.zIndex)
+    this.removeShape = this.parentContext.value.addShape(this.self, this.zIndex)
   }
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+    if (!this.parentContext?.value) throw new Error('No context provided')
+    this.removeShape?.()
+    console.log('disconnected')
+  }
+  // connectedCallback(): void {
+  //   if (!this.parentContext?.value) return
+  //   this.removeShape = this.parentContext.value.addShape(this.self, this.zIndex)
+  // }
   /**
    *
    * @returns
@@ -163,7 +169,6 @@ export default class PGRoundedRect extends LitElement {
   protected shouldUpdate(changedProperties: PropertyValues): boolean {
     let modifyingDict = {}
     let out = false // whether to update the dom or not
-    let moddingWidth = false
     changedProperties.forEach((_oldValue, propName) => {
       switch (propName) {
         case 'x':
@@ -202,7 +207,6 @@ export default class PGRoundedRect extends LitElement {
           })
           break
         case 'borderWidth':
-          moddingWidth = true
           modifyingDict = mergeDictTrees(modifyingDict, {
             styles: { borderWidth: this.borderWidth },
           })
@@ -233,33 +237,7 @@ export default class PGRoundedRect extends LitElement {
           break
       }
     })
-    if (
-      (modifyingDict as any)?.styles?.width ||
-      this.animationInfo.children.styles._to !== null
-    )
-      console.log('MODIFYING DICT', modifyingDict)
     modifyTo(this.animationInfo, modifyingDict)
-    if (!this.hasUpdated) {
-      changeInterpFunction(this.animationInfo.children.pos, NO_INTERP)
-      changeInterpFunction(this.animationInfo.children.size, NO_INTERP)
-      changeInterpFunction(this.animationInfo.children.styles, NO_INTERP)
-      changeInterpFunction(
-        this.animationInfo.children.styles.children.colors,
-        NO_INTERP
-      )
-      setTimeout(() => {
-        changeInterpFunction(this.animationInfo.children.pos, this.posInterp)
-        changeInterpFunction(this.animationInfo.children.size, this.sizeInterp)
-        changeInterpFunction(
-          this.animationInfo.children.styles,
-          this.stylesInterp
-        )
-        changeInterpFunction(
-          this.animationInfo.children.styles.children.colors,
-          this.colorInterp
-        )
-      }, 100)
-    }
     return out || !this.hasUpdated
   }
 }

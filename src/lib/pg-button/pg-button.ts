@@ -20,7 +20,8 @@ export default class PGButton extends LitElement {
   target = '' // only set if you want to use an anchor tag
   @property({ type: String })
   size = 'fit' as 'fit' | 'normal' | 'full' | 'skinny' | 'icon'
-
+  @property({ type: String })
+  align = 'center' as 'center' | 'left' | 'right'
   static get styles() {
     return [buttonCss, resetCss, perElementCss]
   }
@@ -28,7 +29,7 @@ export default class PGButton extends LitElement {
     return html`<pg-button-inner>
       ${this.href !== ''
         ? html`<a
-            class=${`${this.type} ${this.size}`}
+            class=${`${this.type} ${this.size} ${this.align}`}
             disabled=${ifDefined(this.disabled ? 'disabled' : undefined)}
             href=${this.href}
             download=${this.download}
@@ -37,7 +38,7 @@ export default class PGButton extends LitElement {
             <slot />
           </a>`
         : html`<button
-            class=${`${this.type} ${this.size}`}
+            class=${`${this.type} ${this.size} ${this.align}`}
             disabled=${ifDefined(this.disabled ? 'disabled' : undefined)}
           >
             <slot />

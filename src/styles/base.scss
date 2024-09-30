@@ -9,8 +9,8 @@
   --pos-transition-speed: 0.2s;
 }
 *::selection {
-  background-color: var(--pg-bg-mid) !important;
-  color: var(--pg-fg) !important;
+  background-color: var(--pg-bg-mid);
+  color: var(--pg-fg);
 }
 
 :host {

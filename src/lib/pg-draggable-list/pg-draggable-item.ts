@@ -46,8 +46,8 @@ export class PgDraggableItem extends LitElement {
       .drag::after {
         content: '';
         position: absolute;
-        --height: min(50%, 24px);
-        top: calc((100% - var(--height)) / 2);
+        --height: 24px;
+        top: calc(100% / 2 - var(--height) / 2);
         left: 0;
         width: 100%;
         height: var(--height);

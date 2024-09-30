@@ -1,41 +1,31 @@
-export type UpdatableAndDrawable<Context> = {
-  /**
-   * @returns {boolean} whether or not to update next frame
-   */
-  update(dt: number): boolean
-  /**
-   * Called after any update is called
-   * @param ctx the context to draw to
-   */
-  draw(ctx: Context): void
-}
+import { getUpdateLayer, UpdateLayer } from '@aninest/extensions'
+import { UnknownRecursiveAnimatable } from 'aninest'
 
-export type DrawableObject<Context> = UpdatableAndDrawable<Context> & {
-  needsUpdate: boolean
+export type DrawableObject<Context> = {
   deleteWhenDoneUpdating?: boolean
+  draw(ctx: Context): void
+  updateLayer: UpdateLayer<UnknownRecursiveAnimatable>
 }
 
 type CleanUp = () => void
 
-export type ContextWrapper<Context> = UpdatableAndDrawable<Context> & {
+export type ContextWrapper<Context> = DrawableObject<Context> & {
   ctx: Context
+  updateLayer: UpdateLayer<UnknownRecursiveAnimatable>
   objects: { [zIndex: number]: Set<DrawableObject<Context>> }
+  zIndicies: number[]
   init(parent: HTMLDivElement): CleanUp | void
-  addRestartListener(listener: () => void): void
-  removeRestartListener(listener: () => void): void
 }
 
 function defaultContext(): ContextWrapper<null> {
+  const updateLayer = getUpdateLayer()
   return {
+    updateLayer,
     ctx: null,
     init: () => {},
-    draw: _ctx => {},
     objects: {},
-    update(_dt) {
-      return false
-    },
-    addRestartListener: () => {},
-    removeRestartListener: () => {},
+    draw(_ctx) {},
+    zIndicies: [],
   }
 }
 
@@ -47,23 +37,26 @@ export const NO_CONTEXT: ContextWrapper<null> = defaultContext()
  * @param keysInObjects
  * @param zIndex
  * @param obj
- * @returns {boolean} whether or not the object needs to be updated
+ * @returns {CleanUp} a function to remove the object from the objects
  */
-export function addObjectWithZIndex<
-  Context,
-  Objects extends { [zIndex: number]: Set<DrawableObject<Context>> },
->(
-  objects: Objects,
-  keysInObjects: number[],
-  zIndex: number,
-  obj: DrawableObject<Context>
-): boolean {
-  if (keysInObjects.includes(zIndex)) {
-    objects[zIndex].add(obj)
+export function addObjectWithZIndex<Context>(
+  contextWrapper: ContextWrapper<Context>,
+  obj: DrawableObject<Context>,
+  zIndex: number
+): CleanUp {
+  const unsubs: CleanUp[] = []
+  if (contextWrapper.zIndicies.includes(zIndex)) {
+    contextWrapper.objects[zIndex].add(obj)
   } else {
-    objects[zIndex] = new Set([obj])
-    keysInObjects.push(zIndex)
-    keysInObjects.sort() // TODO: might be better to do insertion sort?
+    contextWrapper.objects[zIndex] = new Set([obj])
+    contextWrapper.zIndicies.push(zIndex)
+    contextWrapper.zIndicies.sort() // TODO: might be better to do insertion sort?
   }
-  return obj.needsUpdate
+  unsubs.push(obj.updateLayer.setParent(contextWrapper.updateLayer))
+  unsubs.push(() => {
+    const index = contextWrapper.zIndicies.findIndex((v) => v == zIndex)
+    contextWrapper.zIndicies.splice(index, 1)
+    contextWrapper.objects[zIndex].delete(obj)
+  })
+  return () => unsubs.forEach((fn) => fn())
 }

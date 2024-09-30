@@ -45,35 +45,14 @@ export default class PGSurface extends LitElement {
   @query('div')
   elem!: HTMLDivElement | null
 
-  updateLoop = (time: number) => {
-    let dt = 0
-    if (this.lastTime != null) {
-      dt = time - this.lastTime
-    }
-
-    this.lastTime = time
-
-    const renderNextFrame = this.context.update(dt / 1000)
+  onUpdate = () => {
     this.context.draw(this.context.ctx)
-    if (renderNextFrame) {
-      requestAnimationFrame(this.updateLoop)
-      return
-    }
-    this.lastTime = null
-  }
-
-  restartUpdateLoop() {
-    if (this.lastTime == null) {
-      this.lastTime = performance.now()
-      requestAnimationFrame(this.updateLoop)
-    }
   }
 
   setupContext() {
     if (this.elem && this.context) {
-      this.context.addRestartListener(this.restartUpdateLoop.bind(this))
-      this.restartUpdateLoop()
       this.context.init(this.elem)
+      this.context.updateLayer.subscribe('updateWithDeltaTime', this.onUpdate)
     }
   }
   handleSlotChange() {
